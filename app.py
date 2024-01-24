@@ -1,15 +1,12 @@
 from flask import Flask
 import json
 from neo4j import GraphDatabase
+from config import NEO4J_URI, NEO4J_USER, NEO4J_PASSWORD, SECRET_KEY
 
 app = Flask(__name__)
+app.secret_key = SECRET_KEY
 
-#neo4j
-NEO4J_URI = 'neo4j+s://8bc886ed.databases.neo4j.io'
-NEO4J_USER = 'neo4j'
-NEO4J_PASSWORD = '4Ka5DqTW0WC9-ZbxMV0x9ZdCiagHCRxHDkYvZc6GSFw'
-
-# Driver instantiation
+# Neo4j Driver instantiation
 driver = GraphDatabase.driver(
     NEO4J_URI,
     auth=(NEO4J_USER, NEO4J_PASSWORD)
@@ -23,7 +20,7 @@ def run_query(query):
 @app.route("/")
 def check_database():
     # Your Cypher query
-    cypher_query = "MATCH (p:Person) RETURN p LIMIT 4"
+    cypher_query = "MATCH (p:Person) RETURN p LIMIT 1"
 
     try:
         result = run_query(cypher_query)
