@@ -34,3 +34,5 @@ jobs:
 
           echo "Run pylint"
           pylint */
+
+          echo "Pylint output: $?"
