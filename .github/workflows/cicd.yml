@@ -1,0 +1,33 @@
+name: CI/CD automation pipeline
+
+on:
+  push:
+    branches:
+      - development
+      - master
+  pull_request:
+    branches:
+      - development
+      - master
+
+jobs:
+  build_and_test:
+    runs-on: ubuntu-latest
+
+    steps:
+      - name: Checkout code
+        uses: actions/checkout@v2
+
+      - name: Python
+        uses: actions/setup-python@v2
+        with:
+          python-version: '3.x'
+
+      - name: Install linting tools
+        run: |
+          pip install -r sqa-requirements.txt
+
+      - name: Run the linting tools
+        run: |
+          flake8 .
+          pylint .
