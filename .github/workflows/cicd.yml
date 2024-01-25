@@ -40,7 +40,7 @@ jobs:
 # if not equal to exit code 0 then abort
       - name: Prevent merge if failure
         run: |
-          if [ $? -ne 0 ]; then
-            echo "Linting failed. Merge not allowed."
-            exit 1
-          if
+            if [ $? -ne 0 ]; then
+                echo "linting failed. Merge not allowed."
+                exit 1
+            fi
