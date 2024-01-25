@@ -36,3 +36,10 @@ jobs:
           pylint */
 
           echo "Pylint output: $?"
+
+      - name: Prevent merge if failure
+        run: |
+          if [ $? -ne 0 ]; then # if not equal to exit code 0 then abort
+            echo "Linting failed. Merge not allowed."
+            exit 1
+          if
