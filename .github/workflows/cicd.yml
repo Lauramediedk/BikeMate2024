@@ -29,5 +29,5 @@ jobs:
 
       - name: Run the linting tools
         run: |
-          flake8 .
-          pylint .
+          flake8 */
+          pylint */
