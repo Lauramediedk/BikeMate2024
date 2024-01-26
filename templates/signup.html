@@ -8,11 +8,13 @@
         <form method="POST">
             <div class="columns">
                 <div class="image">
+                    <p class="title is-3 p-4 is-overlay top-left logo">BikeMate</p>
+                    <p class="title is-4 py-6 px-4 is-overlay logo">Motion i fællesskab</p>
                     <img src="../static/images/signup_bike_img.jpg" alt="signup">
                 </div>
                 <div class="column is-half-desktop">
                     <div class="box border-radius is-flex is-flex-direction-column center">
-                        <div class="title is-6 pt-4 has-text-centered"><h1>Opret bruger</h1></div>
+                        <div class="title is-4 pt-4 has-text-centered"><p>Opret bruger</p></div>
                         {{ form.csrf_token }}
                         <div class="field">
                             {{ form.first_name(class="input is-medium is-rounded") }}
@@ -29,6 +31,9 @@
                         <div class="pt-3">
                             <button class="button is-primary is-rounded is-medium" type="submit">Opret dig nu</button>
                         </div>
+                        {% include 'flash_messages.html' %}
+                        <p class="title is-5 pt-5">Har du allerede en bruger?</p>
+                        <p class="subtitle is-6 pt-2">Log ind <a class="has-text-dark">her</a></p>
                     </div>
                 </div>
             </div>
