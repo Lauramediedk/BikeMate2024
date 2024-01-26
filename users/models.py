@@ -21,5 +21,4 @@ class User:
         try:
             db.run_query(query, parameters)
         except Exception as e:
-            print(f"Error registering user: {str(e)}")
             raise RuntimeError(f"Error registrering user: {str(e)}")
