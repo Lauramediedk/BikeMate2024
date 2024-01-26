@@ -12,7 +12,7 @@ def signup():
             user = User(
                 first_name = form.first_name.data,
                 last_name = form.last_name.data,
-                password = form.password.data,
+                email = form.email.data,
                 hashed_password = generate_password_hash(form.password.data)
             )
             user.signup_user()
