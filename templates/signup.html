@@ -1,17 +1,39 @@
 {% extends 'base.html' %}
 
-{% block content %}
-    {% block title %}Signup{% endblock %}
+{% block title %}Opret bruger{% endblock %}
 
-    <form method="POST">
-        {{ form.csrf_token }}
-        <div class="has-text-centered">
-            {{ form.first_name }}
-            {{ form.last_name }}
-            {{ form.email }}
-            {{ form.password }}
-            {{ form.submit(class="button is-primary is-rounded") }}
-        </div>
-    </form>
+{% block content %}
+
+    <div class="container">
+        <form method="POST">
+            <div class="columns">
+                <div class="image">
+                    <img src="../static/images/signup_bike_img.jpg" alt="signup">
+                </div>
+                <div class="column is-half-desktop">
+                    <div class="box border-radius is-flex is-flex-direction-column center">
+                        <div class="title is-6 pt-4 has-text-centered"><h1>Opret bruger</h1></div>
+                        {{ form.csrf_token }}
+                        <div class="field">
+                            {{ form.first_name(class="input is-medium is-rounded") }}
+                        </div>
+                        <div class="field">
+                            {{ form.last_name(class="input is-medium is-rounded") }}
+                        </div>
+                        <div class="field">
+                            {{ form.email(class="input is-medium is-rounded") }}
+                        </div>
+                        <div class="field">
+                            {{ form.password(class="input is-medium is-rounded") }}
+                        </div>
+                        <div class="pt-3">
+                            <button class="button is-primary is-rounded is-medium" type="submit">Opret dig nu</button>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </form>
+    </div>
+
 
 {% endblock %}

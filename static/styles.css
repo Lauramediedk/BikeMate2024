@@ -3,4 +3,18 @@
   background: #2D728F;
 }
 
+.border-radius {
+  border-radius: 12px;
+}
+
+.center {
+  justify-content: center;
+  align-items: center;
+}
+
+.input:focus {
+  border-color: #2D728F;
+  box-shadow: none;
+}
+
 /*# sourceMappingURL=styles.css.map */

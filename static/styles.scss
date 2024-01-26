@@ -9,3 +9,16 @@ $red: #AB3428;
 .button.is-primary{
     background: $primary;
 }
+
+.border-radius{
+    border-radius: 12px;
+}
+.center{
+    justify-content: center;
+    align-items: center;
+}
+
+.input:focus{
+    border-color: $primary;
+    box-shadow: none;
+}
