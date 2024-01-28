@@ -1,0 +1,25 @@
+@import "https://cdn.jsdelivr.net/npm/bulma@0.9.4/css/bulma.min.css";
+.button.is-primary {
+  background: #2D728F;
+}
+
+.border-radius {
+  border-radius: 12px;
+}
+
+.center {
+  justify-content: center;
+  align-items: center;
+}
+
+.input:focus {
+  border-color: #2D728F;
+  box-shadow: none;
+}
+
+.logo {
+  color: #F49E4C;
+  font-weight: bold;
+}
+
+/*# sourceMappingURL=styles.css.map */

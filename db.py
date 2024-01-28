@@ -9,9 +9,9 @@ class Database:
     def close(self):
         self._driver.close()
 
-    def run_query(self, query):
+    def run_query(self, query, parameters=None):
         with self._driver.session() as session:
-            result = session.run(query)
+            result = session.run(query, parameters)
             return result.data()
 
 
