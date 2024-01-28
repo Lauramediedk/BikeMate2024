@@ -7,10 +7,10 @@ from werkzeug.security import generate_password_hash
 
 @users_bp.route('/signup', methods=['GET', 'POST'])
 def signup():
-    form=SignupForm()
+    form = SignupForm()
     if form.validate_on_submit():
         try:
-            user=User(
+            user = User(
                 first_name=form.first_name.data,
                 last_name=form.last_name.data,
                 email=form.email.data,
