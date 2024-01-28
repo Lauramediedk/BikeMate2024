@@ -1,3 +1,4 @@
+from flask import flask  # noqa
 from flask import Blueprint
 from .views import signup  # noqa
 

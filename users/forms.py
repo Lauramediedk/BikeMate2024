@@ -4,6 +4,7 @@ from wtforms.validators import InputRequired, length, email
 
 
 class SignupForm(FlaskForm):
+    """Form for the user signup"""
     first_name = StringField('Fornavn', validators=[InputRequired(), length(
         min=2, max=20)], render_kw={'placeholder': 'Fornavn'})
     last_name = StringField('Efternavn', validators=[InputRequired(), length(

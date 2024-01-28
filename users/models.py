@@ -2,6 +2,7 @@ from db import db
 
 
 class User:
+    """User model"""
     def __init__(self, first_name, last_name, email, hashed_password):
         self.first_name = first_name
         self.last_name = last_name
@@ -22,4 +23,4 @@ class User:
         try:
             db.run_query(query, parameters)
         except Exception as e:
-            raise RuntimeError(f"Error registrering user: {str(e)}")
+            raise RuntimeError(f"Error registrering user: {str(e)}") from e

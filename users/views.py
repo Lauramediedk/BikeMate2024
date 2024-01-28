@@ -1,8 +1,8 @@
 from flask import render_template, flash
+from werkzeug.security import generate_password_hash
 from . import users_bp
 from .forms import SignupForm
 from .models import User
-from werkzeug.security import generate_password_hash
 
 
 @users_bp.route('/signup', methods=['GET', 'POST'])

@@ -1,5 +1,5 @@
 [MAIN]
-
+init-hook='import sys; sys.path.append("/home/lau4023/bachelor2024")'
 # Analyse import fallback blocks. This can be used to support both Python 2 and
 # 3 compatible code, which means that the block might have code that exists
 # only in one or another interpreter, leading to false positives when analysed.
@@ -432,7 +432,9 @@ disable=raw-checker-failed,
         use-implicit-booleaness-not-comparison-to-zero,
         use-symbolic-message-instead,
 	line-too-long,
-	missing-module-docstring
+	missing-module-docstring,
+      missing-function-docstring,
+      too-few-public-methods
 
 # Enable the message, report, category or checker with the given id(s). You can
 # either give multiple identifier separated by comma (,) or put this option
