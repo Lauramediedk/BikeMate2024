@@ -1,5 +1,5 @@
-from flask import flask  # noqa
 from flask import Blueprint
-from .views import signup  # noqa
 
 users_bp = Blueprint('users', __name__)
+
+from .views import signup  # noqa

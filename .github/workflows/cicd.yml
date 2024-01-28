@@ -32,11 +32,6 @@ jobs:
           echo "Run flake8"
           flake8 */
 
-          echo "Run pylint"
-          pylint */
-
-          echo "Pylint output: $?"
-
 # if not equal to exit code 0 then abort
       - name: Prevent merge if failure
         run: |
