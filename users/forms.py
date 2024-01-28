@@ -2,6 +2,7 @@ from flask_wtf import FlaskForm
 from wtforms import StringField, PasswordField, EmailField, SubmitField
 from wtforms.validators import InputRequired, length, email
 
+
 class SignupForm(FlaskForm):
     first_name = StringField('Fornavn', validators=[InputRequired(), length(
         min=2, max=20)], render_kw={'placeholder': 'Fornavn'})

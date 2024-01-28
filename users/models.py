@@ -1,5 +1,6 @@
 from db import db
 
+
 class User:
     def __init__(self, first_name, last_name, email, hashed_password):
         self.first_name = first_name
