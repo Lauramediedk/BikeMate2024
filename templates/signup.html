@@ -4,13 +4,15 @@
 
 {% block content %}
 
-    <div class="container">
+    <section class="section">
         <form method="POST">
             <div class="columns">
-                <div class="image">
-                    <p class="title is-3 p-4 is-overlay top-left logo">BikeMate</p>
-                    <p class="title is-4 py-6 px-4 is-overlay logo">Motion i fællesskab</p>
-                    <img src="../static/images/signup_bike_img.jpg" alt="signup">
+                <div class="column is-half-desktop">
+                    <div class="image">
+                        <p class="title is-3 p-4 is-overlay top-left logo">BikeMate</p>
+                        <p class="title is-4 py-6 px-4 is-overlay logo">Motion i fællesskab</p>
+                        <img src="../static/images/signup_bike_img.jpg" alt="signup">
+                    </div>
                 </div>
                 <div class="column is-half-desktop">
                     <div class="box border-radius is-flex is-flex-direction-column center">
@@ -38,7 +40,7 @@
                 </div>
             </div>
         </form>
-    </div>
+    </section>
 
 
 {% endblock %}
