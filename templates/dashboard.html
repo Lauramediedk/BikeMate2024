@@ -4,6 +4,10 @@
 
 {% block content %}
 
-<h1>Velkommen lol lol</h1>
+    {% if session.first_name %}
+        <h1 class="title is-4">
+            Velkommen {{session.first_name}}
+        </h1>
+    {% endif %}
 
 {% endblock %}
