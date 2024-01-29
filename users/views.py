@@ -33,7 +33,7 @@ def login():
             user = User.find_user_email(form.email.data)
             if user and user.check_password(form.password.data):
                 flash('Log ind godkendt', 'success')
-                return redirect(url_for('dashboard'))
+                return redirect(url_for('dashboard.dashboard'))
             else:
                 flash('Log ind mislykkedes', 'error')
 
