@@ -12,6 +12,7 @@
 }
 
 .center {
+  display: flex;
   justify-content: center;
   align-items: center;
 }
@@ -24,6 +25,21 @@
 .logo {
   color: #F49E4C;
   font-weight: bold;
+}
+
+/* Desktop specific */
+@media screen and (min-width: 1088px) {
+  .has-margin-vertical-desktop {
+    margin-top: 1rem !important;
+    margin-bottom: 1rem !important;
+  }
+  .has-margin-horizontal-desktop {
+    margin-left: 1rem !important;
+    margin-right: 1rem !important;
+  }
+  .full-height {
+    height: 100vh;
+  }
 }
 
 /*# sourceMappingURL=styles.css.map */

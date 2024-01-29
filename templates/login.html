@@ -3,16 +3,16 @@
 {% block title %}Log ind{% endblock %}
 
 {% block content %}
-    <div class="container is-fullheight">
-        <div class="columns is-marginless"> <!--Remove the default margin from bulma-->
-            <div class="column p-0 is-6-desktop">
+    <div class="container">
+        <div class="columns is-marginless has-margin-vertical-desktop"> <!--Remove the default margin from bulma-->
+            <div class="column p-0 is-6-desktop full-height center">
                 <div class="image">
                     <p class="title is-3 pt-4 pl-4 is-overlay top-left logo">BikeMate</p>
                     <p class="title is-4 pt-6 pl-4 is-overlay logo">Motion i fællesskab</p>
                     <img src="../static/images/login_bike_img.jpg" alt="Bikemate">
                 </div>
             </div>
-            <div class="column is-6-desktop has-text-centered">
+            <div class="column is-6-desktop has-text-centered full-height center">
                 <div class="box border-radius">
                     <form method="POST">
                         {{ form.csrf_token }}
