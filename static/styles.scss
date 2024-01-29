@@ -59,6 +59,15 @@ $grey: #EDEAEA;
     font-weight: bold;
 }
 
+/* Badges/rewards ikoner*/
+.inactive-badge{
+    filter: grayscale(80%);
+}
+
+.active-badge{
+    filter: grayscale(0%);
+}
+
 /* Desktop specific */
 @media screen and (min-width: 1088px) {
 

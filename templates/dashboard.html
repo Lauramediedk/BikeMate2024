@@ -9,7 +9,7 @@
             {% set initials = session.first_name[0] %} <!--Get the first letter-->
             <div class="is-flex center">
                 <div class="is-rounded grey">
-                    <p class="title is-3 pt-5 round-shape">{{ initials}}</p>
+                    <p class="title is-3 pt-5 round-shape">{{ initials }}</p>
                 </div>
             </div>
             <h1 class="title is-4">
@@ -25,12 +25,45 @@
                     <p class="subtitle is-5 px-4 pt-3">Opnåede belønninger</p>
                     {% if user_rewards %}
                         {% for reward in user_rewards %}
-                            <div class="column">
-                            {{ reward }}
+                            <div class="column active-badge">
+                                <div class="image">
+                                    <img src="{{ url_for('static', filename='badges/stjerneikon.png') }}" alt="Badge">
+                                    {{ reward }}
+                                </div>
+                            </div>
+                            <div class="column active-badge">
+                                <div class="image">
+                                    <img src="{{ url_for('static', filename='badges/puls.png') }}" alt="Badge">
+                                    {{ reward }}
+                                </div>
+                            </div>
+                            <div class="column active-badge">
+                                <div class="image">
+                                    <img src="{{ url_for('static', filename='badges/ånd.png') }}" alt="Badge">
+                                    {{ reward }}
+                                </div>
                             </div>
                         {% endfor %}
+
                     {% else %}
-                        <p class="subtitle is-6 px-4 py-3">Du har ingen belønninger endnu</p>
+                    <div class="column inactive-badge">
+                        <div class="image is-64x64">
+                            <img src="{{ url_for('static', filename='badges/stjerneikon.png') }}" alt="Badge">
+                            Titel
+                        </div>
+                    </div>
+                    <div class="column inactive-badge">
+                        <div class="image is-64x64">
+                            <img src="{{ url_for('static', filename='badges/puls.png') }}" alt="Badge">
+                            Titel
+                        </div>
+                    </div>
+                    <div class="column inactive-badge">
+                        <div class="image is-64x64">
+                            <img src="{{ url_for('static', filename='badges/ånd.png') }}" alt="Badge">
+                            Titel
+                        </div>
+                    </div>
                     {% endif %}
                 </div>
             </div>
