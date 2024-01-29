@@ -15,6 +15,7 @@ class SignupForm(FlaskForm):
         min=8, max=16)], render_kw={'placeholder': 'Kodeord'})
     submit = SubmitField('Opret bruger')
 
+
 class LoginForm(FlaskForm):
     """Form for login"""
     email = EmailField('Email', validators=[InputRequired(), email(), length(

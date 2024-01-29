@@ -26,7 +26,6 @@ class User:
         except Exception as e:
             raise RuntimeError(f"Error registrering user: {str(e)}") from e
 
-
     @classmethod
     def find_user_email(cls, email):
         query = "MATCH (user:User {email: $email}) RETURN user"
