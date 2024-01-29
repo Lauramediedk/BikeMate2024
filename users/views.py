@@ -41,6 +41,3 @@ def login():
             flash(f"Fejl ved log ind: {str(e)}")
     return render_template('login.html', form=form)
 
-
-def dashboard():
-    return render_template('dashboard.html')
