@@ -35,7 +35,7 @@
                         </div>
                         {% include 'flash_messages.html' %}
                         <p class="title is-5 pt-5">Har du allerede en bruger?</p>
-                        <p class="subtitle is-6 pt-2">Log ind <a class="has-text-dark">her</a></p>
+                        <p class="subtitle is-6 pt-2">Log ind <a href="{{ url_for('users.login') }}" class="has-text-dark">her</a></p>
                     </div>
                 </div>
             </div>

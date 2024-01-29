@@ -1,3 +1,4 @@
+from werkzeug.security import check_password_hash
 from db import db
 
 
@@ -24,3 +25,19 @@ class User:
             db.run_query(query, parameters)
         except Exception as e:
             raise RuntimeError(f"Error registrering user: {str(e)}") from e
+
+    @classmethod
+    def find_user_email(cls, email):
+        query = "MATCH (user:User {email: $email}) RETURN user"
+        parameters = {"email": email}
+
+        result = db.run_query(query, parameters)
+
+        if result:
+            return cls(**result[0]['user'])
+        else:
+            print("No user found with the email", email)
+            return None
+
+    def check_password(self, password):
+        return check_password_hash(self.hashed_password, password)

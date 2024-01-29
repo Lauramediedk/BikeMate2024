@@ -1,0 +1,38 @@
+{% extends 'base.html' %}
+
+{% block title %}Log ind{% endblock %}
+
+{% block content %}
+    <div class="container">
+        <div class="columns is-marginless has-margin-vertical-desktop"> <!--Remove the default margin from bulma-->
+            <div class="column p-0 is-6-desktop full-height center">
+                <div class="image">
+                    <p class="title is-3 pt-4 pl-4 is-overlay top-left logo">BikeMate</p>
+                    <p class="title is-4 pt-6 pl-4 is-overlay logo">Motion i fællesskab</p>
+                    <img src="../static/images/login_bike_img.jpg" alt="Bikemate">
+                </div>
+            </div>
+            <div class="column is-6-desktop has-text-centered full-height center">
+                <div class="box border-radius">
+                    <form method="POST">
+                        {{ form.csrf_token }}
+                        <div class="title is-4 pt-4"><p>Velkommen tilbage!</p></div>
+                        <div class="field">
+                            {{ form.email(class="input is-medium is-rounded") }}
+                        </div>
+                        <div class="field">
+                            {{ form.password(class="input is-medium is-rounded") }}
+                        </div>
+                        <div class="pt-3">
+                            <button class="button is-primary is-rounded is-medium" type="submit">Log ind</button>
+                        </div>
+                        {% include 'flash_messages.html' %}
+                        <p class="title is-5 pt-5">Har du ikke en bruger?</p>
+                        <p class="subtitle is-6 pt-2">Opret dig <a href="{{ url_for('users.signup') }}"" class="has-text-dark">her</a></p>
+                    </form>
+                </div>
+            </div>
+        </div>
+    </div>
+
+{% endblock %}

@@ -14,3 +14,12 @@ class SignupForm(FlaskForm):
     password = PasswordField('Adgangskode', validators=[InputRequired(), length(
         min=8, max=16)], render_kw={'placeholder': 'Kodeord'})
     submit = SubmitField('Opret bruger')
+
+
+class LoginForm(FlaskForm):
+    """Form for login"""
+    email = EmailField('Email', validators=[InputRequired(), email(), length(
+        min=7, max=20)], render_kw={'placeholder': 'Email'})
+    password = PasswordField('Adgangskode', validators=[InputRequired(), length(
+        min=8, max=16)], render_kw={'placeholder': 'Kodeord'})
+    submit = SubmitField('Log ind')
