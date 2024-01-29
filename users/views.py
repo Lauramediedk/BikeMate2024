@@ -51,6 +51,6 @@ def login_required(f):  # Make sure unauthorised users can't enter
             return f(*args, **kwargs)
         else:
             flash('Du skal logge ind først', 'error')
-            return redirect(url_for('login'))
+            return redirect(url_for('users.login'))
     return wrap
 

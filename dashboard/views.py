@@ -2,7 +2,7 @@ from flask import render_template, flash, redirect, url_for, session
 from . import dashboard_bp
 from users.views import login_required
 
-@dashboard_bp.route('/dashboard')
+@dashboard_bp.route('/')
 @login_required
 def dashboard():
     if 'first_name' in session:
