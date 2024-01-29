@@ -3,6 +3,10 @@
   background: #2D728F;
 }
 
+.button.is-primary:hover {
+  background: #3B8EA5;
+}
+
 .border-radius {
   border-radius: 12px;
 }

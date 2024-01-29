@@ -9,6 +9,9 @@ $red: #AB3428;
 .button.is-primary{
     background: $primary;
 }
+.button.is-primary:hover{
+    background: $secondary;
+}
 
 .border-radius{
     border-radius: 12px;
