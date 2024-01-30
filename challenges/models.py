@@ -15,3 +15,4 @@ def get_challenges():
         except Exception as e:
             print(f"Could not get challenges: {str(e)}")
             return None
+
