@@ -27,41 +27,24 @@
                         {% for reward in user_rewards %}
                             <div class="column active-badge">
                                 <div class="image">
-                                    <img src="{{ url_for('static', filename='badges/stjerneikon.png') }}" alt="Badge">
-                                    {{ reward }}
-                                </div>
-                            </div>
-                            <div class="column active-badge">
-                                <div class="image">
-                                    <img src="{{ url_for('static', filename='badges/puls.png') }}" alt="Badge">
-                                    {{ reward }}
-                                </div>
-                            </div>
-                            <div class="column active-badge">
-                                <div class="image">
-                                    <img src="{{ url_for('static', filename='badges/ånd.png') }}" alt="Badge">
                                     {{ reward }}
                                 </div>
                             </div>
                         {% endfor %}
-
                     {% else %}
                     <div class="column inactive-badge">
                         <div class="image is-64x64">
                             <img src="{{ url_for('static', filename='badges/stjerneikon.png') }}" alt="Badge">
-                            Titel
                         </div>
                     </div>
                     <div class="column inactive-badge">
                         <div class="image is-64x64">
                             <img src="{{ url_for('static', filename='badges/puls.png') }}" alt="Badge">
-                            Titel
                         </div>
                     </div>
                     <div class="column inactive-badge">
                         <div class="image is-64x64">
                             <img src="{{ url_for('static', filename='badges/ånd.png') }}" alt="Badge">
-                            Titel
                         </div>
                     </div>
                     {% endif %}
