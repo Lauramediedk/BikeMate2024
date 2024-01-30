@@ -1,4 +1,4 @@
-from flask import render_template, flash, redirect, url_for
+from flask import render_template, flash
 from . import challenges_bp
 from .models import get_challenges
 from users.views import login_required
