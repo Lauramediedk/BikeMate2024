@@ -1,10 +1,11 @@
 from flask import render_template, flash, redirect, url_for
 from . import challenges_bp
 from .models import get_challenges
-from datetime import datetime
+from users.views import login_required
 
 
 @challenges_bp.route('/', methods=['GET', 'POST'])
+@login_required
 def challenges():
     try:
         challenges = get_challenges()
