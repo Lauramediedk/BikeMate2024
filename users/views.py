@@ -1,4 +1,5 @@
-from flask import render_template, flash, redirect, url_for
+from functools import wraps
+from flask import render_template, flash, redirect, url_for, session
 from werkzeug.security import generate_password_hash
 from . import users_bp
 from .forms import SignupForm, LoginForm
@@ -32,8 +33,9 @@ def login():
         try:
             user = User.find_user_email(form.email.data)
             if user and user.check_password(form.password.data):
+                session['first_name'] = user.first_name
                 flash('Log ind godkendt', 'success')
-                return redirect(url_for('dashboard'))
+                return redirect(url_for('dashboard.dashboard'))
             else:
                 flash('Log ind mislykkedes', 'error')
 
@@ -42,5 +44,12 @@ def login():
     return render_template('login.html', form=form)
 
 
-def dashboard():
-    return render_template('dashboard.html')
+def login_required(f):  # Make sure unauthorised users can't enter
+    @wraps(f)
+    def wrap(*args, **kwargs):
+        if 'first_name' in session:
+            return f(*args, **kwargs)
+        else:
+            flash('Du skal logge ind først', 'error')
+            return redirect(url_for('users.login'))
+    return wrap

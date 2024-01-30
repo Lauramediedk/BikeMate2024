@@ -4,6 +4,104 @@
 
 {% block content %}
 
-<h1>Velkommen lol lol</h1>
+    {% if session.first_name %}
+        <section class="section has-text-centered">
+            {% set initials = session.first_name[0] %} <!--Get the first letter-->
+            <div class="is-flex center">
+                <div class="is-rounded grey">
+                    <p class="title is-3 pt-5 round-shape">{{ initials }}</p>
+                </div>
+            </div>
+            <h1 class="title is-4">
+                {{session.first_name}}
+            </h1>
+        </section>
+    {% endif %}
+
+    <section class="section pt-0">
+        <div class="container">
+            <div class="columns is-marginless content-box border-radius">
+                <div class="scroll-box">
+                    <p class="subtitle is-5 px-4 pt-3">Opnåede belønninger</p>
+                    {% if user_rewards %}
+                        {% for reward in user_rewards %}
+                            <div class="column active-badge">
+                                <div class="image">
+                                    {{ reward }}
+                                </div>
+                            </div>
+                        {% endfor %}
+                    {% else %}
+                    <div class="column inactive-badge">
+                        <div class="image is-64x64">
+                            <img src="{{ url_for('static', filename='badges/stjerneikon.png') }}" alt="Badge">
+                        </div>
+                    </div>
+                    <div class="column inactive-badge">
+                        <div class="image is-64x64">
+                            <img src="{{ url_for('static', filename='badges/puls.png') }}" alt="Badge">
+                        </div>
+                    </div>
+                    <div class="column inactive-badge">
+                        <div class="image is-64x64">
+                            <img src="{{ url_for('static', filename='badges/ånd.png') }}" alt="Badge">
+                        </div>
+                    </div>
+                    {% endif %}
+                </div>
+            </div>
+        </div>
+    </section>
+
+    <section class="section pt-0">
+        <div class="container">
+            <div class="columns is-marginless content-box border-radius">
+                <div class="scroll-box">
+                    <p class="subtitle is-5 px-4 pt-3">Tilmeldte udfordringer</p>
+                </div>
+            </div>
+        </div>
+    </section>
+
+    <section class="section pt-0">
+        <div class="container">
+            <div class="columns is-marginless content-box border-radius">
+                <div class="scroll-box">
+                    <p class="subtitle is-5 px-4 pt-3">Dine seneste opslag</p>
+                    {% if user_posts %}
+                        {% for post in user_posts %}
+                            <div class="column">
+                                {{ post }}
+                            </div>
+                        {% endfor %}
+                    {% else %}
+                        <p class="subtitle is-6 px-4 py-3">Du har ingen opslag</p>
+                    {% endif %}
+                </div>
+            </div>
+        </div>
+    </section>
+
+    <section class="section pt-0">
+        <div class="container">
+            <div class="columns is-marginless content-box border-radius">
+                <div class="scroll-box">
+                    <p class="subtitle is-5 px-4 pt-3">Dine venner</p>
+                    <div class="column">
+                        <input class="input" type="text" placeholder="Find en ven...">
+                    </div>
+                    {% if user_friends %}
+                        {% for friend in user_friends %}
+                            <div class="column">
+                                {{ friend }}
+                            </div>
+                        {% endfor %}
+                    {% else %}
+                        <p class="subtitle is-6 px-4 py-3">Du har ikke tilføjet nogle venner</p>
+                    {% endif %}
+                </div>
+            </div>
+        </div>
+    </section>
 
 {% endblock %}

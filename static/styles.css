@@ -11,6 +11,31 @@
   border-radius: 12px;
 }
 
+.round-shape {
+  width: 80px;
+  height: 80px;
+  border-radius: 50%;
+  background: #EDEAEA;
+  color: #2D728F;
+}
+
+.content-box {
+  background: #EDEAEA;
+  border-radius: 12px;
+}
+
+.scroll-box {
+  overflow-y: scroll;
+  max-height: 300px;
+}
+.scroll-box::-webkit-scrollbar {
+  width: 5px;
+}
+.scroll-box::-webkit-scrollbar-thumb {
+  background: #2D728F;
+  border-radius: 6px;
+}
+
 .center {
   display: flex;
   justify-content: center;
@@ -25,6 +50,15 @@
 .logo {
   color: #F49E4C;
   font-weight: bold;
+}
+
+/* Badges/rewards ikoner*/
+.inactive-badge {
+  filter: grayscale(80%);
+}
+
+.active-badge {
+  filter: grayscale(0%);
 }
 
 /* Desktop specific */

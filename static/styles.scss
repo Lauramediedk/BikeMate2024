@@ -5,6 +5,7 @@ $secondary: #3B8EA5;
 $yellow: #F5EE9E;
 $orange: #F49E4C;
 $red: #AB3428;
+$grey: #EDEAEA;
 
 .button.is-primary{
     background: $primary;
@@ -16,6 +17,33 @@ $red: #AB3428;
 .border-radius{
     border-radius: 12px;
 }
+
+.round-shape{
+    width: 80px;
+    height: 80px;
+    border-radius: 50%;
+    background: $grey;
+    color: $primary;
+}
+
+.content-box{
+    background: $grey;
+    border-radius: 12px;
+}
+
+.scroll-box{
+    overflow-y: scroll;
+    max-height: 300px;
+
+    &::-webkit-scrollbar{
+        width: 5px;
+    }
+    &::-webkit-scrollbar-thumb{
+        background: $primary;
+        border-radius: 6px;
+    }
+}
+
 .center{
     display: flex;
     justify-content: center;
@@ -29,6 +57,15 @@ $red: #AB3428;
 .logo{
     color: $orange;
     font-weight: bold;
+}
+
+/* Badges/rewards ikoner*/
+.inactive-badge{
+    filter: grayscale(80%);
+}
+
+.active-badge{
+    filter: grayscale(0%);
 }
 
 /* Desktop specific */
