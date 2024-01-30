@@ -1,7 +1,32 @@
 {% extends 'base.html' %}
 
-{% block title %}Dashboard{% endblock %}
+{% block title %}Udfordringer{% endblock %}
 
 {% block content %}
+
+    <section class="section has-text-centered">
+        <div class="container">
+            {% include 'flash_messages.html' %}
+                {% for challenge in challenges %}
+                    <div class="columns is-marginless content-box border-radius">
+                        <div class="column">
+                            <p class="title is-5 p-4">{{ challenge.name }}</p>
+                            <p class="subtitle is-5">{{ challenge.description }}</p>
+                            <p class="subtitle is-6">Oprettet: {{ challenge.created_formatted }}</p>
+                            <p class="subtitle is-6">Udløber: {{ challenge.expires_formatted }}</p>
+                            <p class="subtitle is-6">Deltagere: {{ challenge.participants }}</p>
+                            <p class="subtitle is-6">Belønning:</p>
+                            <div class="column is-flex center">
+                                <div class="image is-48x48">
+                                    <img src="{{ url_for('static', filename=challenge.reward_image) }}" alt="Reward">
+                                </div>
+                                <p class="subtitle is-5">{{ challenge.reward }}</p>
+                            </div>
+                        </div>
+                    </div>
+                {% endfor %}
+            </div>
+        </div>
+    </section>
 
 {% endblock %}

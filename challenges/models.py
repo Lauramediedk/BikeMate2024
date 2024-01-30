@@ -1,12 +1,17 @@
 from db import db
 
 def get_challenges():
-        query = "MATCH (c:Challenges) RETURN c"
+        try:
+            challenges = []
+            query = "MATCH (c:Challenges) RETURN c"
 
-        result = db.run_query(query)
+            result = db.run_query(query)
 
-        if result:
-            return result
-        else:
-            print("No challenges found")
+            for record in result:
+                challenges.append(record['c'])
+
+            return challenges
+
+        except Exception as e:
+            print(f"Could not get challenges: {str(e)}")
             return None
