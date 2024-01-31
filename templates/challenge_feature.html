@@ -2,31 +2,43 @@
     <div class="container">
         {% include 'flash_messages.html' %}
             {% for challenge in challenges %}
-            <div class="mb-4">
-                <div class="columns is-block-desktop is-marginless content-box border-radius">
-                    <div class="column center has-background-grey-lighter border-radius">
-                        <div class="image is-48x48 mr-2">
-                            <img src="{{ url_for('static', filename=challenge.reward_image) }}" alt="Reward">
+                <div class="mb-4">
+                    <div class="columns is-block-desktop is-marginless content-box border-radius">
+                        <div class="column center has-background-grey-lighter border-radius">
+                            <div class="image is-48x48 mr-2">
+                                <img src="{{ url_for('static', filename=challenge.reward_image) }}" alt="Reward">
+                            </div>
+                            <p class="title is-5 p-4">{{ challenge.name }}</p>
                         </div>
-                        <p class="title is-5 p-4">{{ challenge.name }}</p>
-                    </div>
-                    <div class="column">
-                        <p class="subtitle is-5">{{ challenge.description }}</p>
-                        <p class="subtitle is-6">
-                            <i class="fa-regular fa-clock"></i>
-                            Oprettet: {{ challenge.created_formatted }}
-                        </p>
-                        <p class="subtitle is-6">
-                            <i class="fa-regular fa-clock"></i>
-                            Udløber: {{ challenge.expires_formatted }}
-                        </p>
-                        <p class="subtitle is-6">
-                            <i class="fa-solid fa-users"></i>
-                            Deltagere: {{ challenge.participants }}
-                        </p>
+                        <div class="column">
+                            <p class="subtitle is-5">{{ challenge.description }}</p>
+                            <p class="subtitle is-6">
+                                <i class="fa-regular fa-clock"></i>
+                                Oprettet: {{ challenge.created_formatted }}
+                            </p>
+                            <p class="subtitle is-6">
+                                <i class="fa-regular fa-clock"></i>
+                                Udløber: {{ challenge.expires_formatted }}
+                            </p>
+                            <p class="subtitle is-6">
+                                <i class="fa-solid fa-users"></i>
+                                Deltagere: {{ challenge.participants }}
+                            </p>
+                            <form method="POST" action="{{ url_for('challenges.challenges') }}">
+                                <input type="hidden" name="challenge_id" value="{{ challenge.challenge_id }}">
+                                {% if challenge.is_joined %}
+                                    <button class="button" type="submit" disabled>
+                                        Du er tilmeldt
+                                    </button>
+                                {% else %}
+                                    <button class="button is-primary" type="submit">
+                                        Tilmeld dig
+                                    </button>
+                                {% endif %}
+                            </form>
+                        </div>
                     </div>
                 </div>
-            </div>
             {% endfor %}
         </div>
     </div>
