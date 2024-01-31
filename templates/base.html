@@ -8,8 +8,38 @@
     <title>{% block title %}Titel{% endblock %}</title>
 </head>
 <body>
+
+{% block navbar %}
+    <nav class="navbar">
+        <div class="navbar-brand">
+            <p class="title is-3 logo py-2 px-2">
+                BikeMate
+            </p>
+            <a role="button" class="navbar-burger" aria-label="menu">
+                <span aria-hidden="true"></span>
+                <span aria-hidden="true"></span>
+                <span aria-hidden="true"></span>
+            </a>
+        </div>
+        <div class="navbar-menu">
+            <div class="navbar-end">
+                <a href="#" class="navbar-item">Dashboard</a>
+                <a href="#" class="navbar-item">Fællesskab</a>
+                <a href="#" class="navbar-item">Udfordringer</a>
+            </div>
+        </div>
+    </nav>
+{% endblock %}
+
     <div class="content">
         {% block content %} {% endblock %}
     </div>
 </body>
+
+<footer class="footer">
+    <div class="content has-text-centered-desktop">
+        <p class="title is-4 logo">BikeMate</p>
+    </div>
+</footer>
+
 </html>
