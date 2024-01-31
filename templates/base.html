@@ -16,7 +16,7 @@
             <div class="navbar-brand">
                 <a href="{{ url_for('dashboard.dashboard') }}" class="navbar-item">Dashboard</a>
                 <a href="#" class="navbar-item">Fællesskab</a>
-                <a href="#" class="navbar-item">Udfordringer</a>
+                <a href="{{ url_for('challenges.challenges') }}" class="navbar-item">Udfordringer</a>
             </div>
         </nav>
     {% else %}
@@ -46,7 +46,7 @@
     </div>
 </body>
 
-<footer class="footer">
+<footer class="footer {% if session.user_id %}is-hidden{% endif %}">
     <div class="content has-text-centered-desktop">
         <p class="title is-4 logo">BikeMate</p>
     </div>
