@@ -4,6 +4,7 @@
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <link rel="stylesheet" href="{{ url_for('static', filename='styles.css') }}">
+    <script defer src="https://cdn.jsdelivr.net/npm/alpinejs@3.13.5/dist/cdn.min.js"></script>
     <script src="https://kit.fontawesome.com/422cf8348a.js" crossorigin="anonymous"></script>
     <title>{% block title %}Titel{% endblock %}</title>
 </head>
@@ -23,9 +24,14 @@
         </div>
         <div class="navbar-menu">
             <div class="navbar-end">
-                <a href="#" class="navbar-item">Dashboard</a>
-                <a href="#" class="navbar-item">Fællesskab</a>
-                <a href="#" class="navbar-item">Udfordringer</a>
+                {% if session.user_id %}
+                    <a href="{{ url_for('dashboard.dashboard') }}" class="navbar-item">Dashboard</a>
+                    <a href="#" class="navbar-item">Fællesskab</a>
+                    <a href="#" class="navbar-item">Udfordringer</a>
+                {% else %}
+                    <a href="{{ url_for('users.signup') }}" class="navbar-item">Opret bruger</a>
+                    <a href="{{ url_for('users.login') }}" class="navbar-item">Log ind</a>
+                {% endif %}
             </div>
         </div>
     </nav>
