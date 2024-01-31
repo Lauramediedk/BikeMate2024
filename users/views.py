@@ -33,6 +33,7 @@ def login():
         try:
             user = User.find_user_email(form.email.data)
             if user and user.check_password(form.password.data):
+                session['user_id'] = user.user_id
                 session['first_name'] = user.first_name
                 flash('Log ind godkendt', 'success')
                 return redirect(url_for('dashboard.dashboard'))
