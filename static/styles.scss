@@ -31,6 +31,25 @@ $grey: #EDEAEA;
     border-radius: 12px;
 }
 
+.bottom-nav{
+    background: $primary;
+    border-radius: 12px 12px 0px 0px;
+}
+.nav-icons{
+    color: #f2e8e8;
+}
+.active-link .nav-icons{
+    color: $orange;
+}
+.navbar-burger{
+    background: none;
+    color: $primary;
+}
+.navbar-burger.is-active{
+    background: none;
+    color: $primary;
+}
+
 .scroll-box{
     overflow-y: scroll;
     max-height: 300px;

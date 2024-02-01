@@ -24,6 +24,29 @@
   border-radius: 12px;
 }
 
+.bottom-nav {
+  background: #2D728F;
+  border-radius: 12px 12px 0px 0px;
+}
+
+.nav-icons {
+  color: #f2e8e8;
+}
+
+.active-link .nav-icons {
+  color: #F49E4C;
+}
+
+.navbar-burger {
+  background: none;
+  color: #2D728F;
+}
+
+.navbar-burger.is-active {
+  background: none;
+  color: #2D728F;
+}
+
 .scroll-box {
   overflow-y: scroll;
   max-height: 300px;
