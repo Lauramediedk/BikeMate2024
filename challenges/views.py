@@ -29,7 +29,7 @@ def challenges():
                     challenge['expires_formatted'] = challenge['expires'].strftime('%d. %m. %Y')
                     challenge['is_joined'] = check_if_joined(session.get('user_id'), challenge['challenge_id'])
 
-                return render_template('challenges.html', challenges=challenges)
+                return render_template('challenges.html', challenges=challenges, active_page='challenges')
             else:
                 flash('Ingen udfordringer i øjeblikket', 'info')
 

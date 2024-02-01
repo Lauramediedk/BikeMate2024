@@ -12,11 +12,30 @@
 <!--First nav is a bottom navbar, the second one is a top navbar-->
 {% block navbar %}
     {% if session.user_id %}
-        <nav class="navbar is-fixed-bottom">
+        <nav class="navbar is-fixed-bottom bottom-nav py-4 center">
             <div class="navbar-brand">
-                <a href="{{ url_for('dashboard.dashboard') }}" class="navbar-item">Dashboard</a>
-                <a href="#" class="navbar-item">Fællesskab</a>
-                <a href="{{ url_for('challenges.challenges') }}" class="navbar-item">Udfordringer</a>
+                <a href="{{ url_for('dashboard.dashboard') }}" class="navbar-item mx-3
+                {{ 'active-link' if active_page == 'dashboard'}}">
+                    <span class="icon">
+                        <i class="fa-solid fa-circle-user fa-2xl nav-icons"></i>
+                    </span>
+                </a>
+                <a href="#" class="navbar-item mx-3">
+                    <span class="icon">
+                        <i class="fa-solid fa-users fa-2xl nav-icons"></i>
+                    </span>
+                </a>
+                <a href="{{ url_for('challenges.challenges') }}" class="navbar-item mx-3
+                {{ 'active-link' if active_page == 'challenges'}}">
+                    <span class="icon">
+                        <i class="fa-solid fa-fire-flame-curved fa-2xl nav-icons"></i>
+                    </span>
+                </a>
+                <a href="#" class="navbar-item mx-3">
+                    <span class="icon">
+                        <i class="fa-solid fa-bell fa-2xl nav-icons"></i>
+                    </span>
+                </a>
             </div>
         </nav>
     {% else %}
