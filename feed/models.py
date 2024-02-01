@@ -4,11 +4,10 @@ import uuid
 
 class Post:
     """Post model"""
-    def __init__(self, content, author, keywords, image_path, is_private=False, **kwargs):
+    def __init__(self, content, author, image_path, is_private=False, **kwargs):
         self.post_id = None
         self.content = content
         self.author = author
-        self.keywords = keywords
         self.image_path = image_path
         self.is_private = is_private
 
@@ -21,7 +20,7 @@ class Post:
 
         query = (
             """
-            CREATE (p:Post {post_id: $post_id, created: $created, content: $content, author: $author_id, keywords: $keywords, image_path: $image_path, is_private: $is_private })
+            CREATE (post:Post {post_id: $post_id, created: $created, content: $content, author: $author_id, image_path: $image_path, is_private: $is_private })
             """
             )
         parameters = {
@@ -29,7 +28,6 @@ class Post:
             "created": self.created,
             "content": self.content,
             "author_id": self.author,
-            "keywords": self.keywords,
             "image_path": self.image_path,
             "is_private": self.is_private,
         }

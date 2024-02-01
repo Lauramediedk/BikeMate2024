@@ -4,7 +4,7 @@
 
 {% block content %}
 
-    <section class="section pt-0">
+    <section class="section py-0">
         <div class="container">
             <div class="columns is-block-tablet">
                 <div class="column has-text-right pt-6">
@@ -20,7 +20,39 @@
                     <a class="title is-4 m-2" href="#">Grupper</a>
                 </div>
             </div>
+            <hr>
         </div>
+    </section>
+<!--TODO: Move to posts.html and add htmx later-->
+    <section class="section pt-0" id="post_content">
+            <div class="columns.is-full is-marginless">
+                <div class="box border-radius">
+                    <div class="column is-flex">
+                        {% set initials = session.first_name[0] %}
+                        <p class="title is-3 round-shape center m-0">
+                            {{ initials }}
+                        </p>
+                        <p class="subtitle center ml-2">{{session.first_name}}</p>
+                    </div>
+                    <div class="column">
+                        <form method="POST" enctype="multipart/form-data" action="{{ url_for('feed.feed') }}">
+                            {{ form.csrf_token() }}
+                            <input type="hidden" name="user_id" value="{{ user_id }}">
+                            <div class="field">
+                                <label class="checkbox">
+                                    {{ form.is_private }} Privat opslag
+                                </label>
+                            </div>
+                            <div class="field">
+                                {{ form.content(class="textarea is-medium") }}
+                            </div>
+                            <div class="pt-3 has-text-right">
+                                <button class="button is-primary is-medium" type="submit">Slå op</button>
+                            </div>
+                        </form>
+                    </div>
+                </div>
+            </div>
     </section>
 
 {% endblock %}
