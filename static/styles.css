@@ -37,6 +37,16 @@
   color: #F49E4C;
 }
 
+.navbar-burger {
+  background: none;
+  color: #2D728F;
+}
+
+.navbar-burger.is-active {
+  background: none;
+  color: #2D728F;
+}
+
 .scroll-box {
   overflow-y: scroll;
   max-height: 300px;

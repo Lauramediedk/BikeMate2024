@@ -41,6 +41,14 @@ $grey: #EDEAEA;
 .active-link .nav-icons{
     color: $orange;
 }
+.navbar-burger{
+    background: none;
+    color: $primary;
+}
+.navbar-burger.is-active{
+    background: none;
+    color: $primary;
+}
 
 .scroll-box{
     overflow-y: scroll;
