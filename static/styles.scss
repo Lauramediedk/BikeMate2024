@@ -14,6 +14,10 @@ $grey: #EDEAEA;
     background: $secondary;
 }
 
+.primary{
+    color: $primary;
+}
+
 .border-radius{
     border-radius: 12px;
 }
@@ -48,6 +52,13 @@ $grey: #EDEAEA;
 .navbar-burger.is-active{
     background: none;
     color: $primary;
+}
+
+.feed_button{
+    padding: 0.5rem 1rem;
+    border-radius: 12px;
+    background: $primary;
+    color: $grey;
 }
 
 .scroll-box{

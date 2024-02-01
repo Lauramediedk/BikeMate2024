@@ -7,6 +7,10 @@
   background: #3B8EA5;
 }
 
+.primary {
+  color: #2D728F;
+}
+
 .border-radius {
   border-radius: 12px;
 }
@@ -45,6 +49,13 @@
 .navbar-burger.is-active {
   background: none;
   color: #2D728F;
+}
+
+.feed_button {
+  padding: 0.5rem 1rem;
+  border-radius: 12px;
+  background: #2D728F;
+  color: #EDEAEA;
 }
 
 .scroll-box {

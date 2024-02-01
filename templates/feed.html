@@ -1,0 +1,26 @@
+{% extends 'base.html' %}
+
+{% block title %}Feed{% endblock %}
+
+{% block content %}
+
+    <section class="section pt-0">
+        <div class="container">
+            <div class="columns is-block-tablet">
+                <div class="column has-text-right pt-6">
+                    <a href="#">
+                        <i class="fa-solid fa-user-plus fa-2xl primary"></i>
+                    </a>
+                </div>
+                <div class="column has-text-centered">
+                    <a class="title is-4 m-2 {{ 'feed_button' if active_page == 'feed' }}"
+                        href="{{ url_for('feed.feed') }}">
+                        Feed
+                    </a>
+                    <a class="title is-4 m-2" href="#">Grupper</a>
+                </div>
+            </div>
+        </div>
+    </section>
+
+{% endblock %}
