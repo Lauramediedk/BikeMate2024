@@ -55,4 +55,19 @@
             </div>
     </section>
 
+    {% if posts %}
+        {% for post in posts %}
+        <div class="container main-content has-text-centered content-box">
+            <div class="columns">
+                <div class="column">
+                    {{ post.created }}
+                    {{ post.content }}
+                </div>
+            </div>
+        </div>
+        {% endfor %}
+    {% else %}
+        {% include 'flash_messages.html' %}
+    {% endif %}
+
 {% endblock %}

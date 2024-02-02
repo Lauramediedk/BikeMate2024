@@ -13,7 +13,7 @@
 <!--First nav is a bottom navbar, the second one is a top navbar-->
 {% block navbar %}
     {% if session.user_id %}
-        <nav class="navbar is-fixed-bottom bottom-nav py-4 center">
+        <nav class="navbar is-fixed-bottom bottom-nav py-4 mt-5 center">
             <div class="navbar-brand">
                 <a href="{{ url_for('dashboard.dashboard') }}" class="navbar-item mx-3
                 {{ 'active-link' if active_page == 'dashboard'}}">

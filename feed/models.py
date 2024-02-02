@@ -4,7 +4,7 @@ import uuid
 
 class Post:
     """Post model"""
-    def __init__(self, content, author, image_path, is_private=False, **kwargs):
+    def __init__(self, content, author, image_path=None, is_private=False, **kwargs):
         self.post_id = None
         self.content = content
         self.author = author
@@ -36,3 +36,18 @@ class Post:
             db.run_query(query, parameters)
         except Exception as e:
             raise RuntimeError(f"Error creating post: {str(e)}") from e
+
+    @classmethod
+    def get_posts(cls):
+        try:
+            query = "MATCH (n:Post) RETURN n"
+
+            result = db.run_query(query)
+
+            posts = [cls(**record['n']) for record in result]
+
+            return posts
+
+        except Exception as e:
+            print(f"Could not get posts: {str(e)}")
+            return None

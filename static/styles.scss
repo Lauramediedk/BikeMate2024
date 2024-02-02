@@ -7,6 +7,13 @@ $orange: #F49E4C;
 $red: #AB3428;
 $grey: #EDEAEA;
 
+body{
+    padding-bottom: 4rem;
+}
+.main-content{
+    margin-bottom: 2rem;
+}
+
 .button.is-primary{
     background: $primary;
 }
