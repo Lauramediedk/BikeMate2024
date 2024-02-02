@@ -14,11 +14,13 @@ def feed():
 
             if form.validate_on_submit():
                 user_id = session.get('user_id')
+                first_name = session.get('first_name')
                 post = Post(
                     content=form.content.data,
                     image_path=form.image_path.data,
                     is_private=form.is_private.data,
-                    author=user_id
+                    author_id=user_id,
+                    author_name=first_name
                 )
                 post.create_post()
 
@@ -30,7 +32,7 @@ def feed():
             print("Posts:", posts)
 
             if posts:
-                return render_template('feed.html', posts=posts, form=form)
+                return render_template('feed.html', posts=posts, form=form, active_page='feed')
             else:
                 flash('Ingen opslag i øjeblikket', 'info')
 

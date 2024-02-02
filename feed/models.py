@@ -4,10 +4,11 @@ import uuid
 
 class Post:
     """Post model"""
-    def __init__(self, content, author, image_path=None, is_private=False, **kwargs):
+    def __init__(self, content, author_id, author_name, image_path=None, is_private=False, **kwargs):
         self.post_id = None
         self.content = content
-        self.author = author
+        self.author_id = author_id
+        self.author_name = author_name
         self.image_path = image_path
         self.is_private = is_private
 
@@ -20,14 +21,17 @@ class Post:
 
         query = (
             """
-            CREATE (post:Post {post_id: $post_id, created: $created, content: $content, author: $author_id, image_path: $image_path, is_private: $is_private })
+            MATCH (user:User {user_id: $author_id})
+            CREATE (post:Post {post_id: $post_id, created: $created, content: $content, author_name: $author_name, image_path: $image_path, is_private: $is_private })
+            CREATE (post)-[:CREATED_BY]->(user)
             """
             )
         parameters = {
             "post_id": self.post_id,
             "created": self.created,
             "content": self.content,
-            "author_id": self.author,
+            "author_id": self.author_id,
+            "author_name": self.author_name,
             "image_path": self.image_path,
             "is_private": self.is_private,
         }
@@ -44,7 +48,7 @@ class Post:
 
             result = db.run_query(query)
 
-            posts = [cls(**record['n']) for record in result]
+            posts = [record['n'] for record in result]
 
             return posts
 
