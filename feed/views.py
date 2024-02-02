@@ -33,6 +33,7 @@ def feed():
 
             if posts:
                 return render_template('feed.html', posts=posts, form=form, active_page='feed')
+
             else:
                 flash('Ingen opslag i øjeblikket', 'info')
 
@@ -40,3 +41,18 @@ def feed():
         flash(f"Error occured during creation of post: {str(e)}", 'error')
 
     return render_template('feed.html', form=form, active_page='feed')
+
+
+@feed_bp.route('/feed/<string:post_id>', methods=['POST', 'DELETE'])
+@login_required
+def delete_post(post_id):
+    user_id = session.get('user_id')
+
+    try:
+        Post.delete_post(post_id, user_id)
+        flash('Opslag slettet', 'success')
+
+    except Exception as e:
+        flash(f"Error occurred during deletion of post: {str(e)}", 'error')
+
+    return redirect(url_for('feed.feed'))

@@ -4,7 +4,7 @@ import uuid
 
 class Post:
     """Post model"""
-    def __init__(self, content, author_id, author_name, image_path=None, is_private=False, **kwargs):
+    def __init__(self, content, author_id=None, author_name=None, image_path=None, is_private=False, **kwargs):
         self.post_id = None
         self.content = content
         self.author_id = author_id
@@ -15,6 +15,7 @@ class Post:
         for key, value in kwargs.items():
             setattr(self, key, value)
 
+
     def create_post(self):
         self.post_id = str(uuid.uuid4())
         self.created = DateTime.now()
@@ -22,7 +23,7 @@ class Post:
         query = (
             """
             MATCH (user:User {user_id: $author_id})
-            CREATE (post:Post {post_id: $post_id, created: $created, content: $content, author_name: $author_name, image_path: $image_path, is_private: $is_private })
+            CREATE (post:Post {post_id: $post_id, created: $created, content: $content, author_id: $author_id, author_name: $author_name, image_path: $image_path, is_private: $is_private })
             CREATE (post)-[:CREATED_BY]->(user)
             """
             )
@@ -41,10 +42,11 @@ class Post:
         except Exception as e:
             raise RuntimeError(f"Error creating post: {str(e)}") from e
 
+
     @classmethod
     def get_posts(cls):
         try:
-            query = "MATCH (n:Post) RETURN n"
+            query = "MATCH (n:Post) WHERE n.is_private = false RETURN n"
 
             result = db.run_query(query)
 
@@ -55,3 +57,40 @@ class Post:
         except Exception as e:
             print(f"Could not get posts: {str(e)}")
             return None
+
+    def edit_post(self, new_content):
+        query = (
+            """
+            MATCH (post:Post {post_id: $post_id})-[:CREATED_BY]->(user:User {user_id: $author_id})
+            SET post.content = $new_content
+            """
+        )
+        parameters = {
+            "post_id": self.post_id,
+            "author_id": self.author_id,
+            "new_content": new_content,
+        }
+
+        try:
+            db.run_query(query, parameters)
+            self.content = new_content
+        except Exception as e:
+            raise RuntimeError(f"Error editing post: {str(e)}") from e
+
+    @staticmethod
+    def delete_post(post_id, author_id):
+        query = (
+            """
+            MATCH (post:Post {post_id: $post_id})-[:CREATED_BY]->(user:User {user_id: $author_id})
+            DETACH DELETE post
+            """
+        )
+        parameters = {
+            "post_id": post_id,
+            "author_id": author_id,
+        }
+
+        try:
+            db.run_query(query, parameters)
+        except Exception as e:
+            raise RuntimeError(f"Error deleting post: {str(e)}") from e
