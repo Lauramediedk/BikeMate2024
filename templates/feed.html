@@ -25,7 +25,8 @@
     </section>
 <!--TODO: Move to posts.html and add htmx later-->
     <section class="section pt-0" id="post_content">
-            <div class="columns.is-full is-marginless">
+        {% include 'flash_messages.html' %}
+            <div class="columns is-marginless is-centered">
                 <div class="box border-radius">
                     <div class="column is-flex">
                         {% set initials = session.first_name[0] %}
@@ -57,18 +58,34 @@
 
     {% if posts %}
         {% for post in posts %}
-        <div class="container main-content has-text-centered content-box">
-            <div class="columns">
-                <div class="column">
-                    {{ post.author_name }}
-                    {{ post.created }}
-                    {{ post.content }}
+    <section class="section pt-0">
+        <div class="container is-marginless main-content">
+            <div class="box">
+                <div class="columns is-multiline is-centered">
+                    <div class="column is-flex is-12-tablet">
+                        <div class="media">
+                            <div class="media-left">
+                                {% set initials = post.author_name[0] %}
+                                <p class="title is-3 round-shape center m-0">
+                                    {{ initials }}
+                                </p>
+                            </div>
+                            <div class="media-content">
+                                <div class="content">
+                                    <p class="is-size-4">{{ post.author_name }}</p>
+                                    <p>{{ post.created }}</p>
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+                    <div class="column is-12-tablet">
+                        {{ post.content }}
+                    </div>
                 </div>
             </div>
         </div>
+    </section>
         {% endfor %}
-    {% else %}
-        {% include 'flash_messages.html' %}
     {% endif %}
 
 {% endblock %}
