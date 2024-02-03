@@ -95,3 +95,25 @@ class Post:
             db.run_query(query, parameters)
         except Exception as e:
             raise RuntimeError(f"Error deleting post: {str(e)}") from e
+
+
+    @staticmethod
+    def search_post(search_content):
+        query = (
+            """
+            MATCH (post:Post)
+            WHERE post.content CONTAINS $search_content
+            RETURN post
+            """
+        )
+
+        parameters = {
+            "search_content": search_content,
+        }
+
+        try:
+            result = db.run_query(query, parameters)
+            posts = [record['post'] for record in result]
+            return posts
+        except Exception as e:
+            raise RuntimeError(f"Kunne ikke finde nogle opslag: {str(e)}") from e

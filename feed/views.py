@@ -28,8 +28,13 @@ def feed():
                 return redirect(url_for('feed.feed'))
 
         else:
-            posts = Post.get_posts()
-            print("Posts:", posts)
+            search_content = request.args.get('search_content')
+
+            if search_content:
+                posts = Post.search_post(search_content)
+                return render_template('feed.html', posts=posts, form=form, active_page='feed')
+            else:
+                posts = Post.get_posts()
 
             if posts:
                 return render_template('feed.html', posts=posts, form=form, active_page='feed')
