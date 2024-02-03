@@ -24,86 +24,94 @@
         </div>
     </section>
 <!--TODO: Move to posts.html and add htmx later-->
-    <section class="section pt-0" id="post_content">
+    <section class="section" id="post_content">
+        <div class="container">
         {% include 'flash_messages.html' %}
-            <div class="columns is-marginless is-centered">
-                <div class="box border-radius">
-                    <div class="column is-flex">
-                        {% set initials = session.first_name[0] %}
-                        <p class="title is-3 round-shape center m-0">
-                            {{ initials }}
-                        </p>
-                        <p class="subtitle center ml-2">{{session.first_name}}</p>
-                    </div>
-                    <div class="column">
-                        <form method="POST" enctype="multipart/form-data" action="{{ url_for('feed.feed') }}">
-                            {{ form.csrf_token() }}
-                            <input type="hidden" name="user_id" value="{{ user_id }}">
-                            <div class="field">
-                                <label class="checkbox">
-                                    {{ form.is_private }} Privat opslag
-                                </label>
-                            </div>
-                            <div class="field">
-                                {{ form.content(class="textarea is-medium") }}
-                            </div>
-                            <div class="pt-3 has-text-right">
-                                <button class="button is-primary is-medium" type="submit">Slå op</button>
-                            </div>
-                        </form>
+            <div class="columns is-marginless is-multiline">
+                <div class="column is-flex is-12-tablet">
+                    <div class="media">
+                        <div class="media-left">
+                            {% set initials = session.first_name[0] %}
+                            <p class="title is-3 round-shape center m-0">
+                                {{ initials }}
+                            </p>
+                        </div>
+                        <div class="media-content">
+                            <p class="is-size-4">{{session.first_name}}</p>
+                        </div>
                     </div>
                 </div>
-            </div>
-    </section>
-
-    {% if posts %}
-        {% for post in posts %}
-    <section class="section pt-0">
-        <div class="container is-marginless main-content">
-            <div class="box">
-                <div class="columns is-multiline is-centered">
-                    <div class="column is-flex is-12-tablet">
-                        <div class="media">
-                            <div class="media-left">
-                                {% set initials = post.author_name[0] %}
-                                <p class="title is-3 round-shape center m-0">
-                                    {{ initials }}
-                                </p>
-                            </div>
-                            <div class="media-content">
-                                <div class="content">
-                                    <p class="is-size-4">{{ post.author_name }}</p>
-                                    <p>{{ post.created }}</p>
-                                </div>
-                            </div>
+                <div class="column is-12-tablet">
+                    <form method="POST" enctype="multipart/form-data" action="{{ url_for('feed.feed') }}">
+                        {{ form.csrf_token() }}
+                        <input type="hidden" name="user_id" value="{{ user_id }}">
+                        <div class="field">
+                            <label class="checkbox">
+                                {{ form.is_private }} Privat opslag
+                            </label>
                         </div>
-                    </div>
-                    <div class="column is-12-tablet">
-                        {{ post.content }}
-                    </div>
-
-                    {% if post.author_id == session.user_id %}
-                        <form action="{{ url_for('feed.delete_post', post_id=post.post_id) }}" method="POST">
-                            <input type="hidden" name="_method" value="DELETE">
-                            <button type="submit" class="button">Slet opslag</button>
-                        </form>
-
-                        <div x-data="{ isOpen: false }">
-                            <button class="button" @click="isOpen = !isOpen">
-                                Rediger opslag
-                            </button>
-                            <div x-show="isOpen">
-                                <form action="{{ url_for('feed.edit_post', post_id=post.post_id) }}" method="POST">
-                                    <textarea name="new_content" placeholder="New content" required>{{ post.content }}</textarea>
-                                    <button type="submit" class="button">Gem ændringer</button>
-                                </form>
-                            </div>
+                        <div class="field">
+                            {{ form.content(class="textarea is-medium") }}
                         </div>
-                    {% endif %}
+                        <div class="has-text-right">
+                            <button class="button is-primary border-radius" type="submit">Slå op</button>
+                        </div>
+                    </form>
                 </div>
             </div>
         </div>
     </section>
+
+    {% if posts %}
+        {% for post in posts %}
+            <section class="section pt-0 is-flex center">
+                <div class="container is-marginless main-content">
+                    <div class="box">
+                        <div class="columns is-multiline is-centered">
+                            <div class="column is-flex is-12-tablet">
+                                <div class="media">
+                                    <div class="media-left">
+                                        {% set initials = post.author_name[0] %}
+                                        <p class="title is-3 round-shape center m-0">
+                                            {{ initials }}
+                                        </p>
+                                    </div>
+                                    <div class="media-content">
+                                        <div class="content">
+                                            <p class="is-size-4">{{ post.author_name }}</p>
+                                            <p>{{ post.created }}</p>
+                                        </div>
+                                    </div>
+                                </div>
+                            </div>
+                            <div class="column is-12-tablet">
+                                <p class="is-size-5">{{ post.content }}</p>
+                            </div>
+
+                            <div class="column is-flex center">
+                                {% if post.author_id == session.user_id %}
+                                    <form action="{{ url_for('feed.delete_post', post_id=post.post_id) }}" method="POST">
+                                        <input type="hidden" name="_method" value="DELETE">
+                                        <button class="button m-4 is-primary" type="submit">Slet opslag</button>
+                                    </form>
+
+                                    <div x-data="{ isOpen: false }">
+                                        <button class="button is-primary" @click="isOpen = !isOpen">
+                                            Rediger opslag
+                                        </button>
+                                        <div x-show="isOpen">
+                                            <form action="{{ url_for('feed.edit_post', post_id=post.post_id) }}" method="POST">
+                                                <textarea name="new_content" placeholder="New content" required>{{ post.content }}</textarea>
+                                                <button class="button m-4" type="submit">Gem ændringer</button>
+                                            </form>
+                                        </div>
+                                    </div>
+                                {% endif %}
+                            </div>
+                        </div>
+                    </div>
+                </div>
+            </section>
         {% endfor %}
     {% endif %}
 
