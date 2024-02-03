@@ -47,7 +47,7 @@ def feed():
 @login_required
 def edit_post(post_id):
     user_id = session.get('user_id')
-    new_content = request.form.get('content')
+    new_content = request.form.get('new_content')
 
     try:
         Post.edit_post(post_id, user_id, new_content)
@@ -59,7 +59,7 @@ def edit_post(post_id):
     return redirect(url_for('feed.feed'))
 
 
-@feed_bp.route('/feed/<string:post_id>', methods=['POST', 'DELETE'])
+@feed_bp.route('/feed/delete/<string:post_id>', methods=['POST'])
 @login_required
 def delete_post(post_id):
     user_id = session.get('user_id')

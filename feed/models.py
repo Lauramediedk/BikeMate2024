@@ -58,8 +58,9 @@ class Post:
             print(f"Could not get posts: {str(e)}")
             return None
 
+
     @staticmethod
-    def edit_post(self, post_id, author_id, new_content):
+    def edit_post(post_id, author_id, new_content):
         query = (
             """
             MATCH (post:Post {post_id: $post_id})-[:CREATED_BY]->(user:User {user_id: $author_id})
