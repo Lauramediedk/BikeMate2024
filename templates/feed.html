@@ -92,18 +92,25 @@
                                 {% if post.author_id == session.user_id %}
                                     <form action="{{ url_for('feed.delete_post', post_id=post.post_id) }}" method="POST">
                                         <input type="hidden" name="_method" value="DELETE">
-                                        <button class="button m-4 is-primary" type="submit">Slet opslag</button>
+                                        <button class="button m-4" type="submit">Slet opslag</button>
                                     </form>
 
                                     <div x-data="{ isOpen: false }">
-                                        <button class="button is-primary" @click="isOpen = !isOpen">
-                                            Rediger opslag
-                                        </button>
-                                        <div x-show="isOpen">
-                                            <form action="{{ url_for('feed.edit_post', post_id=post.post_id) }}" method="POST">
-                                                <textarea name="new_content" placeholder="New content" required>{{ post.content }}</textarea>
-                                                <button class="button m-4" type="submit">Gem ændringer</button>
-                                            </form>
+                                        <button class="button" @click="isOpen = !isOpen">Rediger</button>
+                                        <div x-show="isOpen" class="modal is-active">
+                                            <div class="modal-background" @click="isOpen = !isOpen"></div>
+                                            <div class="modal-content px-2">
+                                                <form action="{{ url_for('feed.edit_post', post_id=post.post_id) }}" method="POST">
+                                                    {{ form.csrf_token() }}
+                                                    <div class="field">
+                                                        <div>
+                                                            <textarea name="new_content" class="textarea is-medium" required>{{ post.content }}</textarea>
+                                                        </div>
+                                                    </div>
+                                                    <button class="button is-primary m-4" type="submit">Gem ændringer</button>
+                                                </form>
+                                            </div>
+                                            <button class="modal-close is-large" aria-label="close" @click="isOpen = !isOpen"></button>
                                         </div>
                                     </div>
                                 {% endif %}
