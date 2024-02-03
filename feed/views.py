@@ -43,6 +43,22 @@ def feed():
     return render_template('feed.html', form=form, active_page='feed')
 
 
+@feed_bp.route('/feed/<string:post_id>', methods=['POST'])
+@login_required
+def edit_post(post_id):
+    user_id = session.get('user_id')
+    new_content = request.form.get('content')
+
+    try:
+        Post.edit_post(post_id, user_id, new_content)
+        flash('Opslag ændret', 'success')
+
+    except Exception as e:
+        flash(f"Fejl. Kunne ikke ændre opslag: {str(e)}", 'error')
+
+    return redirect(url_for('feed.feed'))
+
+
 @feed_bp.route('/feed/<string:post_id>', methods=['POST', 'DELETE'])
 @login_required
 def delete_post(post_id):

@@ -81,11 +81,24 @@
                     <div class="column is-12-tablet">
                         {{ post.content }}
                     </div>
+
                     {% if post.author_id == session.user_id %}
                         <form action="{{ url_for('feed.delete_post', post_id=post.post_id) }}" method="POST">
                             <input type="hidden" name="_method" value="DELETE">
-                            <button type="submit" class="button">Delete Post</button>
+                            <button type="submit" class="button">Slet opslag</button>
                         </form>
+
+                        <div x-data="{ isOpen: false }">
+                            <button class="button" @click="isOpen = !isOpen">
+                                Rediger opslag
+                            </button>
+                            <div x-show="isOpen">
+                                <form action="{{ url_for('feed.edit_post', post_id=post.post_id) }}" method="POST">
+                                    <textarea name="new_content" placeholder="New content" required>{{ post.content }}</textarea>
+                                    <button type="submit" class="button">Gem ændringer</button>
+                                </form>
+                            </div>
+                        </div>
                     {% endif %}
                 </div>
             </div>
