@@ -59,9 +59,9 @@ body {
   color: #2D728F;
 }
 
-.feed_button {
+.feed-button {
   padding: 0.5rem 1rem;
-  border-radius: 12px;
+  border-radius: 8px;
   background: #2D728F;
   color: #EDEAEA;
 }

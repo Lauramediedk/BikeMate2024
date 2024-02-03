@@ -21,7 +21,7 @@
                     {{ form.csrf_token() }}
                     <input type="hidden" name="user_id" value="{{ user_id }}">
                     <div class="field">
-                        <label class="checkbox">
+                        <label class="checkbox is-size-5">
                             {{ form.is_private }} Privat opslag
                         </label>
                     </div>
@@ -29,7 +29,9 @@
                         {{ form.content(class="textarea is-medium") }}
                     </div>
                     <div class="has-text-right">
-                        <button class="button is-primary border-radius" type="submit">Slå op</button>
+                        <button class="button is-primary feed-button" type="submit">
+                            <p class="is-size-5">Slå op</p>
+                        </button>
                     </div>
                 </form>
             </div>
@@ -68,7 +70,7 @@
                             {% if post.author_id == session.user_id %}
                                 <form action="{{ url_for('feed.delete_post', post_id=post.post_id) }}" method="POST">
                                     <input type="hidden" name="_method" value="DELETE">
-                                    <button class="button m-4" type="submit">Slet opslag</button>
+                                    <button class="button feed-button m-4" type="submit">Slet opslag</button>
                                 </form>
 
                                 <div x-data="{ isOpen: false }">

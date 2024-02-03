@@ -13,7 +13,7 @@
                     </a>
                 </div>
                 <div class="column has-text-centered">
-                    <a class="title is-4 m-2 {{ 'feed_button' if active_page == 'feed' }}"
+                    <a class="title is-4 m-2 {{ 'feed-button' if active_page == 'feed' }}"
                         href="{{ url_for('feed.feed') }}">
                         Feed
                     </a>
@@ -24,16 +24,25 @@
         </div>
     </section>
 
-    <div class="field">
-        <form method="GET" action="{{ url_for('feed.feed') }}">
-            <div class="control">
-                <input class="input" type="text" name="search_content" placeholder="Søg efter et opslag...">
+    <section class="section pb-0 pt-0">
+        <div class="container">
+            <div class="field">
+                <form method="GET" action="{{ url_for('feed.feed') }}">
+                    <div class="control has-icons-left">
+                        <input class="input is-medium" type="text" name="search_content" placeholder="Søg efter et opslag...">
+                        <span class="icon is-small is-left">
+                            <i class="fa-solid fa-magnifying-glass nav-icons"></i>
+                        </span>
+                    </div>
+                    <div class="control has-text-right py-4">
+                        <button class="button feed-button" type="submit">
+                            <p class="is-size-5">Søg</p>
+                        </button>
+                    </div>
+                </form>
             </div>
-            <div class="control">
-                <button class="button is-primary" type="submit">Søg</button>
-            </div>
-        </form>
-    </div>
+        </div>
+    </section>
 
     {% include 'posts.html' %}
 
