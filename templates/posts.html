@@ -70,7 +70,7 @@
                             {% if post.author_id == session.user_id %}
                                 <form action="{{ url_for('feed.delete_post', post_id=post.post_id) }}" method="POST">
                                     <input type="hidden" name="_method" value="DELETE">
-                                    <button class="button feed-button m-4" type="submit">Slet opslag</button>
+                                    <button class="button m-4" type="submit">Slet opslag</button>
                                 </form>
 
                                 <div x-data="{ isOpen: false }">
