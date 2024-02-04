@@ -35,6 +35,8 @@ def feed():
                 return render_template('feed.html', posts=posts, form=form, active_page='feed')
             else:
                 posts = Post.get_posts()
+                for post in posts:
+                    post['created_formatted'] = post['created'].strftime('%d. %m. %Y')
 
             if posts:
                 return render_template('feed.html', posts=posts, form=form, active_page='feed')

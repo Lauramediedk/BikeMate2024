@@ -11,6 +11,7 @@ class Post:
         self.author_name = author_name
         self.image_path = image_path
         self.is_private = is_private
+        self.likes = 0
 
         for key, value in kwargs.items():
             setattr(self, key, value)
@@ -23,7 +24,7 @@ class Post:
         query = (
             """
             MATCH (user:User {user_id: $author_id})
-            CREATE (post:Post {post_id: $post_id, created: $created, content: $content, author_id: $author_id, author_name: $author_name, image_path: $image_path, is_private: $is_private })
+            CREATE (post:Post {post_id: $post_id, created: $created, content: $content, author_id: $author_id, author_name: $author_name, image_path: $image_path, is_private: $is_private, likes: 0})
             CREATE (post)-[:CREATED_BY]->(user)
             """
             )
