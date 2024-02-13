@@ -7,11 +7,22 @@ $orange: #F49E4C;
 $red: #AB3428;
 $grey: #EDEAEA;
 
+body{
+    padding-bottom: 4rem;
+}
+.main-content{
+    margin-bottom: 2rem;
+}
+
 .button.is-primary{
     background: $primary;
 }
 .button.is-primary:hover{
     background: $secondary;
+}
+
+.primary{
+    color: $primary;
 }
 
 .border-radius{
@@ -48,6 +59,13 @@ $grey: #EDEAEA;
 .navbar-burger.is-active{
     background: none;
     color: $primary;
+}
+
+.feed-button{
+    padding: 0.5rem 1rem;
+    border-radius: 8px;
+    background: $primary;
+    color: $grey;
 }
 
 .scroll-box{
@@ -94,7 +112,7 @@ $grey: #EDEAEA;
         margin-top: 1rem !important;
         margin-bottom: 1rem !important;
     }
-    
+
     .has-margin-horizontal-desktop {
         margin-left: 1rem !important;
         margin-right: 1rem !important;
