@@ -4,6 +4,26 @@
 
 {% block content %}
 
+    <div class="dropdown is-pulled-right is-right p-2" x-data="{ open: false }" x-bind:class="{ 'is-active': open }">
+        <div class="dropdown-trigger">
+            <div x-bind:class="{ 'is-active': open }" @click="open = !open" aria-haspopup="true" aria-controls="dropdown-menu">
+                    <a href="#">
+                        <i class="fa-solid fa-ellipsis fa-2xl icons"></i>
+                    </a>
+                </span>
+            </div>
+        </div>
+        <div class="dropdown-menu pr-4">
+            <div class="dropdown-content" x-show="open">
+                <a class="dropdown-item" href="#">Upload profilbillede</a>
+                <hr class="dropdown-divider">
+                <a class="dropdown-item" href="#">Fjern profil billede</a>
+                <hr class="dropdown-divider">
+                <a class="dropdown-item" href="#">Log ud</a>
+            </div>
+        </div>
+    </div>
+
     {% if session.first_name %}
         <section class="section has-text-centered">
             {% set initials = session.first_name[0] %} <!--Get the first letter-->
@@ -27,7 +47,7 @@
                         <p class="title is-5">Detaljer</p>
                         <span class="icon">
                             <a href="#">
-                                <i class="fa-solid fa-pen"></i>
+                                <i class="fa-solid fa-pen icons"></i>
                             </a>
                         </span>
                     </span>
@@ -40,7 +60,7 @@
                         <p class="title is-5">Cykeldetaljer</p>
                         <span class="icon">
                             <a href="#">
-                                <i class="fa-solid fa-pen"></i>
+                                <i class="fa-solid fa-pen icons"></i>
                             </a>
                         </span>
                     </span>
