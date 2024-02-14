@@ -14,29 +14,39 @@
             </div>
             <h1 class="title is-4">
                 {{session.first_name}}
-                {{ session.last_name }}
+                {{session.last_name}}
             </h1>
         </section>
     {% endif %}
 
-    <section class="section">
+    <section class="section pt-0">
         <div class="container">
             <div class="columns is-marginless content-box is-block-desktop is-multiline">
-                <div class="column is-12-tablet">
-                    <p class="subtitle is-5 p-2">
-                        Detaljer
-                    </p>
-                    <p class="px-2">
+                <div class="column is-12-tablet px-3">
+                    <span class="icon-text">
+                        <p class="title is-5">Detaljer</p>
+                        <span class="icon">
+                            <a href="#">
+                                <i class="fa-solid fa-pen"></i>
+                            </a>
+                        </span>
+                    </span>
+                    <p>
                         Skriv lidt om dig selv...
                     </p>
                 </div>
-                <div class="column is-12-tablet">
-                    <p class="subtitle is-5 p-2">
-                        Cykeldetaljer
-                    </p>
-                    <p class="px-2 has-background-grey-lighter">
-                        Mountainbike
-                    </p>
+                <div class="column is-12-tablet px-3">
+                    <span class="icon-text">
+                        <p class="title is-5">Cykeldetaljer</p>
+                        <span class="icon">
+                            <a href="#">
+                                <i class="fa-solid fa-pen"></i>
+                            </a>
+                        </span>
+                    </span>
+                    <div class="column is-12-tablet is-narrow is-flex">
+                        <p>Test</p>
+                    </div>
                 </div>
             </div>
         </div>
@@ -44,22 +54,28 @@
 
     <section class="section pt-0">
         <div class="container">
-            <div class="columns is-marginless content-box border-radius">
-                <div class="scroll-box">
-                    <p class="subtitle is-5 px-4 pt-3">Dine venner</p>
-                    <div class="column">
-                        <input class="input" type="text" placeholder="Find en ven...">
-                    </div>
-                    {% if user_friends %}
-                        {% for friend in user_friends %}
-                            <div class="column">
-                                {{ friend }}
-                            </div>
-                        {% endfor %}
-                    {% else %}
-                        <p class="subtitle is-6 px-4 py-3">Du har ikke tilføjet nogle venner</p>
-                    {% endif %}
+            <div class="columns is-marginless content-box border-radius scroll-box is-block-tablet">
+                <div class="column is-flex is-justify-content-space-evenly my-3">
+                    <p class="title is-5 mb-0">0 Følger</p>
+                    <p class="title is-5">0 Følgere</p>
                 </div>
+                <div class="field px-4">
+                    <div class="control has-icons-left">
+                        <input class="input" type="text" placeholder="Find en ven...">
+                        <span class="icon is-left">
+                            <i class="fa-solid fa-magnifying-glass"></i>
+                        </span>
+                    </div>
+                </div>
+                {% if user_friends %}
+                    {% for friend in user_friends %}
+                        <div class="column">
+                            {{ friend }}
+                        </div>
+                    {% endfor %}
+                {% else %}
+                    <p class="subtitle is-6 px-4 py-3">Du har ikke tilføjet nogle venner</p>
+                {% endif %}
             </div>
         </div>
     </section>
