@@ -71,3 +71,11 @@ def remove_picture():
         flash(f'Kunne ikke fjerne billedet: {str(e)}', 'error')
 
     return redirect(url_for('dashboard.dashboard'))
+
+@dashboard_bp.route('/logout')
+def logout():
+    session.pop('user_id', None)
+    session.pop('first_name', None)
+    session.pop('last_name', None)
+
+    return redirect(url_for('dashboard.dashboard'))
