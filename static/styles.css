@@ -31,6 +31,10 @@ body {
   color: #2D728F;
 }
 
+.image-fit img {
+  object-fit: cover;
+}
+
 .content-box {
   background: #EDEAEA;
   border-radius: 12px;

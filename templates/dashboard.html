@@ -15,9 +15,15 @@
         </div>
         <div class="dropdown-menu pr-4">
             <div class="dropdown-content" x-show="open">
-                <a class="dropdown-item" href="#">Upload profilbillede</a>
+                <div x-data="{ showFile: false }">
+                    <button @click="showFile = !showFile">Upload profilbillede</button>
+                    <form action="{{ url_for('dashboard.upload_picture') }}" method="post" enctype="multipart/form-data" x-show="showFile">
+                      <input type="file" name="file">
+                      <button type="submit">Upload</button>
+                    </form>
+                  </div>
                 <hr class="dropdown-divider">
-                <a class="dropdown-item" href="#">Fjern profil billede</a>
+                <a class="dropdown-item" href="{{ url_for('dashboard.remove_picture') }}">Fjern profil billede</a>
                 <hr class="dropdown-divider">
                 <a class="dropdown-item" href="#">Log ud</a>
             </div>
@@ -28,9 +34,15 @@
         <section class="section has-text-centered">
             {% set initials = session.first_name[0] %} <!--Get the first letter-->
             <div class="is-flex center">
-                <div class="is-rounded grey">
+                {% if image_path %}
+                    <figure>
+                        <img class="round-shape image-fit" src="{{ url_for('static', filename=image_path) }}" alt="profilbillede">
+                    </figure>
+                {% else %}
+                    <div class="round-shape">
                     <p class="title is-3 pt-5 round-shape">{{ initials }}</p>
-                </div>
+                    </div>
+                {% endif %}
             </div>
             <h1 class="title is-4">
                 {{session.first_name}}

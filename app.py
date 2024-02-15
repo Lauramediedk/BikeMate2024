@@ -1,11 +1,13 @@
 from flask import Flask, render_template
-from config import SECRET_KEY
+from config import SECRET_KEY, UPLOAD_FOLDER, ALLOWED_EXTENSIONS
 from users import users_bp
 from dashboard import dashboard_bp
 from challenges import challenges_bp
 
 app = Flask(__name__)
-app.secret_key = SECRET_KEY
+app.config['SECRET_KEY'] = SECRET_KEY
+app.config['UPLOAD_FOLDER'] = UPLOAD_FOLDER
+app.config['ALLOWED_EXTENSIONS'] = ALLOWED_EXTENSIONS
 
 app.register_blueprint(users_bp, url_prefix='/users')
 app.register_blueprint(dashboard_bp, url_prefix='/dashboard')
