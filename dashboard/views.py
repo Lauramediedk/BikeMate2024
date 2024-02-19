@@ -2,8 +2,9 @@ from flask import render_template, flash, redirect, url_for, session, request
 from config import UPLOAD_FOLDER, ALLOWED_EXTENSIONS
 from werkzeug.utils import secure_filename
 from . import dashboard_bp
+from .forms import BioForm
 from users.views import login_required
-from .models import upload_profile_image, get_profile_image, remove_profile_image
+from .models import upload_profile_image, get_profile_image, remove_profile_image, upload_user_bio, get_user_bio
 import os
 
 
@@ -14,9 +15,12 @@ def dashboard():
     first_name = session.get('first_name')
     last_name = session.get('last_name')
     image_path = get_profile_image(user_id)
+    bio = get_user_bio(user_id)
+
+    form = BioForm()
 
     if 'user_id' in session:
-        return render_template('dashboard.html', first_name=first_name, last_name=last_name, image_path=image_path, active_page='dashboard')
+        return render_template('dashboard.html', first_name=first_name, last_name=last_name, image_path=image_path, bio=bio, form=form, active_page='dashboard')
     else:
         flash('Adgang nægtet', 'error')
     return redirect(url_for('users.login'))
@@ -71,6 +75,23 @@ def remove_picture():
         flash(f'Kunne ikke fjerne billedet: {str(e)}', 'error')
 
     return redirect(url_for('dashboard.dashboard'))
+
+
+@dashboard_bp.route('/upload_bio', methods=['POST'])
+def upload_bio():
+    user_id = session.get('user_id')
+    form = BioForm()
+
+    if form.validate_on_submit():
+        new_bio = form.description.data
+        try:
+            upload_user_bio(user_id, new_bio)
+            flash('Bio opdateret', 'success')
+        except Exception as e:
+            flash(f'Kunne ikke fjerne billedet: {str(e)}', 'error')
+
+    return redirect(url_for('dashboard.dashboard'))
+
 
 @dashboard_bp.route('/logout')
 def logout():

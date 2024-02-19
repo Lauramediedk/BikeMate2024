@@ -5,13 +5,14 @@ from db import db
 
 class User:
     """User model"""
-    def __init__(self, first_name, last_name, email, hashed_password, image_path=None, **kwargs):
+    def __init__(self, first_name, last_name, email, hashed_password, image_path=None, bio=None, **kwargs):
         self.user_id = None
         self.first_name = first_name
         self.last_name = last_name
         self.email = email
         self.hashed_password = hashed_password
         self.image_path = image_path
+        self.bio = bio
 
         for key, value in kwargs.items():
             setattr(self, key, value)

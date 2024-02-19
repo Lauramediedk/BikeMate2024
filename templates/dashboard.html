@@ -57,15 +57,30 @@
                 <div class="column is-12-tablet px-3">
                     <span class="icon-text">
                         <p class="title is-5">Detaljer</p>
-                        <span class="icon">
-                            <a href="#">
-                                <i class="fa-solid fa-pen icons"></i>
-                            </a>
+                        <span class="icon" x-data="{ showForm: false }">
+                            <i class="fa-solid fa-pen icons" @click="showForm = !showForm"></i>
                         </span>
                     </span>
+
+                    <form method="post" x-show="showForm" action="{{ url_for('dashboard.upload_bio') }}">
+                        {{ form.csrf_token }}
+                        <div class="field">
+                            {{ form.description }}
+                        </div>
+                        <button class="button" type="submit">
+                            {{ form.submit }}
+                        </button>
+                    </form>
+
+                    {% if bio %}
                     <p>
-                        Skriv lidt om dig selv...
+                        {{ bio }}
                     </p>
+                    {% else %}
+                    <p>
+                        Skriv lidt om dig selv
+                    </p>
+                    {% endif %}
                 </div>
                 <div class="column is-12-tablet px-3">
                     <span class="icon-text">

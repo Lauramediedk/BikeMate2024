@@ -55,3 +55,42 @@ def remove_profile_image(user_id):
         db.run_query(query, parameters)
     except Exception as e:
         raise RuntimeError(f"Kunne ikke fjerne billede: {str(e)}") from e
+
+
+def upload_user_bio(user_id, bio):
+    query = (
+        """
+        MATCH (user:User {user_id: $user_id})
+        SET user.bio = $bio
+        """
+    )
+    parameters = {
+        "user_id": user_id,
+        "bio": bio,
+    }
+
+    try:
+        db.run_query(query, parameters)
+    except Exception as e:
+        raise RuntimeError(f"Fejl ved upload af billede: {str(e)}") from e
+
+
+def get_user_bio(user_id):
+    query = (
+        """
+        MATCH (user:User {user_id: $user_id})
+        RETURN user.bio as bio
+        """
+    )
+    parameters = {
+        "user_id": user_id,
+    }
+
+    result = db.run_query(query, parameters)
+
+    # Hent alle records fra resultatet
+    records = list(result)
+
+    # Hent image_path fra det første resultat, eller returner None, hvis der ikke er nogen data
+    bio = records[0]["bio"] if records else None
+    return bio
