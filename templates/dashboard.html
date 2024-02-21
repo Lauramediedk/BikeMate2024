@@ -15,16 +15,19 @@
         </div>
         <div class="dropdown-menu pr-4">
             <div class="dropdown-content" x-show="open">
-                <div x-data="{ showFile: false }">
-                    <button @click="showFile = !showFile">Upload profilbillede</button>
-                    <form action="{{ url_for('dashboard.upload_picture') }}" method="post" enctype="multipart/form-data" x-show="showFile">
-                      <input type="file" name="file">
-                      <button type="submit">Upload</button>
-                    </form>
-                  </div>
+                <div class="file" x-data="{ showFile: false }"> <!--Hide the form to upload, by default-->
+                    <label class="file-label">
+                        <span class="file-label" @click="showFile = !showFile">Upload profilbillede</span> <!--when the button is clicked, the form shows-->
+                        <form x-ref="profileImg" action="{{ url_for('dashboard.upload_picture') }}" method="post" enctype="multipart/form-data" x-show="showFile">
+                            <input class="file-input" type="file" name="file" x-on:change="$refs.profileImg.submit()">
+                        </form>
+                    </label>
+                </div>
                 <hr class="dropdown-divider">
+                {% if image_path%}
                 <a class="dropdown-item" href="{{ url_for('dashboard.remove_picture') }}">Fjern profil billede</a>
                 <hr class="dropdown-divider">
+                {% endif %}
                 <a class="dropdown-item" href="{{ url_for('dashboard.logout') }}">Log ud</a>
             </div>
         </div>
