@@ -55,32 +55,37 @@
         <div class="container">
             <div class="columns is-marginless content-box is-block-desktop is-multiline">
                 <div class="column is-12-tablet px-3">
-                    <span class="icon-text">
-                        <p class="title is-5">Detaljer</p>
-                        <div x-data="{ show: false }">
+                    <div x-data="{ show: false }">
+                        <span class="icon-text">
+                            <span class="title is-5">Detaljer</span>
                             <span class="icon" @click="show = !show">
                                 <i class="fa-solid fa-pen icons" x-show="!show"></i>
                             </span>
-                            <form method="post" x-show="show" action="{{ url_for('dashboard.upload_bio') }}">
-                                {{ form.csrf_token }}
-                                <div class="field is-grouped">
-                                    {{ form.description(class="input") }}
-                                    {{ form.submit(class="button") }}
+                        </span>
+                        <form method="post" x-show="show" action="{{ url_for('dashboard.upload_bio') }}">
+                            {{ form.csrf_token }}
+                            <div class="field">
+                                {{ form.description(class="input px-4", placeholder="Tilføj en beskrivelse") }}
+                                <div class="is-flex py-2">
+                                    {{ form.submit(class="button is-primary mr-2") }}
                                     <div @click="show = false">
-                                        {{ form.cancel(class="button")}}
+                                        {{ form.cancel(class="button is-danger is-outlined")}}
                                     </div>
                                 </div>
-                            </form>
-                        </div>
-                    </span>
-                    {% if bio %}
-                        <p>
-                            {{ bio }}
-                        </p>
-                    {% else %}
-                        <p>Skriv om dig selv...</p>
-                    {% endif %}
+                            </div>
+                        </form>
+                    </div>
+                    <div>
+                        {% if bio %}
+                            <p>
+                                {{ bio }}
+                            </p>
+                        {% else %}
+                            <p>Skriv om dig selv...</p>
+                        {% endif %}
+                    </div>
                 </div>
+
                 <div class="column is-12-tablet px-3">
                     <span class="icon-text">
                         <p class="title is-5">Cykeldetaljer</p>
