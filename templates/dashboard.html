@@ -59,29 +59,26 @@
                         <p class="title is-5">Detaljer</p>
                         <div x-data="{ show: false }">
                             <span class="icon" @click="show = !show">
-                                <i class="fa-solid fa-pen icons"></i>
+                                <i class="fa-solid fa-pen icons" x-show="!show"></i>
                             </span>
                             <form method="post" x-show="show" action="{{ url_for('dashboard.upload_bio') }}">
                                 {{ form.csrf_token }}
                                 <div class="field is-grouped">
                                     {{ form.description(class="input") }}
-
-                                    <button class="button" type="submit">
-                                        {{ form.submit }}
-                                    </button>
+                                    {{ form.submit(class="button") }}
+                                    <div @click="show = false">
+                                        {{ form.cancel(class="button")}}
+                                    </div>
                                 </div>
                             </form>
                         </div>
                     </span>
-
                     {% if bio %}
-                    <p>
-                        {{ bio }}
-                    </p>
+                        <p>
+                            {{ bio }}
+                        </p>
                     {% else %}
-                    <p>
-                        Skriv lidt om dig selv...
-                    </p>
+                        <p>Skriv om dig selv...</p>
                     {% endif %}
                 </div>
                 <div class="column is-12-tablet px-3">
