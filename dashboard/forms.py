@@ -4,6 +4,6 @@ from wtforms.validators import InputRequired
 
 class BioForm(FlaskForm):
     """Description field for updating the users bio"""
-    description = TextAreaField('Beskrivelse', validators=[InputRequired()])
+    description = TextAreaField('Beskrivelse')
     submit = SubmitField('Gem')
     cancel = SubmitField('Annuller')

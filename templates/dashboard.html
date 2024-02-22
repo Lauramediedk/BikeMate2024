@@ -13,22 +13,28 @@
                 </span>
             </div>
         </div>
-        <div class="dropdown-menu pr-4">
+        <div class="dropdown-menu">
             <div class="dropdown-content" x-show="open">
-                <div class="file">
+                <div class="file pl-4">
                     <label class="file-label">
                         <span class="file-label">Upload profilbillede</span>
-                        <form x-ref="profileImg" action="{{ url_for('dashboard.upload_picture') }}" method="post" enctype="multipart/form-data">
-                            <input class="file-input" type="file" name="file" x-on:change="$refs.profileImg.submit()">
+                        <form x-ref="profileImg"
+                        action="{{ url_for('dashboard.upload_picture') }}"
+                        method="post"
+                        enctype="multipart/form-data"
+                        >
+                            <input class="file-input" type="file" name="file"
+                            x-on:change="$refs.profileImg.submit()"
+                            >
                         </form>
                     </label>
                 </div>
                 <hr class="dropdown-divider">
                 {% if image_path%}
-                <a class="dropdown-item" href="{{ url_for('dashboard.remove_picture') }}">Fjern profil billede</a>
-                <hr class="dropdown-divider">
+                    <a class="dropdown-item" href="{{ url_for('dashboard.remove_picture') }}">Fjern profilbillede</a>
+                    <hr class="dropdown-divider">
                 {% endif %}
-                <a class="dropdown-item" href="{{ url_for('dashboard.logout') }}">Log ud</a>
+                    <a class="dropdown-item" href="{{ url_for('dashboard.logout') }}">Log ud</a>
             </div>
         </div>
     </div>
@@ -43,11 +49,11 @@
                     </figure>
                 {% else %}
                     <div class="round-shape">
-                    <p class="title is-3 pt-5 round-shape">{{ initials }}</p>
+                        <p class="title is-3 pt-5 round-shape">{{ initials }}</p>
                     </div>
                 {% endif %}
             </div>
-            <h1 class="title is-4">
+            <h1 class="is-size-5">
                 {{session.first_name}}
                 {{session.last_name}}
             </h1>
@@ -58,18 +64,22 @@
         <div class="container">
             <div class="columns is-marginless content-box is-block-desktop is-multiline">
                 <div class="column is-12-tablet px-3">
-                    <div x-data="{ show: false }">
+                    <div x-data="{ show: false}">
                         <span class="icon-text">
                             <span class="title is-5">Detaljer</span>
                             <span class="icon" @click="show = !show">
                                 <i class="fa-solid fa-pen icons" x-show="!show"></i>
                             </span>
                         </span>
-                        <form method="post" x-show="show" action="{{ url_for('dashboard.upload_bio') }}">
+                        <form hx-post="{{ url_for('dashboard.upload_bio') }}"
+                        hx-select="#bio_content"
+                        hx-target="#bio_content"
+                        x-show="show"
+                        >
                             {{ form.csrf_token }}
                             <div class="field">
                                 {{ form.description(class="input px-4", placeholder="Tilføj en beskrivelse") }}
-                                <div class="is-flex py-2">
+                                <div class="is-flex py-2" @click="show = false">
                                     {{ form.submit(class="button is-primary mr-2") }}
                                     <div @click="show = false">
                                         {{ form.cancel(class="button is-danger is-outlined")}}
@@ -79,17 +89,17 @@
                         </form>
                     </div>
                     <div>
-                        {% if bio %}
-                            <p>
+                        <p id="bio_content">
+                            {% if bio %}
                                 {{ bio }}
-                            </p>
-                        {% else %}
-                            <p>Skriv om dig selv...</p>
-                        {% endif %}
+                            {% else %}
+                                Skriv om dig selv...
+                            {% endif %}
+                        </p>
                     </div>
                 </div>
 
-                <div class="column is-12-tablet px-3">
+                <div class="column is-12-tablet">
                     <span class="icon-text">
                         <p class="title is-5">Cykeldetaljer</p>
                         <span class="icon">
@@ -98,8 +108,14 @@
                             </a>
                         </span>
                     </span>
-                    <div class="column is-12-tablet is-narrow is-flex">
-                        <p>Test</p>
+                    <div class="is-flex">
+                        {% if bike_details %}
+                        <p class="is-narrow">
+                            {{ bike_details}}
+                        </p>
+                        {% else %}
+                        <p>Ingen cykel registreret</p>
+                        {% endif %}
                     </div>
                 </div>
             </div>
