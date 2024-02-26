@@ -1,9 +1,18 @@
-{% with messages = get_flashed_messages() %}
-        {% if messages %}
-            <div class="flashes pt-4">
-                {% for message in messages %}
-                    <p>{{ message }}</p>
+{% with messages = get_flashed_messages(with_categories=true) %}
+    {% if messages %}
+        <div x-data="{ showMessages: true }" x-init="() => { setTimeout(() => showMessages = false, 3000) }">
+            <!--We set a timeout for the flash messages when the element is initialized-->
+            <div class="flashes flash-placement pt-4"
+                x-show="showMessages"
+            >
+                {% for category, message in messages %}
+                    {% if category == 'success' %}
+                        <div class="notification p-2 has-text-centered is-success is-light">{{ message }}</div>
+                    {% elif category == 'error' %}
+                        <div class="notification p-2 has-text-centered is-danger is-light">{{ message }}</div>
+                    {% endif %}
                 {% endfor %}
             </div>
-        {% endif %}
-    {% endwith %}
+        </div>
+    {% endif %}
+{% endwith %}

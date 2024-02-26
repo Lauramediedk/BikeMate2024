@@ -6,6 +6,7 @@ $yellow: #F5EE9E;
 $orange: #F49E4C;
 $red: #AB3428;
 $grey: #EDEAEA;
+$details: #878686;
 
 body{
     padding-bottom: 4rem;
@@ -37,6 +38,10 @@ body{
     color: $primary;
 }
 
+.image-fit img{
+    object-fit: cover;
+}
+
 .content-box{
     background: $grey;
     border-radius: 12px;
@@ -49,6 +54,10 @@ body{
 .nav-icons{
     color: #f2e8e8;
 }
+.icons{
+    color: $details;
+}
+
 .active-link .nav-icons{
     color: $orange;
 }

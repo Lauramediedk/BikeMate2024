@@ -4,104 +4,170 @@
 
 {% block content %}
 
+    <div class="dropdown is-pulled-right is-right p-2"
+    x-data="{ open: false }"
+    x-bind:class="{ 'is-active': open }"
+    >
+        <div class="dropdown-trigger">
+            <div x-bind:class="{ 'is-active': open }" @click="open = !open" aria-haspopup="true" aria-controls="dropdown-menu">
+                    <a href="#">
+                        <i class="fa-solid fa-ellipsis fa-2xl icons"></i>
+                    </a>
+                </span>
+            </div>
+        </div>
+        <div class="dropdown-menu">
+            <div class="dropdown-content" x-show="open">
+                <div class="file pl-4">
+                    <label class="file-label">
+                        <span class="file-label">Upload profilbillede</span>
+                        <form x-ref="profileImg"
+                        action="{{ url_for('dashboard.upload_picture') }}"
+                        method="post"
+                        enctype="multipart/form-data"
+                        >
+                            <input class="file-input" type="file" name="file"
+                            x-on:change="$refs.profileImg.submit()"
+                            >
+                        </form>
+                    </label>
+                </div>
+                <hr class="dropdown-divider">
+                {% if image_path%}
+                    <a class="dropdown-item" href="{{ url_for('dashboard.remove_picture') }}">Fjern profilbillede</a>
+                    <hr class="dropdown-divider">
+                {% endif %}
+                    <a class="dropdown-item" href="{{ url_for('dashboard.logout') }}">Log ud</a>
+            </div>
+        </div>
+    </div>
+
     {% if session.first_name %}
         <section class="section has-text-centered">
             {% set initials = session.first_name[0] %} <!--Get the first letter-->
             <div class="is-flex center">
-                <div class="is-rounded grey">
-                    <p class="title is-3 pt-5 round-shape">{{ initials }}</p>
-                </div>
+                {% if image_path %}
+                    <figure>
+                        <img class="round-shape image-fit" src="{{ url_for('static', filename=image_path) }}" alt="profilbillede">
+                    </figure>
+                {% else %}
+                    <div class="round-shape">
+                        <p class="title is-3 pt-5 round-shape">{{ initials }}</p>
+                    </div>
+                {% endif %}
             </div>
-            <h1 class="title is-4">
+            <h1 class="is-size-5">
                 {{session.first_name}}
+                {{session.last_name}}
             </h1>
         </section>
     {% endif %}
 
-    <section class="section pt-0">
-        <div class="container">
-            <div class="columns is-marginless content-box border-radius">
-                <div class="scroll-box">
-                    <p class="subtitle is-5 px-4 pt-3">Opnåede belønninger</p>
-                    {% if user_rewards %}
-                        {% for reward in user_rewards %}
-                            <div class="column active-badge">
-                                <div class="image">
-                                    {{ reward }}
+    <div class="box mx-4">
+        <section class="section pt-0">
+            <div class="columns is-marginless is-multiline">
+                <div class="column is-12-tablet px-3">
+                    <div x-data="{ show: false }">
+                        <span class="icon-text">
+                            <span class="title is-5">Detaljer</span>
+                            <span class="icon" @click="show = !show">
+                                <i class="fa-solid fa-pen icons" x-show="!show"></i>
+                            </span>
+                        </span>
+                        <form hx-post="{{ url_for('dashboard.upload_bio') }}"
+                        hx-select="#bio_content"
+                        hx-target="#bio_content"
+                        x-show="show"
+                        @click.outside="show = false"
+                        >
+                            {{ form.csrf_token }}
+                            <div class="field">
+                                {{ form.description(class="input px-4", placeholder="Tilføj en beskrivelse") }}
+                                <div class="is-flex py-2" @click="show = false">
+                                    {{ form.submit(class="button is-primary mr-2") }}
                                 </div>
                             </div>
-                        {% endfor %}
-                    {% else %}
-                    <div class="column inactive-badge">
-                        <div class="image is-64x64">
-                            <img src="{{ url_for('static', filename='badges/stjerneikon.png') }}" alt="Badge">
-                        </div>
+                        </form>
                     </div>
-                    <div class="column inactive-badge">
-                        <div class="image is-64x64">
-                            <img src="{{ url_for('static', filename='badges/puls.png') }}" alt="Badge">
-                        </div>
+                    <div>
+                        <p id="bio_content">
+                            {% if bio %}
+                                {{ bio }}
+                            {% else %}
+                                Skriv om dig selv...
+                            {% endif %}
+                        </p>
                     </div>
-                    <div class="column inactive-badge">
-                        <div class="image is-64x64">
-                            <img src="{{ url_for('static', filename='badges/ånd.png') }}" alt="Badge">
-                        </div>
+                </div>
+
+                <div class="column is-12-tablet">
+                    <span class="icon-text">
+                        <p class="title is-5">Cykeldetaljer</p>
+                        <span class="icon">
+                            <a href="#">
+                                <i class="fa-solid fa-pen icons"></i>
+                            </a>
+                        </span>
+                    </span>
+                    <div class="is-flex">
+                        {% if bike_details %}
+                        <p class="is-narrow">
+                            {{ bike_details}}
+                        </p>
+                        {% else %}
+                        <p>Ingen cykel registreret</p>
+                        {% endif %}
                     </div>
-                    {% endif %}
                 </div>
             </div>
-        </div>
-    </section>
+        </section>
 
-    <section class="section pt-0">
-        <div class="container">
-            <div class="columns is-marginless content-box border-radius">
-                <div class="scroll-box">
-                    <p class="subtitle is-5 px-4 pt-3">Tilmeldte udfordringer</p>
+        <hr class="dropdown-divider">
+
+        <section class="section pt-0">
+            <div class="columns is-marginless border-radius scroll-box is-block">
+                <div class="column is-flex is-justify-content-space-evenly my-3">
+                    <p class="title is-5 mb-0">0 Følger</p>
+                    <p class="title is-5">0 Følgere</p>
                 </div>
-            </div>
-        </div>
-    </section>
-
-    <section class="section pt-0">
-        <div class="container">
-            <div class="columns is-marginless content-box border-radius">
-                <div class="scroll-box">
-                    <p class="subtitle is-5 px-4 pt-3">Dine seneste opslag</p>
-                    {% if user_posts %}
-                        {% for post in user_posts %}
-                            <div class="column">
-                                {{ post }}
-                            </div>
-                        {% endfor %}
-                    {% else %}
-                        <p class="subtitle is-6 px-4 py-3">Du har ingen opslag</p>
-                    {% endif %}
-                </div>
-            </div>
-        </div>
-    </section>
-
-    <section class="section pt-0">
-        <div class="container">
-            <div class="columns is-marginless content-box border-radius">
-                <div class="scroll-box">
-                    <p class="subtitle is-5 px-4 pt-3">Dine venner</p>
-                    <div class="column">
+                <div class="field px-4">
+                    <div class="control has-icons-left">
                         <input class="input" type="text" placeholder="Find en ven...">
+                        <span class="icon is-left">
+                            <i class="fa-solid fa-magnifying-glass"></i>
+                        </span>
                     </div>
-                    {% if user_friends %}
-                        {% for friend in user_friends %}
-                            <div class="column">
-                                {{ friend }}
-                            </div>
+                </div>
+                {% if user_friends %}
+                    {% for friend in user_friends %}
+                        <div class="column">
+                            {{ friend }}
+                        </div>
+                    {% endfor %}
+                {% else %}
+                    <p class="subtitle is-6 px-4 py-3">Du har ikke tilføjet nogle venner</p>
+                {% endif %}
+            </div>
+        </section>
+
+        <hr class="dropdown-divider">
+
+        <section class="section pt-0">
+            <div class="columns is-marginless border-radius scroll-box is-block">
+                <div class="column">
+                    <p class="title is-5 mb-0">Aktiviteter</p>
+                </div>
+                <div class="column">
+                    {% if user_activities %}
+                        {% for activity in user_activities %}
+                            {{ activity }}
                         {% endfor %}
                     {% else %}
-                        <p class="subtitle is-6 px-4 py-3">Du har ikke tilføjet nogle venner</p>
+                        <p>Du har ingen aktiviteter</p>
                     {% endif %}
                 </div>
             </div>
-        </div>
-    </section>
+        </section>
+    </div>
 
 {% endblock %}

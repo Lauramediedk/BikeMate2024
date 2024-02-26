@@ -31,6 +31,10 @@ body {
   color: #2D728F;
 }
 
+.image-fit img {
+  object-fit: cover;
+}
+
 .content-box {
   background: #EDEAEA;
   border-radius: 12px;
@@ -43,6 +47,10 @@ body {
 
 .nav-icons {
   color: #f2e8e8;
+}
+
+.icons {
+  color: #878686;
 }
 
 .active-link .nav-icons {
@@ -101,6 +109,14 @@ body {
 
 .active-badge {
   filter: grayscale(0%);
+}
+
+.flash-placement{
+  position: absolute;
+  top: 0;
+  left: 50%;
+  transform: translateX(-50%);
+  z-index: 1;
 }
 
 /* Desktop specific */
