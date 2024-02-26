@@ -4,7 +4,10 @@
 
 {% block content %}
 
-    <div class="dropdown is-pulled-right is-right p-2" x-data="{ open: false }" x-bind:class="{ 'is-active': open }">
+    <div class="dropdown is-pulled-right is-right p-2"
+    x-data="{ open: false }"
+    x-bind:class="{ 'is-active': open }"
+    >
         <div class="dropdown-trigger">
             <div x-bind:class="{ 'is-active': open }" @click="open = !open" aria-haspopup="true" aria-controls="dropdown-menu">
                     <a href="#">
@@ -60,11 +63,11 @@
         </section>
     {% endif %}
 
-    <section class="section pt-0">
-        <div class="container">
-            <div class="columns is-marginless content-box is-block-desktop is-multiline">
+    <div class="box mx-4">
+        <section class="section pt-0">
+            <div class="columns is-marginless is-multiline">
                 <div class="column is-12-tablet px-3">
-                    <div x-data="{ show: false}">
+                    <div x-data="{ show: false }">
                         <span class="icon-text">
                             <span class="title is-5">Detaljer</span>
                             <span class="icon" @click="show = !show">
@@ -75,15 +78,13 @@
                         hx-select="#bio_content"
                         hx-target="#bio_content"
                         x-show="show"
+                        @click.outside="show = false"
                         >
                             {{ form.csrf_token }}
                             <div class="field">
                                 {{ form.description(class="input px-4", placeholder="Tilføj en beskrivelse") }}
                                 <div class="is-flex py-2" @click="show = false">
                                     {{ form.submit(class="button is-primary mr-2") }}
-                                    <div @click="show = false">
-                                        {{ form.cancel(class="button is-danger is-outlined")}}
-                                    </div>
                                 </div>
                             </div>
                         </form>
@@ -119,12 +120,12 @@
                     </div>
                 </div>
             </div>
-        </div>
-    </section>
+        </section>
 
-    <section class="section pt-0">
-        <div class="container">
-            <div class="columns is-marginless content-box border-radius scroll-box is-block-tablet">
+        <hr class="dropdown-divider">
+
+        <section class="section pt-0">
+            <div class="columns is-marginless border-radius scroll-box is-block">
                 <div class="column is-flex is-justify-content-space-evenly my-3">
                     <p class="title is-5 mb-0">0 Følger</p>
                     <p class="title is-5">0 Følgere</p>
@@ -147,7 +148,26 @@
                     <p class="subtitle is-6 px-4 py-3">Du har ikke tilføjet nogle venner</p>
                 {% endif %}
             </div>
-        </div>
-    </section>
+        </section>
+
+        <hr class="dropdown-divider">
+
+        <section class="section pt-0">
+            <div class="columns is-marginless border-radius scroll-box is-block">
+                <div class="column">
+                    <p class="title is-5 mb-0">Aktiviteter</p>
+                </div>
+                <div class="column">
+                    {% if user_activities %}
+                        {% for activity in user_activities %}
+                            {{ activity }}
+                        {% endfor %}
+                    {% else %}
+                        <p>Du har ingen aktiviteter</p>
+                    {% endif %}
+                </div>
+            </div>
+        </section>
+    </div>
 
 {% endblock %}

@@ -23,10 +23,10 @@ def dashboard():
         return render_template('dashboard.html', first_name=first_name, last_name=last_name, image_path=image_path, bio=bio, form=form, active_page='dashboard')
     else:
         flash('Adgang nægtet', 'error')
-    return redirect(url_for('users.login'))
+        return redirect(url_for('users.login'))
 
 
-def allowed_file(filename):
+def allowed_file(filename):  # Check if the filename has a valid file extension
     return '.' in filename and filename.rsplit('.', 1)[1].lower() in ALLOWED_EXTENSIONS
 
 
@@ -48,16 +48,16 @@ def upload_picture():
         user_id = session.get('user_id')
         upload_profile_image(user_id, f'/uploads/{filename}')
 
-        flash('Billede uploadet succesfuldt', 'success')
+        flash('Billede uploadet', 'success')
     else:
-        flash('Ugyldigt filformat', 'error')
+        allowed_formats = ', '.join(ALLOWED_EXTENSIONS)
+        flash(f'Ugyldigt filformat. Kun følgende filtyper er tilladt: {allowed_formats}', 'error')
 
     return redirect(url_for('dashboard.dashboard'))
 
 
 @dashboard_bp.route('/remove_picture', methods=['GET', 'POST'])
 def remove_picture():
-    try:
         user_id = session.get('user_id')
         image_path = get_profile_image(user_id)
 
@@ -71,10 +71,8 @@ def remove_picture():
             flash('Billede fjernet', 'success')
         else:
             flash('Intet profilbillede at fjerne', 'error')
-    except Exception as e:
-        flash(f'Kunne ikke fjerne billedet: {str(e)}', 'error')
 
-    return redirect(url_for('dashboard.dashboard'))
+        return redirect(url_for('dashboard.dashboard'))
 
 
 @dashboard_bp.route('/upload_bio', methods=['POST'])
@@ -84,19 +82,15 @@ def upload_bio():
 
     if form.validate_on_submit():
         new_bio = form.description.data
-        try:
-            upload_user_bio(user_id, new_bio)
-            flash('Bio opdateret', 'success')
-        except Exception as e:
-            flash(f'Kunne ikke fjerne billedet: {str(e)}', 'error')
+        upload_user_bio(user_id, new_bio)
+        flash('Bio opdateret', 'success')
+    else:
+        flash('Kunne ikke fjerne billedet', 'error')
 
     return redirect(url_for('dashboard.dashboard'))
 
 
 @dashboard_bp.route('/logout')
 def logout():
-    session.pop('user_id', None)
-    session.pop('first_name', None)
-    session.pop('last_name', None)
-
-    return redirect(url_for('dashboard.dashboard'))
+    session.clear()
+    return redirect(url_for('users.login'))
