@@ -59,15 +59,15 @@ def remove_profile_image(user_id):
 
 def upload_user_bio(user_id, bio):
     query = (
-            """
-            MATCH (user:User {user_id: $user_id})
-            SET user.bio = $bio
-            """
-        )
+        """
+        MATCH (user:User {user_id: $user_id})
+        SET user.bio = $bio
+        """
+    )
     parameters = {
-            "user_id": user_id,
-            "bio": bio,
-        }
+        "user_id": user_id,
+        "bio": bio,
+    }
 
     try:
         db.run_query(query, parameters)
