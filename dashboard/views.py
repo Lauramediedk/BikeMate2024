@@ -58,21 +58,22 @@ def upload_picture():
 
 @dashboard_bp.route('/remove_picture', methods=['GET', 'POST'])
 def remove_picture():
-        user_id = session.get('user_id')
-        image_path = get_profile_image(user_id)
+    user_id = session.get('user_id')
+    image_path = get_profile_image(user_id)
 
-        if image_path:
-            remove_profile_image(user_id)
-            file = os.path.join(UPLOAD_FOLDER, os.path.basename(image_path))
+    if image_path:
+        remove_profile_image(user_id)
+        file = os.path.join(UPLOAD_FOLDER, os.path.basename(image_path))
 
-            if os.path.exists(file):
-                os.remove(file)
+        if os.path.exists(file):
+            os.remove(file)
 
             flash('Billede fjernet', 'success')
+
         else:
             flash('Intet profilbillede at fjerne', 'error')
 
-        return redirect(url_for('dashboard.dashboard'))
+    return redirect(url_for('dashboard.dashboard'))
 
 
 @dashboard_bp.route('/upload_bio', methods=['POST'])
