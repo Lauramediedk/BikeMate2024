@@ -1,5 +1,4 @@
-@import "https://cdn.jsdelivr.net/npm/bulma@0.9.4/css/bulma.min.css";
-
+/* We make custom color variables */
 $primary: #2D728F;
 $secondary: #3B8EA5;
 $yellow: #F5EE9E;
@@ -7,29 +6,65 @@ $orange: #F49E4C;
 $red: #AB3428;
 $grey: #EDEAEA;
 $details: #878686;
+$nav_icons: #f2e8e8;
+
+/* Update Bulmas defaults */
+$is-primary: $primary;
+$is-info: $details;
+
+@import 'node_modules/bulma/bulma'; /* We import bulma's own sass source file*/
 
 body{
     padding-bottom: 4rem;
 }
-.main-content{
-    margin-bottom: 2rem;
-}
 
+/* Set hover color for buttons using the primary color */
 .button.is-primary{
-    background: $primary;
-}
-.button.is-primary:hover{
-    background: $secondary;
-}
-
-.primary{
-    color: $primary;
+    &:hover {
+        background: $secondary;
+    }
 }
 
+
+/* Icons used in navbar */
+.nav-icons{
+    color: $nav_icons;
+
+    &:hover {
+        background: none;
+    }
+}
+.active-link .nav-icons{
+    color: $orange;
+}
+
+/* Other icons */
+.icons{
+    color: $details;
+}
+
+
+.logo{
+    color: $orange;
+    font-weight: bold;
+}
+
+/* Border radius */
+.bottom-nav{
+    border-radius: 12px 12px 0px 0px;
+}
 .border-radius{
     border-radius: 12px;
 }
 
+
+.input:focus{
+    border-color: $primary;
+    box-shadow: none;
+}
+
+
+/* Custom profile image styling */
 .round-shape{
     width: 80px;
     height: 80px;
@@ -42,25 +77,8 @@ body{
     object-fit: cover;
 }
 
-.content-box{
-    background: $grey;
-    border-radius: 12px;
-}
 
-.bottom-nav{
-    background: $primary;
-    border-radius: 12px 12px 0px 0px;
-}
-.nav-icons{
-    color: #f2e8e8;
-}
-.icons{
-    color: $details;
-}
-
-.active-link .nav-icons{
-    color: $orange;
-}
+/* Navbar styling */
 .navbar-burger{
     background: none;
     color: $primary;
@@ -70,13 +88,8 @@ body{
     color: $primary;
 }
 
-.feed-button{
-    padding: 0.5rem 1rem;
-    border-radius: 8px;
-    background: $primary;
-    color: $grey;
-}
 
+/* Custom scroll effect when there is much content */
 .scroll-box{
     overflow-y: scroll;
     max-height: 300px;
@@ -90,29 +103,14 @@ body{
     }
 }
 
+
+/* css grouped for centering a flex element */
 .center{
     display: flex;
     justify-content: center;
     align-items: center;
 }
 
-.input:focus{
-    border-color: $primary;
-    box-shadow: none;
-}
-.logo{
-    color: $orange;
-    font-weight: bold;
-}
-
-/* Badges/rewards ikoner*/
-.inactive-badge{
-    filter: grayscale(80%);
-}
-
-.active-badge{
-    filter: grayscale(0%);
-}
 
 /* Desktop specific */
 @media screen and (min-width: 1088px) {

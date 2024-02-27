@@ -4,6 +4,7 @@
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <link rel="stylesheet" href="{{ url_for('static', filename='styles.css') }}">
+    <!--We refer to the styles.css where our sass code is compiled to-->
     <script defer src="https://cdn.jsdelivr.net/npm/alpinejs@3.13.5/dist/cdn.min.js"></script>
     <script src="https://kit.fontawesome.com/422cf8348a.js" crossorigin="anonymous"></script>
     <script src="https://unpkg.com/htmx.org@1.9.10"></script>
@@ -13,7 +14,7 @@
 <!--First nav is a bottom navbar, the second one is a top navbar-->
 {% block navbar %}
     {% if session.user_id %}
-        <nav class="navbar is-fixed-bottom bottom-nav py-4 mt-5 center">
+        <nav class="navbar is-fixed-bottom is-primary bottom-nav py-4 mt-5 center">
             <div class="navbar-brand">
                 <a href="{{ url_for('dashboard.dashboard') }}" class="navbar-item mx-3
                 {{ 'active-link' if active_page == 'dashboard'}}">
