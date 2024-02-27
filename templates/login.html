@@ -30,7 +30,11 @@
                         </div>
                         {% include 'flash_messages.html' %}
                         <p class="title is-5 pt-5">Har du ikke en bruger?</p>
-                        <p class="subtitle is-6 pt-2">Opret dig <a href="{{ url_for('users.signup') }}" class="has-text-dark">her</a></p>
+                        <a href="{{ url_for('users.signup') }}"
+                        class="has-text-primary has-text-weight-bold pt-2"
+                        >
+                            Opret dig her
+                        </a>
                     </form>
                 </div>
             </div>
