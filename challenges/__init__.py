@@ -2,4 +2,4 @@ from flask import Blueprint
 
 challenges_bp = Blueprint('challenges', __name__)
 
-from .views import challenges # noqa
+from .views import challenges, create_event # noqa

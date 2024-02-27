@@ -2,9 +2,37 @@
 
 {% block title %}Udfordringer{% endblock %}
 
-    {% include 'challenge_feature.html' %}
-
 {% block content %}
 
+    <span class="icon p-5">
+        <a href="{{ url_for('challenges.show_event_form') }}">
+            <i class="fa-solid fa-calendar-plus fa-2xl has-text-primary"></i>
+        </a>
+    </span>
+
+    <section class="section">
+        <div class="columns is-centered is-block-tablet">
+            <div class="column center is-12">
+                <h1 class="title is-size-5 m-0 pr-5">
+                    Find events
+                </h1>
+                <h1 class="title is-size-5 m-0">
+                    Dine events
+                </h1>
+            </div>
+            <div class="column has-text-centered is-12">
+                <!--TODO: Lav a tags, url_for og routes som håndterer sortering via følger, seneste etc-->
+                <button class="button">
+                        Relevante
+                </button>
+                <button class="button">
+                        Følger
+                </button>
+                <button class="button">
+                    Seneste
+                </button>
+            </div>
+        </div>
+    </section>
 
 {% endblock %}

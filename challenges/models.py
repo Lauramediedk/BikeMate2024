@@ -1,58 +1,37 @@
+import uuid
 from db import db
 
 
-def get_challenges():
-    try:
-        challenges = []
-        query = "MATCH (c:Challenges) RETURN c"
+class Events:
+    """Events model"""
+    def __init__(self, title, description, date, location, admin, participants=None, **kwargs):
+        self.event_id = None
+        self.title = title
+        self.description = description
+        self.date = date
+        self.location = location
+        self.admin = admin
+        self.participants = participants or []
 
-        result = db.run_query(query)
+        for key, value in kwargs.items():
+            setattr(self, key, value)
 
-        for record in result:
-            challenges.append(record['c'])
+    def create_event(self, user_id):
+        self.event_id = str(uuid.uuid4())
 
-        return challenges
-
-    except Exception as e:
-        print(f"Could not get challenges: {str(e)}")
-        return None
-
-
-def join_challenges(user_id, challenge_id):
-    try:
         query = (
-            """
-            MATCH (u:User {user_id: $user_id}), (c:Challenges {challenge_id: $challenge_id})
-            MERGE (u)-[:JOINED]->(c)
-            RETURN u, c
-            """
+            "CREATE (event:Event {title: $title, description: $description, date: $date, location: $location, admin: $admin})"
         )
-        parameters = {"user_id": user_id, "challenge_id": challenge_id}
-        db.run_query(query, parameters)
+        parameters = {
+            "event_id": self.event_id,
+            "title": self.title,
+            "description": self.description,
+            "date": self.date,
+            "location": self.location,
+            "admin": user_id,
+        }
 
-        return True
-
-    except Exception as e:
-        print(f"Error joining challenge: {str(e)}")
-        return False
-
-
-def check_if_joined(user_id, challenge_id):
-    try:
-        query = (
-            """
-            MATCH (u:User {user_id: $user_id})-[:JOINED]->(c:Challenges {challenge_id: $challenge_id})
-            RETURN COUNT(*) AS count
-            """
-        )
-        parameters = {"user_id": user_id, "challenge_id": challenge_id}
-        result = db.run_query(query, parameters)
-
-        if result:
-            return result[0]["count"] > 0
-        else:
-            return False
-
-    except Exception as e:
-        print(f"Error checking if user joined challenge: {str(e)}")
-        return False
+        try:
+            db.run_query(query, parameters)
+        except Exception as e:
+            raise RuntimeError(f"Error creating event: {str(e)}") from e
