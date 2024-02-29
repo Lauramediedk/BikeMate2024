@@ -13,11 +13,13 @@
     <section class="section" x-data="{ activeTab: 'all_events' }">
         <div class="columns is-centered is-block-tablet">
             <div class="column center is-12">
-                <button class="title is-size-5 m-0 pr-5" x-on:click="activeTab = 'all_events'"
+                <button class="button mr-2" x-on:click="activeTab = 'all_events'"
+                x-bind:class="{ 'is-primary': activeTab === 'all_events' }"
                 >
                     Find events
                 </button>
-                <button class="title is-size-5 m-0" x-on:click="activeTab = 'users_events'"
+                <button class="button" x-on:click="activeTab = 'users_events'"
+                x-bind:class="{ 'is-primary': activeTab === 'users_events' }"
                 >
                     Dine events
                 </button>
