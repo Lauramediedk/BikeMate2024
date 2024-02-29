@@ -5,14 +5,13 @@ from wtforms.validators import InputRequired, Length, ValidationError
 
 class EventForm(FlaskForm):
     title = StringField('Titel', validators=[InputRequired(), Length(
-        min=2, max=20)])
+        min=2, max=20)], render_kw={"placeholder": "Titel"})
     description = TextAreaField('Beskrivelse', validators=[InputRequired(), Length(
-        min=2, max=20)])
-    startdate = DateField('Starts dato', format='%Y-%m-%d')
-    enddate = DateField('Slut dato', format='%Y-%m-%d')
+        min=2, max=20)], render_kw={"placeholder": "Beskrivelse"})
+    startdate = DateField('Dato', validators=[InputRequired()])
     location = StringField('Lokation', validators=[InputRequired(), Length(
-        min=2, max=20)])
-    submit = SubmitField('Gem')
+        min=2, max=20)], render_kw={"placeholder": "Lokation"})
+    submit = SubmitField('Opret event')
 
     def validate_enddate(form, field):
         if field.data < form.startdate.data:

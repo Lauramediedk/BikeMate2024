@@ -1,4 +1,4 @@
-from flask import render_template, flash, session, request, redirect, url_for
+from flask import render_template, flash, session, redirect, url_for
 from . import challenges_bp
 from .forms import EventForm
 from .models import Events
