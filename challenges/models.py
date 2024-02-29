@@ -20,7 +20,12 @@ class Events:
         self.event_id = str(uuid.uuid4())
 
         query = (
-            "CREATE (event:Event {title: $title, description: $description, date: $date, location: $location, admin: $admin})"
+            """
+            CREATE (event:Event {title: $title, description: $description, date: $date, location: $location, admin: $admin})
+            WITH event
+            MATCH (u:User {user_id: $user_id})
+            MERGE (u)-[:CREATED]->(event)
+            """
         )
         parameters = {
             "event_id": self.event_id,
@@ -29,6 +34,7 @@ class Events:
             "date": self.date,
             "location": self.location,
             "admin": user_id,
+            "user_id": user_id,
         }
 
         try:
