@@ -39,13 +39,13 @@
         <div class="container" x-show="activeTab === 'all_events'">
             {% if all_events %}
                 {% for event in all_events %}
-                <div class="columns box">
+                <div class="columns box is-centered is-block-tablet">
                     <div class="column">
                         <p class="subtitle is-size-5 has-text-weight-semibold">
                             {{ event.title }}
                         </p>
                     </div>
-                    <div class="column is-block">
+                    <div class="column ">
                         {{ event.description }}
                         {{ event.created_formatted }}
                     </div>
@@ -62,7 +62,7 @@
         <div class="container" x-show="activeTab === 'users_events'">
             {% if users_events %}
                 {% for event in users_events %}
-                <div class="columns box">
+                <div class="columns box is-block-tablet">
                     <div class="column">
                         {{ event.title }}
                     </div>

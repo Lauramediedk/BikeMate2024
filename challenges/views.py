@@ -9,7 +9,7 @@ def format_date(events):
     for event in events:
         event['created_formatted'] = event['date'].strftime('%d. %m. %Y')
 
-@challenges_bp.route('/')
+@challenges_bp.route('/', methods=['GET', 'POST'])
 @login_required
 def challenges():
     user_id = session.get('user_id')
@@ -60,24 +60,3 @@ def create_event():
     return render_template('create_event.html', form=form)
 
 
-@challenges_bp.route('/users_events', methods=['GET'])
-@login_required
-def users_events():
-    user_id = session.get('user_id')
-    users_events = Events.get_own_events(user_id)
-
-    if not users_events:
-        flash('Du har ikke oprettet nogle events', 'info')
-
-    return redirect(url_for('challenges.challenges'))
-
-
-@challenges_bp.route('/all_events', methods=['GET'])
-@login_required
-def all_events():
-    all_events = Events.get_all_events()
-
-    if not all_events:
-        flash('Kunne ikke finde nogle events', 'error')
-
-    return redirect(url_for('challenges.challenges'))
