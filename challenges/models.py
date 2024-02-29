@@ -16,6 +16,7 @@ class Events:
         for key, value in kwargs.items():
             setattr(self, key, value)
 
+
     def create_event(self, user_id):
         self.event_id = str(uuid.uuid4())
 
@@ -41,3 +42,45 @@ class Events:
             db.run_query(query, parameters)
         except Exception as e:
             raise RuntimeError(f"Error creating event: {str(e)}") from e
+
+
+    @classmethod
+    def get_own_events(cls, user_id):
+        query = (
+            """
+            MATCH (u:User {user_id: $user_id})-[:CREATED]->(e:Event)
+            RETURN e
+            """
+        )
+
+        parameters = {
+            "user_id": user_id,
+        }
+
+        try:
+            result = db.run_query(query, parameters)
+
+            events = [record['e'] for record in result]
+
+            return events
+        except Exception as e:
+            raise RuntimeError(f"Error finding events: {str(e)}") from e
+
+
+    @classmethod
+    def get_all_events(cls):
+        query = (
+            """
+            MATCH (e:Event)
+            RETURN e
+            """
+        )
+
+        try:
+            result = db.run_query(query)
+
+            events = [record['e'] for record in result]
+
+            return events
+        except Exception as e:
+            raise RuntimeError(f"Error finding events: {str(e)}") from e

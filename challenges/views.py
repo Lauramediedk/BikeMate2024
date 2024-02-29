@@ -4,15 +4,25 @@ from .forms import EventForm
 from .models import Events
 from users.views import login_required
 
+
+def format_date(events):
+    for event in events:
+        event['created_formatted'] = event['date'].strftime('%d. %m. %Y')
+
 @challenges_bp.route('/')
 @login_required
 def challenges():
     user_id = session.get('user_id')
 
     form = EventForm()
+    all_events = Events.get_all_events()
+    users_events = Events.get_own_events(user_id)
+
+    format_date(all_events)
+    format_date(users_events)
 
     if 'user_id' in session:
-        return render_template('challenges.html', form=form, active_page='challenges')
+        return render_template('challenges.html', form=form, all_events=all_events, users_events=users_events, active_page='challenges')
     else:
         flash('Adgang nægtet', 'error')
         return redirect(url_for('users.login'))
@@ -48,3 +58,26 @@ def create_event():
         flash('Kunne ikke oprette event', 'error')
 
     return render_template('create_event.html', form=form)
+
+
+@challenges_bp.route('/users_events', methods=['GET'])
+@login_required
+def users_events():
+    user_id = session.get('user_id')
+    users_events = Events.get_own_events(user_id)
+
+    if not users_events:
+        flash('Du har ikke oprettet nogle events', 'info')
+
+    return redirect(url_for('challenges.challenges'))
+
+
+@challenges_bp.route('/all_events', methods=['GET'])
+@login_required
+def all_events():
+    all_events = Events.get_all_events()
+
+    if not all_events:
+        flash('Kunne ikke finde nogle events', 'error')
+
+    return redirect(url_for('challenges.challenges'))

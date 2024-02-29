@@ -8,11 +8,7 @@ class EventForm(FlaskForm):
         min=2, max=20)], render_kw={"placeholder": "Titel"})
     description = TextAreaField('Beskrivelse', validators=[InputRequired()],
     render_kw={"placeholder": "Beskrivelse"})
-    startdate = DateField('Dato', validators=[InputRequired()])
+    startdate = DateField('Starts dato', validators=[InputRequired()], format='%Y-%m-%d')
     location = StringField('Lokation', validators=[InputRequired(), Length(
         min=2, max=20)], render_kw={"placeholder": "Lokation"})
     submit = SubmitField('Opret event')
-
-    def validate_enddate(form, field):
-        if field.data < form.startdate.data:
-            raise ValidationError("Slut dato må ikke være før start dato.")

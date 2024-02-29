@@ -10,15 +10,17 @@
         </a>
     </span>
 
-    <section class="section">
+    <section class="section" x-data="{ activeTab: 'all_events' }">
         <div class="columns is-centered is-block-tablet">
             <div class="column center is-12">
-                <h1 class="title is-size-5 m-0 pr-5">
+                <button class="title is-size-5 m-0 pr-5" x-on:click="activeTab = 'all_events'"
+                >
                     Find events
-                </h1>
-                <h1 class="title is-size-5 m-0">
+                </button>
+                <button class="title is-size-5 m-0" x-on:click="activeTab = 'users_events'"
+                >
                     Dine events
-                </h1>
+                </button>
             </div>
             <div class="column has-text-centered is-12">
                 <!--TODO: Lav a tags, url_for og routes som håndterer sortering via følger, seneste etc-->
@@ -32,6 +34,50 @@
                     Seneste
                 </button>
             </div>
+        </div>
+
+        <div class="container" x-show="activeTab === 'all_events'">
+            {% if all_events %}
+                {% for event in all_events %}
+                <div class="columns box">
+                    <div class="column">
+                        <p class="subtitle is-size-5 has-text-weight-semibold">
+                            {{ event.title }}
+                        </p>
+                    </div>
+                    <div class="column is-block">
+                        {{ event.description }}
+                        {{ event.created_formatted }}
+                    </div>
+                    <div class="column">
+                        {{ event.location }}
+                    </div>
+                    <button class="button">Deltag</button>
+                    <!--TODO: Man skal kun kunne deltage i andres, ikke ens eget-->
+                </div>
+                {% endfor %}
+            {% endif %}
+        </div>
+
+        <div class="container" x-show="activeTab === 'users_events'">
+            {% if users_events %}
+                {% for event in users_events %}
+                <div class="columns box">
+                    <div class="column">
+                        {{ event.title }}
+                    </div>
+                    <div class="column">
+                        {{ event.description }}
+                    </div>
+                    <div class="column">
+                        {{ event.created_formatted }}
+                    </div>
+                    <div class="column">
+                        {{ event.location }}
+                    </div>
+                </div>
+                {% endfor %}
+            {% endif %}
         </div>
     </section>
 
