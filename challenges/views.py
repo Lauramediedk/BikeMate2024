@@ -86,15 +86,9 @@ def view_event(event_id):
 def join_event(event_id):
     user_id = session.get('user_id')
 
-    # Debugging print statement
-    print(f"Joining event with ID: {event_id}")
-
     if event_id:
-        try:
-            Events.join_event(user_id, event_id)
-            flash('You have joined the event successfully.', 'success')
-        except Exception as e:
-            flash(f'Error joining the event: {str(e)}', 'error')
+        Events.join_event(user_id, event_id)
+        flash('You have joined the event successfully.', 'success')
     else:
         flash('Event id kunne ikke tilgås', 'error')
 

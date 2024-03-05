@@ -97,17 +97,19 @@ class Events:
         query = (
             """
             MATCH (e:Event {event_id: $event_id})
-            RETURN e
+            OPTIONAL MATCH (admin:User)-[:CREATED]->(e)
+            RETURN e, admin.first_name AS admin_first_name, admin.last_name AS admin_last_name
             """
         )
         parameters = {"event_id": event_id}
 
         try:
             result = db.run_query(query, parameters)
-            data_list = result
-
-            if data_list:
-                data = data_list[0].get("e")
+            if result:
+                data = result[0].get('e')
+                admin_first_name = result[0]['admin_first_name']
+                admin_last_name = result[0]['admin_last_name']
+                admin_full_name = f"{admin_first_name} {admin_last_name}"
 
                 return cls(
                     event_id=data.get("event_id"),
@@ -115,7 +117,7 @@ class Events:
                     description=data.get("description"),
                     date=data.get("date"),
                     location=data.get("location"),
-                    admin=data.get("admin"),
+                    admin=admin_full_name,
                     participants=data.get("participants"),
 
                 )
