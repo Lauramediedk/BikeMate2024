@@ -39,35 +39,50 @@
         </div>
 
         <div class="container" x-show="activeTab === 'all_events'">
-            {% if all_events %}
-                {% for event in all_events %}
-                <div class="columns box is-centered is-block-tablet">
+            <div class="columns box is-centered is-block-tablet">
+                {% if all_events %}
+                    {% for event in all_events %}
+                        <div class="column">
+                            <p class="subtitle is-size-5 has-text-weight-semibold">
+                                {{ event.title }}
+                            </p>
+                        </div>
+                        <div class="column ">
+                            {{ event.description }}
+                            {{ event.created_formatted }}
+                        </div>
+                        <div class="column">
+                            {{ event.location }}
+                        </div>
+                        <div class="column">
+                            {% if event.participants%}
+                                <p>
+                                    Deltagere: {{ event.participants }}
+                                </p>
+                            {% else %}
+                                <p>Ingen deltagere</p>
+                            {% endif %}
+                        </div>
+                        <div class="column">
+                            <a href="{{ url_for('challenges.view_event', event_id=event.event_id) }}" class="button">
+                                Se mere
+                            </a>
+                        </div>
+                        <hr class="dropdown-divider">
+                    {% endfor %}
+                {% endif %}
+            </div>
+        </div>
+
+        <div class="container" x-show="activeTab === 'users_events'">
+            <div class="columns box is-block-tablet">
+                {% if users_events %}
+                {% for event in users_events %}
                     <div class="column">
                         <p class="subtitle is-size-5 has-text-weight-semibold">
                             {{ event.title }}
                         </p>
                     </div>
-                    <div class="column ">
-                        {{ event.description }}
-                        {{ event.created_formatted }}
-                    </div>
-                    <div class="column">
-                        {{ event.location }}
-                    </div>
-                    <button class="button">Deltag</button>
-                    <!--TODO: Man skal kun kunne deltage i andres, ikke ens eget-->
-                </div>
-                {% endfor %}
-            {% endif %}
-        </div>
-
-        <div class="container" x-show="activeTab === 'users_events'">
-            {% if users_events %}
-                {% for event in users_events %}
-                <div class="columns box is-block-tablet">
-                    <div class="column">
-                        {{ event.title }}
-                    </div>
                     <div class="column">
                         {{ event.description }}
                     </div>
@@ -77,9 +92,10 @@
                     <div class="column">
                         {{ event.location }}
                     </div>
-                </div>
-                {% endfor %}
-            {% endif %}
+                    <hr class="dropdown-divider">
+                    {% endfor %}
+                {% endif %}
+            </div>
         </div>
     </section>
 
