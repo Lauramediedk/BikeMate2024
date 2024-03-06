@@ -15,8 +15,14 @@ def format_date(events):
 def challenges():
     user_id = session.get('user_id')
 
+    search_term = request.args.get('search_term', '')
+
     form = EventForm()
-    all_events = Events.get_all_events(user_id)
+    if search_term:
+        all_events = Events.search_for_event(user_id, search_term)
+    else:
+        all_events = Events.get_all_events(user_id)
+
     users_events = Events.get_own_events(user_id)
 
     format_date(all_events)
@@ -27,6 +33,7 @@ def challenges():
         form=form,
         all_events=all_events,
         users_events=users_events,
+        search_term=search_term,
         active_page='challenges')
     else:
         flash('Adgang nægtet', 'error')
@@ -95,7 +102,7 @@ def view_event(event_id):
     if event:
         return render_template('view_event.html', is_joined=is_joined, event=event, active_page='challenges')
     else:
-        flash('Event not found', 'error')
+        flash('Event ikke fundet', 'error')
         return redirect(url_for('challenges.challenges'))
 
 
@@ -106,7 +113,7 @@ def join_event(event_id):
 
     if event_id:
         Events.join_event(user_id, event_id)
-        flash('You have joined the event successfully.', 'success')
+        flash('Du deltager nu i dette event.', 'success')
     else:
         flash('Event id kunne ikke tilgås', 'error')
 
@@ -119,6 +126,6 @@ def unjoin_event(event_id):
     user_id = session.get('user_id')
 
     Events.unjoin_event(user_id, event_id)
-    flash('Unjoined event', 'success')
+    flash('Du deltager ikke længere i dette event', 'success')
 
     return redirect(url_for('challenges.challenges', event_id=event_id))

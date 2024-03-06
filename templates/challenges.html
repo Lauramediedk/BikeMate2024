@@ -3,11 +3,12 @@
 {% block title %}Udfordringer{% endblock %}
 
 {% block content %}
-
-    <span class="icon p-5">
-        <a href="{{ url_for('challenges.show_event_form') }}">
-            <i class="fa-solid fa-calendar-plus fa-2xl has-text-primary"></i>
-        </a>
+    <span class="icon-text">
+        <span class="icon p-5">
+            <a href="{{ url_for('challenges.show_event_form') }}">
+                <i class="fa-solid fa-calendar-plus fa-2xl has-text-primary"></i>
+            </a>
+        </span>
     </span>
 
     <section class="section" x-data="{ activeTab: 'all_events' }">
@@ -35,6 +36,13 @@
                 <button class="button">
                     Seneste
                 </button>
+            </div>
+            <div class="column center is-mobile">
+                <form class="is-flex" action="{{ url_for('challenges.challenges') }}" method="get">
+                    <input class="input mr-2" type="text" name="search_term" placeholder="Søg...">
+                    <button class="button is-primary" type="submit">Søg</button>
+                </form>
+                <!--TODO: Nice to have, auto søgning ved indtasning, men virker ikke helt-->
             </div>
         </div>
 

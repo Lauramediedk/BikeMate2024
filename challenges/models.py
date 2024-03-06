@@ -93,6 +93,31 @@ class Events:
 
 
     @classmethod
+    def search_for_event(cls, user_id, search_term):
+        query = (
+            """
+            MATCH (e:Event)
+            WHERE (e.event_id = $search_term OR e.description CONTAINS $search_term)
+            AND NOT (:User {user_id: $user_id})-[:CREATED]->(e)
+            RETURN e
+            """
+        )
+
+        parameters = {
+            "user_id": user_id,
+            "search_term": search_term
+        }
+
+        try:
+            result = db.run_query(query, parameters)
+            events = [cls(**record['e']) for record in result]
+
+            return events
+        except Exception as e:
+            raise RuntimeError(f"Error searching for events: {str(e)}") from e
+
+
+    @classmethod
     def get_event_by_id(cls, event_id):
         query = (
             """
