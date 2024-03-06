@@ -152,20 +152,43 @@
 
         <hr class="dropdown-divider">
 
-        <section class="section pt-0">
-            <div class="columns is-marginless border-radius scroll-box is-block">
+        <section class="section pt-0 scroll-box">
+            <div class="columns is-marginless border-radius is-block">
                 <div class="column">
                     <p class="title is-5 mb-0">Aktiviteter</p>
                 </div>
-                <div class="column">
-                    {% if user_activities %}
-                        {% for activity in user_activities %}
-                            {{ activity }}
-                        {% endfor %}
-                    {% else %}
-                        <p>Du har ingen aktiviteter</p>
-                    {% endif %}
-                </div>
+                {% if events %}
+                    {% for event in events %}
+                        <div class="column">
+                            <p class="subtitle is-size-6 mb-0 mr-2 has-text-weight-semibold">
+                                {{ event.title }}
+                            </p>
+                        </div>
+                        <div class="column">
+                            <span class="icon-text">
+                                <span class="icon">
+                                    <i class="fa-solid fa-clock"></i>
+                                </span>
+                                {{ event.created_formatted }}
+                            </span>
+                            <span class="icon-text">
+                                <span class="icon">
+                                    <i class="fa-solid fa-location-dot"></i>
+                                </span>
+                                {{ event.location }}
+                            </span>
+                        </div>
+                        <div class="column">
+                            <a href="{{ url_for('challenges.view_event', event_id=event.event_id) }}"
+                            class="button is-primary">
+                                Gå til event
+                            </a>
+                        </div>
+                        <hr class="dropdown-divider">
+                    {% endfor %}
+                {% else %}
+                    <p>Du har ingen aktiviteter</p>
+                {% endif %}
             </div>
         </section>
     </div>

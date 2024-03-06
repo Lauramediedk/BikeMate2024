@@ -135,16 +135,43 @@ class Events:
     def is_user_joined(cls, user_id, event_id):
         query = (
             """
-            MATCH (u:User {user_id: $user_id})-[:JOINED]->(event:Event {event_id: $event_id})
+            MATCH (u:User {user_id: $user_id})-[:JOINED]->(e:Event {event_id: $event_id})
             RETURN COUNT(*) > 0 AS is_joined
             """
         )
-        parameters = {"user_id": user_id, "event_id": event_id}
+        parameters = {
+            "user_id": user_id,
+            "event_id": event_id,
+        }
+
         result = db.run_query(query, parameters)
         if result:
             return result[0]['is_joined']
         else:
             return False
+
+
+    @classmethod
+    def get_joined_events(cls, user_id):
+        query = (
+            """
+            MATCH (u:User {user_id: $user_id})-[:JOINED]->(e:Event)
+            RETURN e
+            """
+        )
+
+        parameters = {
+            "user_id": user_id,
+        }
+
+        try:
+            result = db.run_query(query, parameters)
+
+            events = [cls(**record['e']) for record in result]
+
+            return events
+        except Exception as e:
+            raise RuntimeError(f"Error finding events: {str(e)}") from e
 
 
     @classmethod
