@@ -65,6 +65,24 @@ def create_event():
     return render_template('create_event.html', form=form)
 
 
+@challenges_bp.route('/delete/<event_id>', methods=['POST'])
+@login_required
+def delete_event(event_id):
+    user_id = session.get('user_id')
+
+    if user_id:
+        if event_id:
+            Events.delete_event(user_id, event_id)
+            flash('Du har slettet et event', 'success')
+            return redirect(url_for('challenges.challenges'))
+        else:
+            flash('Event kunne ikke slettes, prøv igen', 'error')
+    else:
+        flash('Uautoriseret adgang', 'error')
+
+    return redirect(url_for('challenges.view_event', event_id=event_id))
+
+
 @challenges_bp.route('/event/<event_id>', methods=['GET'])
 @login_required
 def view_event(event_id):

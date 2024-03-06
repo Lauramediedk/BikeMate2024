@@ -98,18 +98,21 @@ class Events:
             """
             MATCH (e:Event {event_id: $event_id})
             OPTIONAL MATCH (admin:User)-[:CREATED]->(e)
-            RETURN e, admin.first_name AS admin_first_name, admin.last_name AS admin_last_name
+            RETURN e, admin.user_id AS admin_uid, admin.first_name AS admin_fname, admin.last_name AS admin_lname
             """
         )
-        parameters = {"event_id": event_id}
+        parameters = {
+            "event_id": event_id,
+            }
 
         try:
             result = db.run_query(query, parameters)
             if result:
                 data = result[0].get('e')
-                admin_first_name = result[0]['admin_first_name']
-                admin_last_name = result[0]['admin_last_name']
-                admin_full_name = f"{admin_first_name} {admin_last_name}"
+                admin_uid = result[0]['admin_uid']
+                admin_fname = result[0]['admin_fname']
+                admin_lname = result[0]['admin_lname']
+                admin_full_name = f"{admin_fname} {admin_lname}"
 
                 return cls(
                     event_id=data.get("event_id"),
@@ -118,6 +121,7 @@ class Events:
                     date=data.get("date"),
                     location=data.get("location"),
                     admin=admin_full_name,
+                    admin_id=admin_uid,
                     participants=data.get("participants"),
 
                 )
@@ -183,3 +187,22 @@ class Events:
             db.run_query(query, parameters)
         except Exception as e:
             raise RuntimeError(f"Error unjoining event: {str(e)}") from e
+
+
+    @classmethod
+    def delete_event(cls, user_id, event_id):
+        query = (
+            """
+            MATCH (u:User {user_id: $user_id})-[r:CREATED]->(e:Event {event_id: $event_id})
+            DETACH DELETE e
+            """
+        )
+        parameters = {
+            "user_id": user_id,
+            "event_id": event_id,
+        }
+
+        try:
+            db.run_query(query, parameters)
+        except Exception as e:
+            raise RuntimeError(f"Error deleting event and all relations: {str(e)}") from e

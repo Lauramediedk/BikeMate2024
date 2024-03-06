@@ -29,14 +29,21 @@
                 {% endif %}
             </div>
             <div class="column">
-                {% if is_joined %}
-                    <form action="{{ url_for('challenges.unjoin_event', event_id=event.event_id) }}" method="post">
-                        <button type="submit" class="button">Afmeld</button>
+                {% if session.user_id == event.admin_id %}
+                    <form action="{{ url_for('challenges.delete_event', event_id=event.event_id) }}" method="post">
+                        <button type="submit" class="button is-danger is-outlined">Slet event</button>
                     </form>
                 {% else %}
-                    <form action="{{ url_for('challenges.join_event', event_id=event.event_id) }}" method="post">
-                        <button type="submit" class="button is-primary">Deltag</button>
-                    </form>
+                    <!-- Show join/unjoin buttons for non-admin users -->
+                    {% if is_joined %}
+                        <form action="{{ url_for('challenges.unjoin_event', event_id=event.event_id) }}" method="post">
+                            <button type="submit" class="button">Afmeld</button>
+                        </form>
+                    {% else %}
+                        <form action="{{ url_for('challenges.join_event', event_id=event.event_id) }}" method="post">
+                            <button type="submit" class="button is-primary">Deltag</button>
+                        </form>
+                    {% endif %}
                 {% endif %}
             </div>
         </div>

@@ -129,6 +129,12 @@
                                 <p>Ingen deltagere</p>
                             {% endif %}
                         </div>
+                        <div class="column">
+                            <a href="{{ url_for('challenges.view_event', event_id=event.event_id) }}"
+                            class="button is-primary">
+                                Se mere
+                            </a>
+                        </div>
                     </div>
                     {% endfor %}
                 {% endif %}
