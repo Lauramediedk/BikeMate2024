@@ -39,60 +39,97 @@
         </div>
 
         <div class="container" x-show="activeTab === 'all_events'">
-            <div class="columns box is-centered is-block-tablet">
+            <div class="columns is-centered is-block-tablet">
                 {% if all_events %}
                     {% for event in all_events %}
-                        <div class="column">
-                            <p class="subtitle is-size-5 has-text-weight-semibold">
+                    <div class="box">
+                        <div class="column is-flex is-justify-content-space-between">
+                            <p class="subtitle is-size-5 mb-0 mr-2 has-text-weight-semibold">
                                 {{ event.title }}
                             </p>
-                        </div>
-                        <div class="column ">
-                            {{ event.description }}
-                            {{ event.created_formatted }}
+                            {% include 'dropdown_event.html' %}
                         </div>
                         <div class="column">
-                            {{ event.location }}
+                            <span class="icon-text">
+                                <span class="icon">
+                                    <i class="fa-solid fa-clock"></i>
+                                </span>
+                                {{ event.created_formatted }}
+                            </span>
+                            <span class="icon-text">
+                                <span class="icon">
+                                    <i class="fa-solid fa-location-dot"></i>
+                                </span>
+                                {{ event.location }}
+                            </span>
+                        </div>
+                        <div class="column">
+                            {{ event.description | truncate(100) }}
                         </div>
                         <div class="column">
                             {% if event.participants%}
-                                <p>
+                                <span class="icon-text">
+                                    <span class="icon">
+                                        <i class="fa-solid fa-user-group"></i>
+                                    </span>
                                     Deltagere: {{ event.participants }}
-                                </p>
+                                </span>
                             {% else %}
                                 <p>Ingen deltagere</p>
                             {% endif %}
                         </div>
                         <div class="column">
-                            <a href="{{ url_for('challenges.view_event', event_id=event.event_id) }}" class="button">
+                            <a href="{{ url_for('challenges.view_event', event_id=event.event_id) }}"
+                            class="button is-primary">
                                 Se mere
                             </a>
                         </div>
-                        <hr class="dropdown-divider">
+                    </div>
                     {% endfor %}
                 {% endif %}
             </div>
         </div>
 
         <div class="container" x-show="activeTab === 'users_events'">
-            <div class="columns box is-block-tablet">
+            <div class="columns is-block-tablet">
                 {% if users_events %}
-                {% for event in users_events %}
-                    <div class="column">
-                        <p class="subtitle is-size-5 has-text-weight-semibold">
-                            {{ event.title }}
-                        </p>
+                    {% for event in users_events %}
+                    <div class="box">
+                        <div class="column">
+                            <p class="subtitle is-size-5 has-text-weight-semibold">
+                                {{ event.title }}
+                            </p>
+                        </div>
+                        <div class="column">
+                            <span class="icon-text">
+                                <span class="icon">
+                                    <i class="fa-solid fa-clock"></i>
+                                </span>
+                                {{ event.created_formatted }}
+                            </span>
+                            <span class="icon-text">
+                                <span class="icon">
+                                    <i class="fa-solid fa-location-dot"></i>
+                                </span>
+                                {{ event.location }}
+                            </span>
+                        </div>
+                        <div class="column">
+                            {{ event.description }}
+                        </div>
+                        <div class="column">
+                            {% if event.participants%}
+                                <span class="icon-text">
+                                    <span class="icon">
+                                        <i class="fa-solid fa-user-group"></i>
+                                    </span>
+                                    Deltagere: {{ event.participants }}
+                                </span>
+                            {% else %}
+                                <p>Ingen deltagere</p>
+                            {% endif %}
+                        </div>
                     </div>
-                    <div class="column">
-                        {{ event.description }}
-                    </div>
-                    <div class="column">
-                        {{ event.created_formatted }}
-                    </div>
-                    <div class="column">
-                        {{ event.location }}
-                    </div>
-                    <hr class="dropdown-divider">
                     {% endfor %}
                 {% endif %}
             </div>

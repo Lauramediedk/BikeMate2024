@@ -1,0 +1,25 @@
+<div class="dropdown is-pulled-right is-right"
+    x-data="{ open: false }"
+    x-bind:class="{ 'is-active': open }"
+    >
+        <div class="dropdown-trigger">
+            <div x-bind:class="{ 'is-active': open }" @click="open = !open" aria-haspopup="true" aria-controls="dropdown-menu">
+                    <a href="#">
+                        <i class="fa-solid fa-ellipsis fa-2xl icons"></i>
+                    </a>
+                </span>
+            </div>
+        </div>
+        <div class="dropdown-menu">
+            <div class="dropdown-content" x-show="open">
+                <div class="dropdown-item">
+                    <span class="icon-text">
+                        <span class="icon">
+                            <i class="fa-solid fa-share-nodes"></i>
+                        </span>
+                        {{ event.event_id }}
+                    </span>
+                </div>
+            </div>
+        </div>
+    </div>

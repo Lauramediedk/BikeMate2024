@@ -4,21 +4,43 @@
 
 {% block content %}
 
-<div class="container" x-show="activeTab === 'all_events'">
-    <h2>{{ event.title }}</h2>
-    <p>{{ event.description }}</p>
-    <p>Location: {{ event.location }}</p>
-    <p>Admin: {{ event.admin }}</p>
-    <p>Deltagere: {{ event.participants }}</p>
-    {% if is_joined %}
-        <form action="{{ url_for('challenges.unjoin_event', event_id=event.event_id) }}" method="post">
-            <button type="submit" class="button">Afmeld</button>
-        </form>
-    {% else %}
-        <form action="{{ url_for('challenges.join_event', event_id=event.event_id) }}" method="post">
-            <button type="submit" class="button">Deltag</button>
-        </form>
-    {% endif %}
-</div>
+<section class="section">
+    <div class="container box" x-show="activeTab === 'all_events'">
+        <div class="columns is-block-tablet">
+            <div class="column">
+                <span class="icon-text">
+                    <a class="icons" href="{{ url_for('challenges.challenges') }}">
+                        <span class="icon">
+                            <i class="fa-solid fa-chevron-left"></i>
+                        </span>
+                        Tilbage
+                    </a>
+                </span>
+            </div>
+            <div class="column">
+                <h2>{{ event.title }}</h2>
+                <p>Admin: {{ event.admin }}</p>
+                <p>{{ event.description }}</p>
+                <p>Lokation: {{ event.location }}</p>
+                {% if event.participants%}
+                    <p>Deltagere: {{ event.participants }}</p>
+                {% else %}
+                    <p>Ingen deltagere</p>
+                {% endif %}
+            </div>
+            <div class="column">
+                {% if is_joined %}
+                    <form action="{{ url_for('challenges.unjoin_event', event_id=event.event_id) }}" method="post">
+                        <button type="submit" class="button">Afmeld</button>
+                    </form>
+                {% else %}
+                    <form action="{{ url_for('challenges.join_event', event_id=event.event_id) }}" method="post">
+                        <button type="submit" class="button is-primary">Deltag</button>
+                    </form>
+                {% endif %}
+            </div>
+        </div>
+    </div>
+</section>
 
 {% endblock %}
