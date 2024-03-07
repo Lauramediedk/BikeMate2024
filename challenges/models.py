@@ -45,6 +45,7 @@ class Events:
             raise RuntimeError(f"Error creating event: {str(e)}") from e
 
 
+    # Methods for retrieving and searching for events
     @classmethod
     def get_own_events(cls, user_id):
         query = (
@@ -75,6 +76,7 @@ class Events:
             MATCH (e:Event)
             WHERE NOT (:User {user_id: $user_id})-[:CREATED]->(e)
             RETURN e
+            ORDER BY e.date DESC
             """
         )
 
@@ -96,16 +98,41 @@ class Events:
     def search_for_event(cls, user_id, search_term):
         query = (
             """
-            MATCH (e:Event)
-            WHERE (e.event_id = $search_term OR e.description CONTAINS $search_term)
-            AND NOT (:User {user_id: $user_id})-[:CREATED]->(e)
+            CALL db.index.fulltext.queryNodes('eventid_and_description', $search_term)
+            YIELD node as e
+            WHERE NOT (:User {user_id: $user_id})-[:CREATED]-(e)
             RETURN e
             """
         )
 
         parameters = {
             "user_id": user_id,
-            "search_term": search_term
+            "search_term": f'"{search_term}"'
+        }
+
+        try:
+            result = db.run_query(query, parameters)
+            events = [cls(**record['e']) for record in result]
+
+            return events
+        except Exception as e:
+            raise RuntimeError(f"Error searching for events: {str(e)}") from e
+
+
+    @classmethod
+    def get_popular_events(cls, user_id):
+        query = (
+            """
+            MATCH (e:Event)
+            WHERE NOT (:User {user_id: $user_id})-[:CREATED]->(e)
+            RETURN e
+            ORDER BY e.participants DESC
+            LIMIT 10
+            """
+        )
+
+        parameters = {
+            "user_id": user_id,
         }
 
         try:
@@ -156,6 +183,7 @@ class Events:
             raise RuntimeError(f"Error getting event by ID: {str(e)}") from e
 
 
+    # Methods for checking status, joining, un-joining and deleting events
     @classmethod
     def is_user_joined(cls, user_id, event_id):
         query = (

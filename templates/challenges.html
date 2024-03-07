@@ -11,9 +11,11 @@
         </span>
     </span>
 
+    <!--The options for finding events-->
     <section class="section" x-data="{ activeTab: 'all_events' }">
+        <!--ActiveTab switches between showing all events and the users own events-->
         <div class="columns is-centered is-block-tablet">
-            <div class="column center is-12">
+            <div class="column is-flex center is-12">
                 <button class="button mr-2" x-on:click="activeTab = 'all_events'"
                 x-bind:class="{ 'is-primary': activeTab === 'all_events' }"
                 >
@@ -25,32 +27,59 @@
                     Dine events
                 </button>
             </div>
-            <div class="column has-text-centered is-12">
-                <!--TODO: Lav a tags, url_for og routes som håndterer sortering via følger, seneste etc-->
-                <button class="button">
-                        Relevante
-                </button>
-                <button class="button">
-                        Følger
-                </button>
-                <button class="button">
-                    Seneste
-                </button>
+            <!--Dropdown for sorting events based on choice-->
+            <div class="column is-flex center">
+                <div class="dropdown ml-2 is-flex center" x-data="{ open: false }" x-bind:class="{ 'is-active': open }">
+                    <div class="dropdown-trigger">
+                        <div x-bind:class="{ 'is-active': open }"
+                        @click="open = !open"
+                        @click.outside="open = false"
+                        aria-haspopup="true"
+                        aria-controls="dropdown-menu"
+                        >
+                            <span class="icon-text button">
+                                Sorter efter
+                                <span class="icon ml-1">
+                                    <i class="fa-solid fa-arrow-down"></i>
+                                </span>
+                            </span>
+                        </div>
+                    </div>
+                    <div class="dropdown-menu">
+                        <div class="dropdown-content" x-show="open">
+                            <a class="dropdown-item" href="{{ url_for('challenges.challenges') }}"
+                            >
+                            Seneste
+                            </a>
+                            <hr class="dropdown-divider">
+                            <a class="dropdown-item" href="{{ url_for('challenges.challenges', popular=True) }}"
+                            >
+                            Deltagere
+                            </a>
+                            <hr class="dropdown-divider">
+                            <a class="dropdown-item" href="#"
+                            >
+                            Følger
+                            </a>
+                        </div>
+                    </div>
+                </div>
             </div>
-            <div class="column center is-mobile">
+            <!--Search bar for finding specific events-->
+            <div class="column is-flex center">
                 <form class="is-flex" action="{{ url_for('challenges.challenges') }}" method="get">
                     <input class="input mr-2" type="text" name="search_term" placeholder="Søg...">
                     <button class="button is-primary" type="submit">Søg</button>
                 </form>
-                <!--TODO: Nice to have, auto søgning ved indtasning, men virker ikke helt-->
             </div>
         </div>
 
+        <!--All public events created by other users-->
         <div class="container" x-show="activeTab === 'all_events'">
             <div class="columns is-centered is-block-tablet">
                 {% if all_events %}
                     {% for event in all_events %}
-                    <div class="box">
+                    <div class="box" id="events_container">
                         <div class="column is-flex is-justify-content-space-between">
                             <p class="subtitle is-size-5 mb-0 mr-2 has-text-weight-semibold">
                                 {{ event.title }}
@@ -98,6 +127,7 @@
             </div>
         </div>
 
+        <!--Users own events-->
         <div class="container" x-show="activeTab === 'users_events'">
             <div class="columns is-block-tablet">
                 {% if users_events %}

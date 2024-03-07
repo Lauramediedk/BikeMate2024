@@ -10367,9 +10367,8 @@ body {
   border-radius: 6px;
 }
 
-/* css grouped for centering a flex element */
+/* Centering a flex element */
 .center {
-  display: flex;
   justify-content: center;
   align-items: center;
 }

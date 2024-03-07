@@ -16,10 +16,13 @@ def challenges():
     user_id = session.get('user_id')
 
     search_term = request.args.get('search_term', '')
+    popular = request.args.get('popular', False)
 
     form = EventForm()
     if search_term:
         all_events = Events.search_for_event(user_id, search_term)
+    elif popular:
+        all_events = Events.get_popular_events(user_id)
     else:
         all_events = Events.get_all_events(user_id)
 
@@ -34,6 +37,7 @@ def challenges():
         all_events=all_events,
         users_events=users_events,
         search_term=search_term,
+        popular=popular,
         active_page='challenges')
     else:
         flash('Adgang nægtet', 'error')
