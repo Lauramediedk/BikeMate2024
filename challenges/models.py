@@ -269,6 +269,39 @@ class Events:
             raise RuntimeError(f"Error unjoining event: {str(e)}") from e
 
 
+    #View the participants of an event
+    @classmethod
+    def get_participants(cls, event_id):
+        query = (
+            """
+            MATCH (u:User)-[:JOINED]->(e:Event {event_id: $event_id})
+            RETURN u.user_id AS user_id, u.first_name AS first_name, u.last_name AS last_name, u.image_path AS image_path
+            """
+        )
+
+        parameters = {
+            "event_id": event_id,
+        }
+
+        try:
+            result = db.run_query(query, parameters)
+            participants = []
+            for record in result:
+                if 'first_name' in record and 'last_name' in record:
+                    full_name = f"{record['first_name']} {record['last_name']}"
+                    image_path = record.get('image_path')
+                    participants.append({
+                        'user_id': record['user_id'],
+                        'full_name': full_name,
+                        'image_path': image_path
+                    })
+                else:
+                    print(f"Missing 'first_name' or 'last_name' for user: {record.get('user_id')}")
+            return participants
+        except Exception as e:
+            raise RuntimeError(f"Error retrieving participants' details: {str(e)}") from e
+
+
     @classmethod
     def delete_event(cls, user_id, event_id):
         query = (

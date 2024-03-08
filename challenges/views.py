@@ -102,9 +102,14 @@ def view_event(event_id):
     # Get event details by event_id
     event = Events.get_event_by_id(event_id)
     is_joined = Events.is_user_joined(user_id, event_id)
+    participants = Events.get_participants(event_id)
 
     if event:
-        return render_template('view_event.html', is_joined=is_joined, event=event, active_page='challenges')
+        return render_template('view_event.html',
+        is_joined=is_joined,
+        event=event,
+        participants=participants,
+        active_page='challenges')
     else:
         flash('Event ikke fundet', 'error')
         return redirect(url_for('challenges.challenges'))

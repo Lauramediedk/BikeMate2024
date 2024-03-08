@@ -17,17 +17,49 @@
                     </a>
                 </span>
             </div>
-            <div class="column">
-                <h2>{{ event.title }}</h2>
-                <p>Admin: {{ event.admin }}</p>
-                <p>{{ event.description }}</p>
-                <p>Lokation: {{ event.location }}</p>
-                {% if event.participants%}
-                    <p>Deltagere: {{ event.participants }}</p>
-                {% else %}
-                    <p>Ingen deltagere</p>
+            <div x-data="{ isModalActive: false }">
+                <div class="column">
+                    <h2>{{ event.title }}</h2>
+                    <p>Admin: {{ event.admin }}</p>
+                    <p>{{ event.description }}</p>
+                    <p>Lokation: {{ event.location }}</p>
+                    {% if event.participants%}
+                        <p>Deltagere: {{ event.participants }}</p>
+                        <a class="button" @click="isModalActive = true">Se alle</a>
+                    {% else %}
+                        <p>Ingen deltagere</p>
+                    {% endif %}
+                </div>
+
+                <!--View all participants-->
+                {% if event.participants %}
+                    <div class="modal p-2" x-bind:class="{ 'is-active': isModalActive}">
+                        <div class="modal-background" @click="isModalActive = false"></div>
+                        <div class="modal-content box">
+                            {% for participant in participants %}
+                                <div class="is-flex">
+                                    {% if participant.image_path %}
+                                        <figure class="image is-64x64 m-0">
+                                            <img class="round-shape" src="{{ url_for('static', filename=participant.image_path) }}" alt="profilbillede">
+                                        </figure>
+                                    {% else %}
+                                        <div class="round-shape has-text-centered">
+                                            <p class="title is-3 pt-5 round-shape">
+                                                {{ participant.full_name[0] }}
+                                            </p>
+                                        </div>
+                                    {% endif %}
+                                    <p class="subtitle">
+                                        {{ participant.full_name }}
+                                    </p>
+                                </div>
+                            {% endfor %}
+                        </div>
+                    </div>
                 {% endif %}
             </div>
+
+            <!--Show different options for based on role-->
             <div class="column">
                 {% if session.user_id == event.admin_id %}
                     <form action="{{ url_for('challenges.delete_event', event_id=event.event_id) }}" method="post">
