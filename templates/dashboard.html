@@ -47,13 +47,9 @@
             {% set initials = session.first_name[0] %} <!--Get the first letter-->
             <div class="is-flex center">
                 {% if image_path %}
-                    <figure>
-                        <img class="round-shape image-fit" src="{{ url_for('static', filename=image_path) }}" alt="profilbillede">
-                    </figure>
+                    <img class="profile-image" src="{{ url_for('static', filename=image_path) }}" alt="profilbillede">
                 {% else %}
-                    <div class="round-shape">
-                        <p class="title is-3 pt-5 round-shape">{{ initials }}</p>
-                    </div>
+                    <p class="title is-3 is-rounded">{{ initials }}</p>
                 {% endif %}
             </div>
             <h1 class="is-size-5">

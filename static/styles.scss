@@ -65,16 +65,26 @@ body{
 
 
 /* Custom profile image styling */
-.round-shape{
-    width: 80px;
-    height: 80px;
+
+img.is-rounded,
+p.is-rounded {
     border-radius: 50%;
-    background: $grey;
+    width: 64px;
+    height: 64px;
+    object-fit: cover;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    text-align: center;
     color: $primary;
+    background: $grey;
 }
 
-.image-fit img{
+.profile-image{
+    border-radius: 50%;
     object-fit: cover;
+    width: 80px;
+    height: 80px;
 }
 
 
@@ -107,6 +117,11 @@ body{
 /* Centering a flex element */
 .center{
     justify-content: center;
+    align-items: center;
+}
+
+.user-list{
+    justify-content: space-between;
     align-items: center;
 }
 

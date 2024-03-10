@@ -35,24 +35,30 @@
                 {% if event.participants %}
                     <div class="modal p-2" x-bind:class="{ 'is-active': isModalActive}">
                         <div class="modal-background" @click="isModalActive = false"></div>
-                        <div class="modal-content box">
+                        <div class="modal-content box scroll-box">
+                            <div class="buttons is-right">
+                                <button class="delete" aria-label="close" @click="isModalActive = false"></button>
+                            </div>
                             {% for participant in participants %}
-                                <div class="is-flex">
-                                    {% if participant.image_path %}
-                                        <figure class="image is-64x64 m-0">
-                                            <img class="round-shape" src="{{ url_for('static', filename=participant.image_path) }}" alt="profilbillede">
-                                        </figure>
-                                    {% else %}
-                                        <div class="round-shape has-text-centered">
-                                            <p class="title is-3 pt-5 round-shape">
-                                                {{ participant.full_name[0] }}
-                                            </p>
-                                        </div>
-                                    {% endif %}
-                                    <p class="subtitle">
-                                        {{ participant.full_name }}
-                                    </p>
-                                </div>
+                                {% if participant.image_path %}
+                                    <div class="is-flex user-list mb-2">
+                                        <img class="is-rounded" src="{{ url_for('static', filename=participant.image_path) }}" alt="profilbillede">
+                                        <p class="m-1">{{ participant.full_name }}</p>
+                                        <a class="button is-light is-primary" href="#">
+                                            <i class="fa-solid fa-user-plus"></i>
+                                        </a>
+                                    </div>
+                                {% else %}
+                                    <div class="is-flex user-list mb-2">
+                                        <p class="title is-3 is-rounded mb-0">
+                                            {{ participant.full_name[0] }}
+                                        </p>
+                                        <p class="m-1">{{ participant.full_name }}</p>
+                                        <a class="button is-light is-primary" href="#">
+                                            <i class="fa-solid fa-user-plus"></i>
+                                        </a>
+                                    </div>
+                                {% endif %}
                             {% endfor %}
                         </div>
                     </div>
