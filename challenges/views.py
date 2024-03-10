@@ -33,12 +33,12 @@ def challenges():
 
     if 'user_id' in session:
         return render_template('challenges.html',
-        form=form,
-        all_events=all_events,
-        users_events=users_events,
-        search_term=search_term,
-        popular=popular,
-        active_page='challenges')
+                               form=form,
+                               all_events=all_events,
+                               users_events=users_events,
+                               search_term=search_term,
+                               popular=popular,
+                               active_page='challenges')
     else:
         flash('Adgang nægtet', 'error')
         return redirect(url_for('users.login'))
@@ -106,10 +106,10 @@ def view_event(event_id):
 
     if event:
         return render_template('view_event.html',
-        is_joined=is_joined,
-        event=event,
-        participants=participants,
-        active_page='challenges')
+                               is_joined=is_joined,
+                               event=event,
+                               participants=participants,
+                               active_page='challenges')
     else:
         flash('Event ikke fundet', 'error')
         return redirect(url_for('challenges.challenges'))

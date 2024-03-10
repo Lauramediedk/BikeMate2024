@@ -26,12 +26,12 @@ def dashboard():
 
     if 'user_id' in session:
         return render_template('dashboard.html',
-        first_name=first_name,
-        last_name=last_name,
-        image_path=image_path,
-        bio=bio, form=form,
-        events=events,
-        active_page='dashboard')
+                               first_name=first_name,
+                               last_name=last_name,
+                               image_path=image_path,
+                               bio=bio, form=form,
+                               events=events,
+                               active_page='dashboard')
     else:
         flash('Adgang nægtet', 'error')
         return redirect(url_for('users.login'))

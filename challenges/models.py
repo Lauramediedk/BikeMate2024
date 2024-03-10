@@ -16,7 +16,6 @@ class Events:
         for key, value in kwargs.items():
             setattr(self, key, value)
 
-
     def create_event(self, user_id):
         self.event_id = str(uuid.uuid4())
 
@@ -44,7 +43,6 @@ class Events:
         except Exception as e:
             raise RuntimeError(f"Error creating event: {str(e)}") from e
 
-
     # Methods for retrieving and searching for events
     @classmethod
     def get_own_events(cls, user_id):
@@ -67,7 +65,6 @@ class Events:
             return events
         except Exception as e:
             raise RuntimeError(f"Error finding events: {str(e)}") from e
-
 
     @classmethod
     def get_all_events(cls, user_id):
@@ -93,7 +90,6 @@ class Events:
         except Exception as e:
             raise RuntimeError(f"Error finding events: {str(e)}") from e
 
-
     @classmethod
     def search_for_event(cls, user_id, search_term):
         query = (
@@ -117,7 +113,6 @@ class Events:
             return events
         except Exception as e:
             raise RuntimeError(f"Error searching for events: {str(e)}") from e
-
 
     @classmethod
     def get_popular_events(cls, user_id):
@@ -143,7 +138,6 @@ class Events:
         except Exception as e:
             raise RuntimeError(f"Error searching for events: {str(e)}") from e
 
-
     @classmethod
     def get_event_by_id(cls, event_id):
         query = (
@@ -155,7 +149,7 @@ class Events:
         )
         parameters = {
             "event_id": event_id,
-            }
+        }
 
         try:
             result = db.run_query(query, parameters)
@@ -182,7 +176,6 @@ class Events:
         except Exception as e:
             raise RuntimeError(f"Error getting event by ID: {str(e)}") from e
 
-
     # Methods for checking status, joining, un-joining and deleting events
     @classmethod
     def is_user_joined(cls, user_id, event_id):
@@ -192,6 +185,7 @@ class Events:
             RETURN COUNT(*) > 0 AS is_joined
             """
         )
+
         parameters = {
             "user_id": user_id,
             "event_id": event_id,
@@ -202,7 +196,6 @@ class Events:
             return result[0]['is_joined']
         else:
             return False
-
 
     @classmethod
     def get_joined_events(cls, user_id):
@@ -226,7 +219,6 @@ class Events:
         except Exception as e:
             raise RuntimeError(f"Error finding events: {str(e)}") from e
 
-
     @classmethod
     def join_event(cls, user_id, event_id):
         query = (
@@ -246,7 +238,6 @@ class Events:
             db.run_query(query, parameters)
         except Exception as e:
             raise RuntimeError(f"Error joining event: {str(e)}") from e
-
 
     @classmethod
     def unjoin_event(cls, user_id, event_id):
@@ -268,8 +259,7 @@ class Events:
         except Exception as e:
             raise RuntimeError(f"Error unjoining event: {str(e)}") from e
 
-
-    #View the participants of an event
+    # View the participants of an event
     @classmethod
     def get_participants(cls, event_id):
         query = (
@@ -300,7 +290,6 @@ class Events:
             return participants
         except Exception as e:
             raise RuntimeError(f"Error retrieving participants' details: {str(e)}") from e
-
 
     @classmethod
     def delete_event(cls, user_id, event_id):
