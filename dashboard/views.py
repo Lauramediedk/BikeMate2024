@@ -5,6 +5,8 @@ from . import dashboard_bp
 from .forms import BioForm
 from users.views import login_required
 from .models import upload_profile_image, get_profile_image, remove_profile_image, upload_user_bio, get_user_bio
+from challenges.models import Events
+from challenges.views import format_date
 import os
 
 
@@ -16,11 +18,20 @@ def dashboard():
     last_name = session.get('last_name')
     image_path = get_profile_image(user_id)
     bio = get_user_bio(user_id)
+    events = Events.get_joined_events(user_id)
+
+    format_date(events)
 
     form = BioForm()
 
     if 'user_id' in session:
-        return render_template('dashboard.html', first_name=first_name, last_name=last_name, image_path=image_path, bio=bio, form=form, active_page='dashboard')
+        return render_template('dashboard.html',
+                               first_name=first_name,
+                               last_name=last_name,
+                               image_path=image_path,
+                               bio=bio, form=form,
+                               events=events,
+                               active_page='dashboard')
     else:
         flash('Adgang nægtet', 'error')
         return redirect(url_for('users.login'))

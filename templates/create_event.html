@@ -1,0 +1,35 @@
+{% extends 'base.html' %}
+
+{% block title %}Udfordringer{% endblock %}
+
+{% block content %}
+
+<section class="section">
+    <h1 class="title is-size-5 has-text-centered pb-4">
+        Opret event
+    </h1>
+    <div class="columns box is-centered is-block-tablet">
+        <div class="column">
+            <form action="{{ url_for('challenges.create_event') }}" method="post">
+                {{ form.csrf_token }}
+                <div class="field">
+                    {{ form.title(class="input is-rounded") }}
+                </div>
+                <div class="field">
+                    {{ form.description(class="input is-rounded") }}
+                </div>
+                <div class="field">
+                    {{ form.startdate(class="input is-rounded") }}
+                </div>
+                <div class="field">
+                    {{ form.location(class="input is-rounded") }}
+                </div>
+                <div class="buttons is-centered p-2">
+                    {{ form.submit(class="button is-primary is-rounded") }}
+                </div>
+            </form>
+        </div>
+    </div>
+</section>
+
+{% endblock %}

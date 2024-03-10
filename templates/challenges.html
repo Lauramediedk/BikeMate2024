@@ -2,9 +2,188 @@
 
 {% block title %}Udfordringer{% endblock %}
 
-    {% include 'challenge_feature.html' %}
-
 {% block content %}
+    <span class="icon-text">
+        <span class="icon p-5">
+            <a href="{{ url_for('challenges.show_event_form') }}">
+                <i class="fa-solid fa-calendar-plus fa-2xl has-text-primary"></i>
+            </a>
+        </span>
+    </span>
 
+    <!--The options for finding events-->
+    <section class="section" x-data="{ activeTab: 'all_events' }">
+        <!--ActiveTab switches between showing all events and the users own events-->
+        <div class="columns is-centered is-block-tablet">
+            <div class="column is-flex center is-12">
+                <button class="button mr-2" x-on:click="activeTab = 'all_events'"
+                x-bind:class="{ 'is-primary': activeTab === 'all_events' }"
+                >
+                    Find events
+                </button>
+                <button class="button" x-on:click="activeTab = 'users_events'"
+                x-bind:class="{ 'is-primary': activeTab === 'users_events' }"
+                >
+                    Dine events
+                </button>
+            </div>
+        </div>
+
+        <!--Hide the sorting and search elements, when the user goes to view their own events-->
+        <div class="container" x-show="activeTab === 'all_events'">
+            <div class="columns is-centered is-block-tablet">
+                <!--Dropdown for sorting events based on choice-->
+                <div class="column is-flex center">
+                    <div class="dropdown ml-2 is-flex center" x-data="{ open: false }" x-bind:class="{ 'is-active': open }">
+                        <div class="dropdown-trigger">
+                            <div x-bind:class="{ 'is-active': open }"
+                            @click="open = !open"
+                            @click.outside="open = false"
+                            aria-haspopup="true"
+                            aria-controls="dropdown-menu"
+                            >
+                                <span class="icon-text button">
+                                    Sorter efter
+                                    <span class="icon ml-1">
+                                        <i class="fa-solid fa-arrow-down"></i>
+                                    </span>
+                                </span>
+                            </div>
+                        </div>
+                        <div class="dropdown-menu">
+                            <div class="dropdown-content" x-show="open">
+                                <a class="dropdown-item" href="{{ url_for('challenges.challenges') }}"
+                                >
+                                Seneste
+                                </a>
+                                <hr class="dropdown-divider">
+                                <a class="dropdown-item" href="{{ url_for('challenges.challenges', popular=True) }}"
+                                >
+                                Deltagere
+                                </a>
+                                <hr class="dropdown-divider">
+                                <a class="dropdown-item" href="#"
+                                >
+                                Følger
+                                </a>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+                <!--Search bar for finding specific events-->
+                <div class="column is-flex center mb-4">
+                    <form class="is-flex" action="{{ url_for('challenges.challenges') }}" method="get">
+                        <input class="input mr-2" type="text" name="search_term" placeholder="Søg...">
+                        <button class="button is-primary" type="submit">Søg</button>
+                    </form>
+                </div>
+            </div>
+        </div>
+
+        <!--All public events created by other users-->
+        <div class="container" x-show="activeTab === 'all_events'">
+            <div class="columns is-centered is-block-tablet">
+                {% if all_events %}
+                    {% for event in all_events %}
+                    <div class="box" id="events_container">
+                        <div class="column is-flex is-justify-content-space-between">
+                            <p class="subtitle is-size-5 mb-0 mr-2 has-text-weight-semibold">
+                                {{ event.title }}
+                            </p>
+                            {% include 'dropdown_event.html' %}
+                        </div>
+                        <div class="column">
+                            <span class="icon-text">
+                                <span class="icon">
+                                    <i class="fa-solid fa-clock"></i>
+                                </span>
+                                {{ event.created_formatted }}
+                            </span>
+                            <span class="icon-text">
+                                <span class="icon">
+                                    <i class="fa-solid fa-location-dot"></i>
+                                </span>
+                                {{ event.location }}
+                            </span>
+                        </div>
+                        <div class="column">
+                            {{ event.description | truncate(100) }}
+                        </div>
+                        <div class="column">
+                            {% if event.participants%}
+                                <span class="icon-text">
+                                    <span class="icon">
+                                        <i class="fa-solid fa-user-group"></i>
+                                    </span>
+                                    Deltagere: {{ event.participants }}
+                                </span>
+                            {% else %}
+                                <p>Ingen deltagere</p>
+                            {% endif %}
+                        </div>
+                        <div class="column">
+                            <a href="{{ url_for('challenges.view_event', event_id=event.event_id) }}"
+                            class="button is-primary">
+                                Se mere
+                            </a>
+                        </div>
+                    </div>
+                    {% endfor %}
+                {% endif %}
+            </div>
+        </div>
+
+        <!--Users own events-->
+        <div class="container" x-show="activeTab === 'users_events'">
+            <div class="columns is-block-tablet">
+                {% if users_events %}
+                    {% for event in users_events %}
+                    <div class="box">
+                        <div class="column">
+                            <p class="subtitle is-size-5 has-text-weight-semibold">
+                                {{ event.title }}
+                            </p>
+                        </div>
+                        <div class="column">
+                            <span class="icon-text">
+                                <span class="icon">
+                                    <i class="fa-solid fa-clock"></i>
+                                </span>
+                                {{ event.created_formatted }}
+                            </span>
+                            <span class="icon-text">
+                                <span class="icon">
+                                    <i class="fa-solid fa-location-dot"></i>
+                                </span>
+                                {{ event.location }}
+                            </span>
+                        </div>
+                        <div class="column">
+                            {{ event.description }}
+                        </div>
+                        <div class="column">
+                            {% if event.participants%}
+                                <span class="icon-text">
+                                    <span class="icon">
+                                        <i class="fa-solid fa-user-group"></i>
+                                    </span>
+                                    Deltagere: {{ event.participants }}
+                                </span>
+                            {% else %}
+                                <p>Ingen deltagere</p>
+                            {% endif %}
+                        </div>
+                        <div class="column">
+                            <a href="{{ url_for('challenges.view_event', event_id=event.event_id) }}"
+                            class="button is-primary">
+                                Se mere
+                            </a>
+                        </div>
+                    </div>
+                    {% endfor %}
+                {% endif %}
+            </div>
+        </div>
+    </section>
 
 {% endblock %}

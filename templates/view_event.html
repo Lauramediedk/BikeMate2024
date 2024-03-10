@@ -1,0 +1,91 @@
+{% extends 'base.html' %}
+
+{% block title %}Udfordringer{% endblock %}
+
+{% block content %}
+
+<section class="section">
+    <div class="container box" x-show="activeTab === 'all_events'">
+        <div class="columns is-block-tablet">
+            <div class="column">
+                <span class="icon-text">
+                    <a class="icons" href="{{ url_for('challenges.challenges') }}">
+                        <span class="icon">
+                            <i class="fa-solid fa-chevron-left"></i>
+                        </span>
+                        Tilbage
+                    </a>
+                </span>
+            </div>
+            <div x-data="{ isModalActive: false }">
+                <div class="column">
+                    <h2>{{ event.title }}</h2>
+                    <p>Admin: {{ event.admin }}</p>
+                    <p>{{ event.description }}</p>
+                    <p>Lokation: {{ event.location }}</p>
+                    {% if event.participants%}
+                        <p>Deltagere: {{ event.participants }}</p>
+                        <a class="button" @click="isModalActive = true">Se alle</a>
+                    {% else %}
+                        <p>Ingen deltagere</p>
+                    {% endif %}
+                </div>
+
+                <!--View all participants-->
+                {% if event.participants %}
+                    <div class="modal p-2" x-bind:class="{ 'is-active': isModalActive}">
+                        <div class="modal-background" @click="isModalActive = false"></div>
+                        <div class="modal-content box scroll-box">
+                            <div class="buttons is-right">
+                                <button class="delete" aria-label="close" @click="isModalActive = false"></button>
+                            </div>
+                            {% for participant in participants %}
+                                {% if participant.image_path %}
+                                    <div class="is-flex user-list mb-2">
+                                        <img class="is-rounded" src="{{ url_for('static', filename=participant.image_path) }}" alt="profilbillede">
+                                        <p class="m-1">{{ participant.full_name }}</p>
+                                        <a class="button is-light is-primary" href="#">
+                                            <i class="fa-solid fa-user-plus"></i>
+                                        </a>
+                                    </div>
+                                {% else %}
+                                    <div class="is-flex user-list mb-2">
+                                        <p class="title is-3 is-rounded mb-0">
+                                            {{ participant.full_name[0] }}
+                                        </p>
+                                        <p class="m-1">{{ participant.full_name }}</p>
+                                        <a class="button is-light is-primary" href="#">
+                                            <i class="fa-solid fa-user-plus"></i>
+                                        </a>
+                                    </div>
+                                {% endif %}
+                            {% endfor %}
+                        </div>
+                    </div>
+                {% endif %}
+            </div>
+
+            <!--Show different options for based on role-->
+            <div class="column">
+                {% if session.user_id == event.admin_id %}
+                    <form action="{{ url_for('challenges.delete_event', event_id=event.event_id) }}" method="post">
+                        <button type="submit" class="button is-danger is-outlined">Slet event</button>
+                    </form>
+                {% else %}
+                    <!-- Show join/unjoin buttons for non-admin users -->
+                    {% if is_joined %}
+                        <form action="{{ url_for('challenges.unjoin_event', event_id=event.event_id) }}" method="post">
+                            <button type="submit" class="button">Afmeld</button>
+                        </form>
+                    {% else %}
+                        <form action="{{ url_for('challenges.join_event', event_id=event.event_id) }}" method="post">
+                            <button type="submit" class="button is-primary">Deltag</button>
+                        </form>
+                    {% endif %}
+                {% endif %}
+            </div>
+        </div>
+    </div>
+</section>
+
+{% endblock %}
