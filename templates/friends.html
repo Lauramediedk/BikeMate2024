@@ -4,34 +4,58 @@
 
 {% block content %}
 
-<div class="section">
-    <h1 class="title is-4 has-text-centered">
-        Søg efter personer
-    </h1>
-    <div class="columns">
-        <div class="column is-flex center mb-4">
+    <div class="section">
+        <div class="container is-max-desktop">
             <form class="is-flex" action="{{ url_for('friends.friends') }}" method="get">
                 <input class="input mr-2" type="text" name="search_term" placeholder="Søg...">
                 <button class="button is-primary" type="submit">Søg</button>
             </form>
         </div>
-        {% for result in results %}
-            <div class="box">
-                <div class="column">
-                    {% if result.imagePath %}
-                        <img src="{{ url_for('static', filename=result.imagePath) }}" alt="profilbillede">
-                    {% else %}
-                        <p class="title has-text-centered is-3">
-                            {{ result.firstName[0] }}
-                        </p>
-                    {% endif %}
-                </div>
-                <div class="column has-text-centered">
-                    {{ result.firstName }} {{ result.lastName }}
-                </div>
-            </div>
-        {% endfor %}
     </div>
-</div>
+    <div class="container is-flex-tablet center is-multiline">
+        {% if results %}
+            {% for result in results %}
+                <div class="columns m-2">
+                    <div class="box m-2">
+                        <div class="column">
+                            {% if result.imagePath %}
+                                <figure class="is-flex center">
+                                    <img class="profile-image" src="{{ url_for('static', filename=result.imagePath) }}" alt="profilbillede">
+                                </figure>
+                            {% else %}
+                                <figure class="is-flex center">
+                                    <p class="title profile-image is-3">
+                                        {{ result.firstName[0] }}
+                                    </p>
+                                </figure>
+                            {% endif %}
+                        </div>
+                        <div class="column has-text-centered">
+                            {{ result.firstName }} {{ result.lastName }}
+                        </div>
+                        <div class="column">
+                            <div class="buttons is-centered">
+                                <button class="button is-primary">
+                                    Tilføj ven
+                                </button>
+                                <button class="button">
+                                    Se profil
+                                </button>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+            {% endfor %}
+            {% else %}
+            <div class="container pt-5 has-text-centered">
+                <span class="icon has-text-info pb-2">
+                    <i class="fa-solid fa-user-plus"></i>
+                </span>
+                <p class="title has-text-info is-5 has-text-centered">
+                    Søg efter andre brugere og bliv inspireret...
+                </p>
+            </div>
+        {% endif %}
+    </div>
 
 {% endblock %}

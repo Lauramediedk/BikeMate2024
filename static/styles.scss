@@ -1,4 +1,4 @@
-/* We make custom color variables */
+/* We make custom color variables and override some bulma classes */
 $primary: #2D728F;
 $secondary: #3B8EA5;
 $yellow: #F5EE9E;
@@ -8,9 +8,8 @@ $grey: #EDEAEA;
 $details: #878686;
 $nav_icons: #f2e8e8;
 
-/* Update Bulmas defaults */
-$is-primary: $primary;
-$is-info: $details;
+/* Use variables to override specific classes in bulma */
+$info: $details;
 
 @import 'node_modules/bulma/bulma'; /* We import bulma's own sass source file*/
 
@@ -83,8 +82,14 @@ p.is-rounded {
 .profile-image{
     border-radius: 50%;
     object-fit: cover;
-    width: 80px;
-    height: 80px;
+    width: 100px;
+    height: 100px;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    text-align: center;
+    color: $primary;
+    background: $grey;
 }
 
 
