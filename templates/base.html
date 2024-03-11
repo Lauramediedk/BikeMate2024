@@ -24,8 +24,8 @@
                         <i class="fa-solid fa-circle-user fa-2xl nav-icons"></i>
                     </span>
                 </a>
-                <a href="#" class="navbar-item mx-3
-                {{ 'active-link' if active_page == 'feed'}}">
+                <a href="{{ url_for('friends.friends') }}" class="navbar-item mx-3
+                {{ 'active-link' if active_page == 'friends'}}">
                     <span class="icon">
                         <i class="fa-solid fa-users fa-2xl nav-icons"></i>
                     </span>
