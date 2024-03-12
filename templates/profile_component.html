@@ -1,0 +1,65 @@
+<div class="columns is-centered m-2">
+    <div class="box m-2">
+        <div class="column">
+            {% if profile.imagePath %}
+                <figure class="is-flex center">
+                    <img class="profile-image" src="{{ url_for('static', filename=profile.imagePath) }}" alt="profilbillede">
+                </figure>
+            {% else %}
+                <figure class="is-flex center">
+                    <p class="title profile-image is-3">
+                        {{ profile.firstName[0] }}
+                    </p>
+                </figure>
+            {% endif %}
+        </div>
+        <div class="column has-text-centered">
+            {{ profile.firstName }} {{ profile.lastName }}
+        </div>
+        <div class="column">
+            <div class="buttons is-centered">
+                {% if context == 'search' %}
+                    <!-- Display buttons based on friendship status -->
+                    {% if profile.isFriend %}
+                    <form action="{{ url_for('friends.toggle_friendship', to_user_id=profile.userId) }}" method="post">
+                        <button class="button" type="submit">
+                            <span class="icon-text">
+                                <span class="icons mr-1">
+                                    <i class="fa-solid fa-user-check"></i>
+                                </span>
+                                Venner
+                            </span>
+                        </button>
+                    </form>
+                    {% elif profile.requestSent %}
+                        <button class="button is-primary" disabled>
+                            Anmodning sendt
+                        </button>
+                    {% else %}
+                        <form action="{{ url_for('friends.toggle_friendship', to_user_id=profile.userId) }}" method="post">
+                            <button class="button is-primary" type="submit">
+                                Tilføj ven
+                            </button>
+                        </form>
+                    {% endif %}
+                    <button class="button">
+                        Se profil
+                    </button>
+                {% elif context == 'request' %}
+                    <div class="column is-flex center">
+                        <form action="{{ url_for('friends.accept_request', from_user_id=profile.fromUserId)}}" method="post">
+                            <button class="button mr-2" type="submit">
+                                Accepter
+                            </button>
+                        </form>
+                        <form action="{{ url_for('friends.delete_request', from_user_id=profile.fromUserId)}}" method="post">
+                            <button class="button is-danger is-light" type="submit">
+                                Slet
+                            </button>
+                        </form>
+                    </div>
+                {% endif %}
+            </div>
+        </div>
+    </div>
+</div>
