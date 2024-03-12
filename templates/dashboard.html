@@ -120,13 +120,12 @@
 
         <hr class="dropdown-divider">
 
-        <section class="section pt-0">
+        <section class="section pt-0 pb-2">
             <div class="columns is-marginless border-radius scroll-box is-block">
-                <div class="column is-flex is-justify-content-space-evenly my-3">
-                    <p class="title is-5 mb-0">0 Følger</p>
-                    <p class="title is-5">0 Følgere</p>
+                <div class="column">
+                    <p class="title is-5 mb-0">Venner</p>
                 </div>
-                <div class="field px-4">
+                <div class="column field px-4">
                     <div class="control has-icons-left">
                         <input class="input" type="text" placeholder="Find en ven...">
                         <span class="icon is-left">
@@ -134,10 +133,26 @@
                         </span>
                     </div>
                 </div>
-                {% if user_friends %}
-                    {% for friend in user_friends %}
-                        <div class="column">
-                            {{ friend }}
+                {% if friends %}
+                    {% for friend in friends %}
+                        <div class="column is-flex user-list" id="friend_list">
+                            {% if friend.profileImage%}
+                                <img class="is-rounded" src="{{ url_for('static', filename=friend.profileImage) }}" alt="profilbillede">
+                            {% else %}
+                                <p class="title is-3 is-rounded mb-0">
+                                    {{ friend.fName[0] }}
+                                </p>
+                            {% endif %}
+                            <p class="m-1">{{ friend.fName }} {{ friend.lName }}</p>
+                            <form hx-post="{{ url_for('friends.toggle_friendship', to_user_id=friend.userId) }}"
+                            hx-target="#friend_list"
+                            hx-select="#friend_list"
+                            hx-swap="innerHTML"
+                            >
+                                <button class="button is-light is-primary" type="submit">
+                                    <i class="fa-solid fa-user-minus"></i>
+                                </button>
+                            </form>
                         </div>
                     {% endfor %}
                 {% else %}

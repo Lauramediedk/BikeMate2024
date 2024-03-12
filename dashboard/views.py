@@ -6,6 +6,7 @@ from .forms import BioForm
 from users.views import login_required
 from .models import upload_profile_image, get_profile_image, remove_profile_image, upload_user_bio, get_user_bio
 from challenges.models import Events
+from friends.models import get_friends
 from challenges.views import format_date
 import os
 
@@ -19,6 +20,7 @@ def dashboard():
     image_path = get_profile_image(user_id)
     bio = get_user_bio(user_id)
     events = Events.get_joined_events(user_id)
+    friends = get_friends(user_id)
 
     format_date(events)
 
@@ -31,6 +33,7 @@ def dashboard():
                                image_path=image_path,
                                bio=bio, form=form,
                                events=events,
+                               friends=friends,
                                active_page='dashboard')
     else:
         flash('Adgang nægtet', 'error')

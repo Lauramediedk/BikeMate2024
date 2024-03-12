@@ -19,6 +19,27 @@ def check_friendship(from_user_id, to_user_id):
     except Exception as e:
         raise RuntimeError(f"Kunne ikke tjekke venskabsstatus: {str(e)}") from e
 
+def get_friends(user_id):
+    query = (
+        """
+        MATCH (u:User {user_id: $user_id})-[r:FRIENDS_WITH]-(friend:User)
+        RETURN friend.user_id AS userId,
+        friend.first_name AS fName,
+        friend.last_name AS lName,
+        friend.image_path AS profileImage
+        """
+    )
+
+    parameters = {
+        "user_id": user_id,
+    }
+
+    try:
+        result = db.run_query(query, parameters)
+        return [record for record in result] if result else []
+    except Exception as e:
+        raise RuntimeError(f"Kunne ikke hente venneliste: {str(e)}") from e
+
 def delete_friendship(from_user_id, to_user_id):
     query = (
         """
