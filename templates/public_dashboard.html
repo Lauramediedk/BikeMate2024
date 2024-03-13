@@ -1,0 +1,61 @@
+{% extends 'base.html' %}
+
+{% block title %}Dashboard{% endblock %}
+
+{% block content %}
+
+    <section class="section">
+        <div class="container has-text-centered">
+            <div class="is-flex center">
+                {% if profile.imagePath %}
+                    <img class="profile-image" src="{{ url_for('static', filename=profile.imagePath) }}" alt="profilbillede">
+                {% else %}
+                    <p class="title profile-image is-3">
+                        {{ profile.firstName[0] }}
+                    </p>
+                {% endif %}
+            </div>
+            <h1 class="is-size-5">
+                {{profile.firstName}}
+                {{profile.lastName}}
+            </h1>
+        </div>
+        <div class="container">
+            <div class="buttons is-centered">
+                {% if profile.isFriend %}
+                    <form action="{{ url_for('friends.toggle_friendship', to_user_id=profile.userId) }}" method="post">
+                        <button class="button" type="submit">
+                            <span class="icon-text">
+                                <span class="icons mr-1">
+                                    <i class="fa-solid fa-user-check"></i>
+                                </span>
+                                Venner
+                            </span>
+                        </button>
+                    </form>
+                {% elif profile.requestSent %}
+                    <button class="button is-primary" disabled>
+                        Anmodning sendt
+                    </button>
+                {% else %}
+                    <form action="{{ url_for('friends.toggle_friendship', to_user_id=profile.userId) }}" method="post">
+                        <button class="button is-primary" type="submit">
+                            Tilføj ven
+                        </button>
+                    </form>
+                {% endif %}
+            </div>
+        </div>
+        <div class="container is-max-desktop box">
+            <div class="columns">
+                <div class="column">
+                    {% if profile.bio %}
+                        <p class="title is-5">Detaljer</p>
+                        {{ profile.bio }}
+                    {% endif %}
+                </div>
+            </div>
+        </div>
+    </section>
+
+{% endblock %}

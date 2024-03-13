@@ -63,6 +63,29 @@ def get_recommended_friends(user_id):
     except Exception as e:
         raise RuntimeError(f"Could not fetch recommended friends: {str(e)}") from e
 
+# DENNE ER NY. EVT LAV DEN OM
+def view_profile(user_id):
+    query = (
+        """
+        MATCH (u:User {user_id: $user_id})
+        RETURN u.user_id AS userId,
+            u.first_name AS firstName,
+            u.last_name AS lastName,
+            u.image_path AS imagePath,
+            u.bio AS bio
+        """
+    )
+
+    parameters = {
+        "user_id": user_id,
+    }
+
+    try:
+        result = db.run_query(query, parameters)
+        return result[0] if result else None
+    except Exception as e:
+        raise RuntimeError(f"Kunne ikke gå til brugerens dashboard: {str(e)}") from e
+
 def delete_friendship(from_user_id, to_user_id):
     query = (
         """
@@ -172,22 +195,20 @@ def search_user(search_term, user_id):
         """
         CALL db.index.fulltext.queryNodes("firstname_and_lastname", $search_term)
         YIELD node, score
+        MATCH (loggedIn:User {user_id: $user_id})
         WHERE NOT node.user_id = $user_id
-        OPTIONAL MATCH (:User {user_id: $user_id})-[r:FRIEND_REQUEST]->(node)
-        OPTIONAL MATCH (:User)-[f:FRIENDS_WITH]-(node)
+        WITH node, score, loggedIn
         RETURN
             node.user_id AS userId,
             node.first_name AS firstName,
             node.last_name AS lastName,
             node.image_path AS imagePath,
             score,
-            CASE WHEN r IS NOT NULL THEN true ELSE false END AS requestSent,
-            CASE WHEN f IS NOT NULL THEN true ELSE false END AS isFriend
+            EXISTS((loggedIn)-[:FRIEND_REQUEST]->(node)) AS requestSent,
+            EXISTS((loggedIn)-[:FRIENDS_WITH]-(node)) AS isFriend
         ORDER BY score DESC
         """
     )
-    # Get the most relevant/closer match of results by using score
-
     parameters = {
         "search_term": search_term,
         "user_id": user_id,

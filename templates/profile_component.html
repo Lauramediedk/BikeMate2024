@@ -42,9 +42,11 @@
                             </button>
                         </form>
                     {% endif %}
-                    <button class="button">
-                        Se profil
-                    </button>
+                    <form action="{{ url_for('friends.profile', user_id=profile.userId) }}" method="get">
+                        <button class="button is-primary" type="submit">
+                            Se profil
+                        </button>
+                    </form>
                 {% elif context == 'request' %}
                     <div class="column is-flex center">
                         <form action="{{ url_for('friends.accept_request', from_user_id=profile.fromUserId)}}" method="post">
