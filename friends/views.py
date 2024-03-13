@@ -1,7 +1,7 @@
 from flask import render_template, session, flash, url_for, redirect, request
 from . import friends_bp
 from users.views import login_required
-from .models import send_friend_request, search_user, get_friend_requests, accept_friend_request, delete_friend_request, check_friendship, delete_friendship
+from .models import send_friend_request, search_user, get_friend_requests, accept_friend_request, delete_friend_request, check_friendship, delete_friendship, get_recommended_friends
 
 @friends_bp.route('/')
 @login_required
@@ -9,6 +9,7 @@ def friends():
     search_term = request.args.get('search_term', '')
     user_id = session.get('user_id')
     friend_requests = get_friend_requests(user_id)
+    recommended_friends = get_recommended_friends(user_id)
     results = []
 
     if search_term:
@@ -20,6 +21,7 @@ def friends():
                            search_term=search_term,
                            friend_requests=friend_requests,
                            results=results,
+                           recommended_friends=recommended_friends,
                            active_page='friends')
 
 @friends_bp.route('/accept_request/<from_user_id>', methods=['POST'])

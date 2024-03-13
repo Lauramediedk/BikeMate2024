@@ -18,7 +18,7 @@
         </div>
         <div class="column">
             <div class="buttons is-centered">
-                {% if context == 'search' %}
+                {% if context == 'search' or context == 'recommended' %}
                     <!-- Display buttons based on friendship status -->
                     {% if profile.isFriend %}
                     <form action="{{ url_for('friends.toggle_friendship', to_user_id=profile.userId) }}" method="post">

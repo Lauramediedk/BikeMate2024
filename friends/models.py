@@ -40,6 +40,29 @@ def get_friends(user_id):
     except Exception as e:
         raise RuntimeError(f"Kunne ikke hente venneliste: {str(e)}") from e
 
+def get_recommended_friends(user_id):
+    query = (
+        """
+        MATCH (u:User {user_id: $user_id})-[:FRIENDS_WITH]-(common_friend)-[:FRIENDS_WITH]-(recommended_user)
+        WHERE NOT (u)-[:FRIENDS_WITH]-(recommended_user)
+        AND u.user_id <> recommended_user.user_id
+        RETURN recommended_user.user_id AS userId,
+            recommended_user.first_name AS firstName,
+            recommended_user.last_name AS lastName,
+            recommended_user.image_path AS imagePath
+        """
+    )
+
+    parameters = {
+        "user_id": user_id,
+    }
+
+    try:
+        result = db.run_query(query, parameters)
+        return [record for record in result] if result else []
+    except Exception as e:
+        raise RuntimeError(f"Could not fetch recommended friends: {str(e)}") from e
+
 def delete_friendship(from_user_id, to_user_id):
     query = (
         """

@@ -5,49 +5,71 @@
 {% block content %}
 
     <div class="section">
-        <!--Use the profile_component to show users who have requested friendship-->
-        {% if friend_requests %}
-            <p class="subtitle is-5 has-text-centered">
-                Venneanmodninger
-            </p>
-            <div class="container is-flex-tablet center is-multiline">
-                {% for request in friend_requests %}
-                    {% with profile=request %}
-                        {% with context='request' %}
-                            {% include 'profile_component.html' %}
+        <div class="container is-max-desktop">
+            <!--Use the profile_component to show users who have requested friendship-->
+            {% if friend_requests %}
+                <p class="subtitle is-5 has-text-centered">
+                    Venneanmodninger
+                </p>
+                <div class="container is-flex-tablet center is-multiline">
+                    {% for request in friend_requests %}
+                        {% with profile=request %}
+                            {% with context='request' %}
+                                {% include 'profile_component.html' %}
+                            {% endwith %}
                         {% endwith %}
-                    {% endwith %}
-                {% endfor %}
-            </div>
-        {% endif %}
-        <hr class="dropdown-divider">
-        <div class="container is-max-desktop pt-4">
-            <form class="is-flex" action="{{ url_for('friends.friends') }}" method="get">
-                <input class="input mr-2" type="text" name="search_term" placeholder="Søg...">
-                <button class="button is-primary" type="submit">Søg</button>
-            </form>
-        </div>
-
-        <!--Use the profile_component to show users when searching-->
-        <div class="container is-flex-tablet center is-multiline">
-            {% if results %}
-                {% for result in results %}
-                    {% with profile=result %}
-                        {% with context='search' %}
-                            {% include 'profile_component.html' %}
-                        {% endwith %}
-                    {% endwith %}
-                {% endfor %}
-            {% else %}
-                <div class="container pt-5 has-text-centered">
-                    <span class="icon has-text-info pb-2">
-                        <i class="fa-solid fa-user-plus"></i>
-                    </span>
-                    <p class="title has-text-info is-5 has-text-centered">
-                        Søg efter andre brugere og bliv inspireret...
-                    </p>
+                    {% endfor %}
                 </div>
+                <hr class="dropdown-divider">
             {% endif %}
+            <div class="columns center pt-4">
+                <div class="column is-5-tablet">
+                    <form class="is-flex" action="{{ url_for('friends.friends') }}" method="get">
+                        <input class="input mr-2" type="text" name="search_term" placeholder="Søg...">
+                        <button class="button is-primary" type="submit">Søg</button>
+                    </form>
+                </div>
+            </div>
+
+            <!--Use the profile_component to show users when searching-->
+            <div class="container is-flex-tablet center is-multiline">
+                {% if results %}
+                    {% for result in results %}
+                        {% with profile=result %}
+                            {% with context='search' %}
+                                {% include 'profile_component.html' %}
+                            {% endwith %}
+                        {% endwith %}
+                    {% endfor %}
+                {% else %}
+                    <div class="container pt-5 has-text-centered">
+                        <span class="icon has-text-info pb-2">
+                            <i class="fa-solid fa-user-plus"></i>
+                        </span>
+                        <p class="title has-text-info is-5 has-text-centered">
+                            Søg efter andre brugere og bliv inspireret...
+                        </p>
+                    </div>
+                {% endif %}
+            </div>
+            <!--Recommended friends will be shown always-->
+            <div class="container">
+                {% if recommended_friends %}
+                    <hr class="dropdown-divider mt-6">
+                    <p class="subtitle is-5 has-text-centered mt-4">
+                        Personer du måske kender...
+                    </p>
+                    <div class="columns is-flex-tablet center is-multiline">
+                        {% for friend in recommended_friends %}
+                            {% with profile=friend %}
+                                {% with context='recommended' %}
+                                    {% include 'profile_component.html' %}
+                                {% endwith %}
+                            {% endwith %}
+                        {% endfor %}
+                    </div>
+                {% endif %}
+            </div>
         </div>
     </div>
 
