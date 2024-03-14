@@ -44,8 +44,8 @@
                                     <div class="is-flex user-list mb-2">
                                         <img class="is-rounded" src="{{ url_for('static', filename=participant.image_path) }}" alt="profilbillede">
                                         <p class="m-1">{{ participant.full_name }}</p>
-                                        <a class="button is-light is-primary" href="#">
-                                            <i class="fa-solid fa-user-plus"></i>
+                                        <a class="button is-light is-primary" href="{{ url_for('friends.profile', user_id=participant.user_id) }}">
+                                            <i class="fa-solid fa-user"></i>
                                         </a>
                                     </div>
                                 {% else %}
@@ -54,8 +54,8 @@
                                             {{ participant.full_name[0] }}
                                         </p>
                                         <p class="m-1">{{ participant.full_name }}</p>
-                                        <a class="button is-light is-primary" href="#">
-                                            <i class="fa-solid fa-user-plus"></i>
+                                        <a class="button is-light is-primary" href="{{ url_for('friends.profile', user_id=participant.user_id) }}">
+                                            <i class="fa-solid fa-user"></i>
                                         </a>
                                     </div>
                                 {% endif %}

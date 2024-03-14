@@ -142,9 +142,11 @@
                                     <img class="is-rounded" src="{{ url_for('static', filename=friend.profileImage) }}" alt="profilbillede">
                                 </a>
                                 {% else %}
-                                    <p class="title is-3 is-rounded mb-0">
-                                        {{ friend.fName[0] }}
-                                    </p>
+                                    <a href="{{ url_for('friends.profile', user_id=friend.userId) }}">
+                                        <p class="title is-3 is-rounded mb-0">
+                                            {{ friend.fName[0] }}
+                                        </p>
+                                    </a>
                                 {% endif %}
                                 <p class="m-1">{{ friend.fName }} {{ friend.lName }}</p>
                                 <form hx-post="{{ url_for('friends.toggle_friendship', to_user_id=friend.userId) }}"
