@@ -81,7 +81,7 @@
         </div>
 
         <!--All public events created by other users-->
-        <div class="container" x-show="activeTab === 'all_events'">
+        <div class="container is-max-desktop" x-show="activeTab === 'all_events'">
             <div class="columns is-centered is-block-tablet">
                 {% if all_events %}
                     {% for event in all_events %}
@@ -134,7 +134,7 @@
         </div>
 
         <!--Users own events-->
-        <div class="container" x-show="activeTab === 'users_events'">
+        <div class="container is-max-desktop" x-show="activeTab === 'users_events'">
             <div class="columns is-block-tablet">
                 {% if users_events %}
                     {% for event in users_events %}

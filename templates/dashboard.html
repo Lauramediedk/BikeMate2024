@@ -136,28 +136,30 @@
                 {% if friends %}
                     <div class="container is-flex-tablet scroll-box">
                         {% for friend in friends %}
-                            <div class="column border is-6 is-flex user-list" id="friend_list">
-                                {% if friend.profileImage%}
-                                <a href="{{ url_for('friends.profile', user_id=friend.userId) }}">
-                                    <img class="is-rounded" src="{{ url_for('static', filename=friend.profileImage) }}" alt="profilbillede">
-                                </a>
-                                {% else %}
+                            <div class="column is-6" id="friend_list">
+                                <div class="box is-flex user-list">
+                                    {% if friend.profileImage%}
                                     <a href="{{ url_for('friends.profile', user_id=friend.userId) }}">
-                                        <p class="title is-3 is-rounded mb-0">
-                                            {{ friend.fName[0] }}
-                                        </p>
+                                        <img class="is-rounded" src="{{ url_for('static', filename=friend.profileImage) }}" alt="profilbillede">
                                     </a>
-                                {% endif %}
-                                <p class="m-1">{{ friend.fName }} {{ friend.lName }}</p>
-                                <form hx-post="{{ url_for('friends.toggle_friendship', to_user_id=friend.userId) }}"
-                                hx-target="#friend_list"
-                                hx-select="#friend_list"
-                                hx-swap="innerHTML"
-                                >
-                                    <button class="button is-light is-primary" type="submit">
-                                        <i class="fa-solid fa-user-minus"></i>
-                                    </button>
-                                </form>
+                                    {% else %}
+                                        <a href="{{ url_for('friends.profile', user_id=friend.userId) }}">
+                                            <p class="title is-3 is-rounded mb-0">
+                                                {{ friend.fName[0] }}
+                                            </p>
+                                        </a>
+                                    {% endif %}
+                                    <p class="m-1">{{ friend.fName }} {{ friend.lName }}</p>
+                                    <form hx-post="{{ url_for('friends.toggle_friendship', to_user_id=friend.userId) }}"
+                                    hx-target="#friend_list"
+                                    hx-select="#friend_list"
+                                    hx-swap="innerHTML"
+                                    >
+                                        <button class="button is-light is-primary" type="submit">
+                                            <i class="fa-solid fa-user-minus"></i>
+                                        </button>
+                                    </form>
+                                </div>
                             </div>
                         {% endfor %}
                     </div>

@@ -261,18 +261,16 @@ class Events:
 
     # View the participants of an event
     @classmethod
-    def get_participants(cls, event_id, logged_in_user):
+    def get_participants(cls, event_id):
         query = (
             """
             MATCH (u:User)-[:JOINED]->(e:Event {event_id: $event_id})
-            WHERE NOT u.user_id = $logged_in_user
             RETURN u.user_id AS user_id, u.first_name AS first_name, u.last_name AS last_name, u.image_path AS image_path
             """
         )
 
         parameters = {
             "event_id": event_id,
-            "logged_in_user": logged_in_user,
         }
 
         try:

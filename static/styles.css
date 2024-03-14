@@ -10395,6 +10395,11 @@ p.is-rounded {
   align-items: center;
 }
 
+.user-info {
+  align-items: center;
+  gap: 0.5rem;
+}
+
 /* Desktop specific */
 @media screen and (min-width: 1088px) {
   .has-margin-vertical-desktop {

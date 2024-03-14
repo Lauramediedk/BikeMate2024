@@ -102,7 +102,7 @@ def view_event(event_id):
     # Get event details by event_id
     event = Events.get_event_by_id(event_id)
     is_joined = Events.is_user_joined(user_id, event_id)
-    participants = Events.get_participants(event_id, user_id)
+    participants = Events.get_participants(event_id)
 
     if event:
         return render_template('view_event.html',
