@@ -49,7 +49,8 @@ def get_recommended_friends(user_id):
         RETURN recommended_user.user_id AS userId,
             recommended_user.first_name AS firstName,
             recommended_user.last_name AS lastName,
-            recommended_user.image_path AS imagePath
+            recommended_user.image_path AS imagePath,
+            EXISTS((u)-[:FRIEND_REQUEST]->(recommended_user)) AS requestSent
         """
     )
 
