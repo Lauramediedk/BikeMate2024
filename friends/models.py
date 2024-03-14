@@ -36,7 +36,7 @@ def get_friends(user_id):
 
     try:
         result = db.run_query(query, parameters)
-        return [record for record in result] if result else []
+        return [record for record in result] if result else None
     except Exception as e:
         raise RuntimeError(f"Kunne ikke hente venneliste: {str(e)}") from e
 

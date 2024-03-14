@@ -138,7 +138,9 @@
                         {% for friend in friends %}
                             <div class="column border is-6 is-flex user-list" id="friend_list">
                                 {% if friend.profileImage%}
+                                <a href="{{ url_for('friends.profile', user_id=friend.userId) }}">
                                     <img class="is-rounded" src="{{ url_for('static', filename=friend.profileImage) }}" alt="profilbillede">
+                                </a>
                                 {% else %}
                                     <p class="title is-3 is-rounded mb-0">
                                         {{ friend.fName[0] }}
