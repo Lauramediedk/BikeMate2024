@@ -70,13 +70,17 @@ def view_profile(user_id, logged_in_user):
         """
         MATCH (u:User {user_id: $user_id})
         OPTIONAL MATCH (loggedIn:User {user_id: $logged_in_user})
+        OPTIONAL MATCH (u)-[:FRIENDS_WITH]-(friend:User)
+        OPTIONAL MATCH (u)-[:JOINED]->(event:Event)
         RETURN u.user_id AS userId,
             u.first_name AS firstName,
             u.last_name AS lastName,
             u.image_path AS imagePath,
             u.bio AS bio,
             EXISTS((loggedIn)-[:FRIEND_REQUEST]->(u)) AS requestSent,
-            EXISTS((loggedIn)-[:FRIENDS_WITH]-(u)) AS isFriend
+            EXISTS((loggedIn)-[:FRIENDS_WITH]-(u)) AS isFriend,
+            COLLECT(DISTINCT friend) AS friends,
+            COLLECT(DISTINCT event) AS events
         """
     )
 

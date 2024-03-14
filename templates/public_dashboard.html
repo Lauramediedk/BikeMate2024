@@ -56,6 +56,27 @@
                 </div>
             </div>
         </div>
+        <div>
+            <!--TODO: Gør den indsamlede data flot. Evt kig på personligt dashboard-->
+            <h3>Friends:</h3>
+            <div>
+                {% if profile.friends %}
+                    {% for friend in friends %}
+                        <li>{{ friend.firstName }} {{ friend.lastName }}</li>
+                    {% endfor %}
+                {% endif %}
+            </div>
+        </div>
+
+        <!-- User Events -->
+        <div>
+            <h3>Events:</h3>
+            <ul>
+                {% for event in profile.events %}
+                    <li>{{ event.title }} - {{ event.date }}</li>
+                {% endfor %}
+            </ul>
+        </div>
     </section>
 
 {% endblock %}
