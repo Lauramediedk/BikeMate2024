@@ -41,16 +41,17 @@ def get_friends(user_id):
         raise RuntimeError(f"Kunne ikke hente venneliste: {str(e)}") from e
 
 def get_recommended_friends(user_id):
+    # We make sure to not show the recommended users if there is a relation
     query = (
         """
         MATCH (u:User {user_id: $user_id})-[:FRIENDS_WITH]-(common_friend)-[:FRIENDS_WITH]-(recommended_user)
         WHERE NOT (u)-[:FRIENDS_WITH]-(recommended_user)
         AND u.user_id <> recommended_user.user_id
+        AND NOT (u)-[:FRIEND_REQUEST]-(recommended_user)
         RETURN recommended_user.user_id AS userId,
             recommended_user.first_name AS firstName,
             recommended_user.last_name AS lastName,
-            recommended_user.image_path AS imagePath,
-            EXISTS((u)-[:FRIEND_REQUEST]->(recommended_user)) AS requestSent
+            recommended_user.image_path AS imagePath
         """
     )
 
@@ -64,21 +65,24 @@ def get_recommended_friends(user_id):
     except Exception as e:
         raise RuntimeError(f"Could not fetch recommended friends: {str(e)}") from e
 
-# DENNE ER NY. EVT LAV DEN OM
-def view_profile(user_id):
+def view_profile(user_id, logged_in_user):
     query = (
         """
         MATCH (u:User {user_id: $user_id})
+        OPTIONAL MATCH (loggedIn:User {user_id: $logged_in_user})
         RETURN u.user_id AS userId,
             u.first_name AS firstName,
             u.last_name AS lastName,
             u.image_path AS imagePath,
-            u.bio AS bio
+            u.bio AS bio,
+            EXISTS((loggedIn)-[:FRIEND_REQUEST]->(u)) AS requestSent,
+            EXISTS((loggedIn)-[:FRIENDS_WITH]-(u)) AS isFriend
         """
     )
 
     parameters = {
         "user_id": user_id,
+        "logged_in_user": logged_in_user,
     }
 
     try:

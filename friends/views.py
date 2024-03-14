@@ -27,7 +27,9 @@ def friends():
 @friends_bp.route('/profile/<string:user_id>', methods=['GET'])
 @login_required
 def profile(user_id):
-    user_profile = view_profile(user_id)
+    logged_in_user = session.get('user_id')
+
+    user_profile = view_profile(user_id, logged_in_user)
     if user_profile:
         return render_template('public_dashboard.html', profile=user_profile, active_page='friends')
     else:
@@ -70,7 +72,7 @@ def toggle_friendship(to_user_id):
             flash('Kunne ikke fjerne fra venner, prøv igen', 'error')
     else:
         if send_friend_request(from_user_id, to_user_id):
-            flash('Anmodning sendr til brugeren', 'success')
+            flash('Anmodning sendt til brugeren', 'success')
         else:
             flash('Anmodningen kunne ikke sendes, prøv igen', 'error')
 

@@ -7,7 +7,6 @@
 <div class="section">
     <!--Use the profile_component to show users who have requested friendship-->
     {% if friend_requests %}
-    <hr class="dropdown-divider">
         <p class="subtitle is-5 has-text-centered">
             Venneanmodninger
         </p>
@@ -20,10 +19,11 @@
                 {% endwith %}
             {% endfor %}
         </div>
+        <hr class="dropdown-divider">
     {% endif %}
     <div class="container is-max-desktop pt-4">
         <form class="is-flex" action="{{ url_for('friends.friends') }}" method="get">
-            <input class="input mr-2" type="text" name="search_term" placeholder="Søg...">
+            <input class="input mr-2" type="text" name="search_term" placeholder="Søg efter personer...">
             <button class="button is-primary" type="submit">Søg</button>
         </form>
     </div>
