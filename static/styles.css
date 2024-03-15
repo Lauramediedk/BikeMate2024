@@ -10377,6 +10377,7 @@ p.is-rounded {
   max-height: 300px;
 }
 .scroll-box::-webkit-scrollbar {
+  height: 5px;
   width: 5px;
 }
 .scroll-box::-webkit-scrollbar-thumb {
@@ -10390,6 +10391,7 @@ p.is-rounded {
   align-items: center;
 }
 
+/* listing users for events and on dashboard */
 .user-list {
   justify-content: space-between;
   align-items: center;

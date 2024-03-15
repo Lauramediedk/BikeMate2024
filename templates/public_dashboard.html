@@ -19,8 +19,9 @@
                 {{profile.firstName}}
                 {{profile.lastName}}
             </h1>
-        </div>
-        <div class="container">
+            {% if profile.bio %}
+                    <p>{{ profile.bio }}</p>
+            {% endif %}
             <div class="buttons is-centered">
                 {% if profile.isFriend %}
                     <form action="{{ url_for('friends.toggle_friendship', to_user_id=profile.userId) }}" method="post">
@@ -46,51 +47,78 @@
                 {% endif %}
             </div>
         </div>
-        <div class="container is-max-desktop box">
-            <div class="columns">
-                <div class="column">
-                    {% if profile.bio %}
-                        <p class="title is-5">Detaljer</p>
-                        {{ profile.bio }}
+    </section>
+    <section class="section pt-1 is-centered">
+        <div class="container is-max-desktop has-text-centered box">
+            <div class="columns is-flex-tablet is-centered is-multiline">
+                <div class="column is-7-tablet">
+                    <p class="title is-5">Venner</p>
+                    <!--Search for specific users-->
+                    <div class="control has-icons-left m-4">
+                        <input class="input" type="text" placeholder="Find en ven...">
+                        <span class="icon is-left">
+                            <i class="fa-solid fa-magnifying-glass"></i>
+                        </span>
+                    </div>
+                    {% if profile.friends %}
+                        <div class="scroll-box px-2">
+                            {% for friend in profile.friends %}
+                                <div class="box mb-1 is-flex user-list">
+                                    {% if friend.imagePath%}
+                                        <a href="{{ url_for('friends.profile', user_id=friend.userId) }}">
+                                            <img class="is-rounded" src="{{ url_for('static', filename=friend.imagePath) }}" alt="profilbillede">
+                                        </a>
+                                    {% else %}
+                                        <a href="{{ url_for('friends.profile', user_id=friend.userId) }}">
+                                            <p class="title is-3 is-rounded mb-0">
+                                                {{ friend.firstName[0] }}
+                                            </p>
+                                        </a>
+                                    {% endif %}
+                                    <p class="m-1">{{ friend.firstName }} {{ friend.lastName }}</p>
+                                    <a class="button is-light is-primary" href="{{ url_for('friends.profile', user_id=friend.userId) }}">
+                                        <i class="fa-solid fa-user"></i>
+                                    </a>
+                                </div>
+                            {% endfor %}
+                        </div>
+                    {% else %}
+                        <p>Ingen venner</p>
+                    {% endif %}
+                </div>
+                <div class="column is-5-tablet scroll-box">
+                    <p class="title is-5">Events</p>
+                    {% if profile.events %}
+                        {% for event in profile.events %}
+                            <div class="box">
+                                <p class="subtitle is-size-6 has-text-weight-semibold">
+                                    {{ event.title }}
+                                </p>
+                                <span class="icon-text">
+                                    <span class="icon">
+                                        <i class="fa-solid fa-clock"></i>
+                                    </span>
+                                    {{ event.date }}
+                                </span>
+                                <span class="icon-text">
+                                    <span class="icon">
+                                        <i class="fa-solid fa-location-dot"></i>
+                                    </span>
+                                    {{ event.location }}
+                                </span>
+                                <div class="buttons is-centered pt-4">
+                                    <a href="{{ url_for('challenges.view_event', event_id=event.event_id) }}"
+                                    class="button is-primary">
+                                        Gå til event
+                                    </a>
+                                </div>
+                            </div>
+                        {% endfor %}
+                    {% else%}
+                        <p>Ingen events</p>
                     {% endif %}
                 </div>
             </div>
-        </div>
-        {% if profile.friends %}
-            <div class="tile is-ancestor">
-                <div class="tile is-vertical">
-                    <div class="tile">
-                        <p class="title is-5">Venner</p>
-                        {% for friend in profile.friends %}
-                            <div class="box is-flex user-list">
-                                {% if friend.imagePath%}
-                                    <a href="{{ url_for('friends.profile', user_id=friend.userId) }}">
-                                        <img class="is-rounded" src="{{ url_for('static', filename=friend.imagePath) }}" alt="profilbillede">
-                                    </a>
-                                {% else %}
-                                    <a href="{{ url_for('friends.profile', user_id=friend.userId) }}">
-                                        <p class="title is-3 is-rounded mb-0">
-                                            {{ friend.firstName[0] }}
-                                        </p>
-                                    </a>
-                                {% endif %}
-                                <p class="m-1">{{ friend.firstName }} {{ friend.lastName }}</p>
-                            </div>
-                            <!--TODO: Evt knap til at tilføje dem som venner her fra også?-->
-                        {% endfor %}
-                    </div>
-                </div>
-            </div>
-        {% endif %}
-
-        <!-- User Events -->
-        <div>
-            <h3>Events:</h3>
-            <ul>
-                {% for event in profile.events %}
-                    <li>{{ event.title }} - {{ event.date }}</li>
-                {% endfor %}
-            </ul>
         </div>
     </section>
 
