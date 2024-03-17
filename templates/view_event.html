@@ -40,27 +40,29 @@
                                 <button class="delete" aria-label="close" @click="isModalActive = false"></button>
                             </div>
                             {% for participant in participants %}
-                                <div class="is-flex user-list mb-2">
-                                    <div class="is-flex user-info">
-                                        {% if participant.image_path %}
-                                            <img class="is-rounded" src="{{ url_for('static', filename=participant.image_path) }}" alt="profilbillede">
+                                {% if participant.user_id %}
+                                    <div class="is-flex user-list mb-2">
+                                        <div class="is-flex user-info">
+                                            {% if participant.image_path %}
+                                                <img class="is-rounded" src="{{ url_for('static', filename=participant.image_path) }}" alt="profilbillede">
+                                            {% else %}
+                                                <p class="title is-3 is-rounded mb-0">
+                                                    {{ participant.full_name[0] }}
+                                                </p>
+                                            {% endif %}
+                                            <p class="m-1">{{ participant.full_name }}</p>
+                                        </div>
+                                        {% if participant.user_id != session.user_id %}
+                                            <a class="button is-light is-primary">
+                                                <i class="fa-solid fa-user"></i>
+                                            </a>
                                         {% else %}
-                                            <p class="title is-3 is-rounded mb-0">
-                                                {{ participant.full_name[0] }}
-                                            </p>
+                                            <button class="button is-light is-primary is-invisible">
+                                                <i class="fa-solid fa-user"></i>
+                                            </button>
                                         {% endif %}
-                                        <p class="m-1">{{ participant.full_name }}</p>
                                     </div>
-                                    {% if not participant.user_id == session.user_id %}
-                                        <a class="button is-light is-primary" href="{{ url_for('friends.profile', user_id=participant.user_id) }}">
-                                            <i class="fa-solid fa-user"></i>
-                                        </a>
-                                    {% else %}
-                                        <a class="button is-light is-primary is-invisible" href="{{ url_for('friends.profile', user_id=participant.user_id) }}">
-                                            <i class="fa-solid fa-user"></i>
-                                        </a>
-                                    {% endif %}
-                                </div>
+                                {% endif %}
                             {% endfor %}
                         </div>
                     </div>

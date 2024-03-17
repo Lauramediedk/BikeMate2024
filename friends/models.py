@@ -89,14 +89,10 @@ def view_profile(user_id, logged_in_user):
         """
     )
 
-    print(f"Executing query: {query}")
-
     parameters = {
         "user_id": user_id,
         "logged_in_user": logged_in_user,
     }
-
-    print(f"With parameters: {parameters}")
 
     try:
         result = db.run_query(query, parameters)
