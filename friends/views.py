@@ -28,10 +28,13 @@ def friends():
 @login_required
 def profile(user_id):
     logged_in_user = session.get('user_id')
+    print(f"Logged in user: {logged_in_user}")
 
-    user_profile = view_profile(user_id, logged_in_user)
-    if user_profile:
-        return render_template('public_dashboard.html', profile=user_profile, active_page='friends')
+    profile = view_profile(user_id, logged_in_user)
+    print(f"Profile data: {profile}")
+    
+    if profile:
+        return render_template('public_dashboard.html', profile=profile, active_page='friends')
     else:
         flash('Brugerens dashboard kunne ikke tilgås, prøv igen', 'error')
         return redirect(url_for('friends.friends'))

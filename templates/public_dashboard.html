@@ -52,34 +52,40 @@
         <div class="container is-max-desktop has-text-centered box">
             <div class="columns is-flex-tablet is-centered is-multiline">
                 <div class="column is-7-tablet">
-                    <p class="title is-5">Venner</p>
-                    <!--Search for specific users-->
-                    <div class="control has-icons-left m-4">
-                        <input class="input" type="text" placeholder="Find en ven...">
-                        <span class="icon is-left">
-                            <i class="fa-solid fa-magnifying-glass"></i>
-                        </span>
-                    </div>
                     {% if profile.friends %}
+                        <p class="title is-5">Venner</p>
+                        <!--Search for specific users-->
+                        <div class="control has-icons-left m-4">
+                            <input class="input" type="text" placeholder="Find en ven...">
+                            <span class="icon is-left">
+                                <i class="fa-solid fa-magnifying-glass"></i>
+                            </span>
+                        </div>
                         <div class="scroll-box px-2">
                             {% for friend in profile.friends %}
-                                <div class="box mb-1 is-flex user-list">
-                                    {% if friend.imagePath%}
-                                        <a href="{{ url_for('friends.profile', user_id=friend.userId) }}">
-                                            <img class="is-rounded" src="{{ url_for('static', filename=friend.imagePath) }}" alt="profilbillede">
+
+                            {% set profile_url = url_for('dashboard.dashboard') if friend.userId == session.user_id
+                            else url_for('friends.profile', user_id=friend.userId) %} <!--Set the url based on a condition-->
+
+                                {% if friend.userId %} <!--Avoid build error if the user has no friends-->
+                                    <div class="box mb-1 is-flex user-list">
+                                        {% if friend.imagePath%}
+                                            <a href="{{ profile_url }}">
+                                                <img class="is-rounded" src="{{ url_for('static', filename=friend.imagePath) }}" alt="profilbillede">
+                                            </a>
+                                        {% else %}
+                                            <a href="{{ profile_url }}">
+                                                <p class="title is-3 is-rounded mb-0">
+                                                    {{ friend.firstName[0] }}
+                                                </p>
+                                            </a>
+                                        {% endif %}
+                                        <p class="m-1">{{ friend.firstName }} {{ friend.lastName }}</p>
+                                        <a class="button is-light is-primary" href="{{ profile_url }}">
+                                            <i class="fa-solid fa-user"></i>
                                         </a>
-                                    {% else %}
-                                        <a href="{{ url_for('friends.profile', user_id=friend.userId) }}">
-                                            <p class="title is-3 is-rounded mb-0">
-                                                {{ friend.firstName[0] }}
-                                            </p>
-                                        </a>
-                                    {% endif %}
-                                    <p class="m-1">{{ friend.firstName }} {{ friend.lastName }}</p>
-                                    <a class="button is-light is-primary" href="{{ url_for('friends.profile', user_id=friend.userId) }}">
-                                        <i class="fa-solid fa-user"></i>
-                                    </a>
-                                </div>
+                                    </div>
+                                {% endif %}
                             {% endfor %}
                         </div>
                     {% else %}

@@ -71,7 +71,6 @@ def view_profile(user_id, logged_in_user):
         MATCH (u:User {user_id: $user_id})
         OPTIONAL MATCH (loggedIn:User {user_id: $logged_in_user})
         OPTIONAL MATCH (u)-[:FRIENDS_WITH]-(friend:User)
-        WHERE NOT friend.user_id = $logged_in_user
         OPTIONAL MATCH (u)-[:JOINED]->(event:Event)
         RETURN u.user_id AS userId,
             u.first_name AS firstName,
@@ -84,14 +83,20 @@ def view_profile(user_id, logged_in_user):
             lastName: friend.last_name,
             imagePath: friend.image_path
             }) as friends,
-            COLLECT(DISTINCT event) AS events
+            COLLECT(DISTINCT event) AS events,
+            EXISTS((loggedIn)-[:FRIEND_REQUEST]->(u)) AS requestSent,
+            EXISTS((loggedIn)-[:FRIENDS_WITH]-(u)) AS isFriend
         """
     )
+
+    print(f"Executing query: {query}")
 
     parameters = {
         "user_id": user_id,
         "logged_in_user": logged_in_user,
     }
+
+    print(f"With parameters: {parameters}")
 
     try:
         result = db.run_query(query, parameters)
