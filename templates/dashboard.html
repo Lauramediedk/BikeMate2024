@@ -49,7 +49,7 @@
                 {% if image_path %}
                     <img class="profile-image" src="{{ url_for('static', filename=image_path) }}" alt="profilbillede">
                 {% else %}
-                    <p class="title is-3 is-rounded">{{ initials }}</p>
+                    <p class="title profile-image is-3">{{ initials }}</p>
                 {% endif %}
             </div>
             <h1 class="is-size-5">
@@ -59,7 +59,7 @@
         </section>
     {% endif %}
 
-    <div class="box mx-4">
+    <div class="container is-max-desktop box">
         <section class="section pt-0">
             <div class="columns is-marginless is-multiline">
                 <div class="column is-12-tablet px-3">
@@ -120,13 +120,12 @@
 
         <hr class="dropdown-divider">
 
-        <section class="section pt-0">
-            <div class="columns is-marginless border-radius scroll-box is-block">
-                <div class="column is-flex is-justify-content-space-evenly my-3">
-                    <p class="title is-5 mb-0">0 Følger</p>
-                    <p class="title is-5">0 Følgere</p>
+        <section class="section pt-0 pb-2">
+            <div class="columns is-marginless border-radius is-block">
+                <div class="column">
+                    <p class="title is-5 mb-0">Venner</p>
                 </div>
-                <div class="field px-4">
+                <div class="column field is-5-tablet px-0">
                     <div class="control has-icons-left">
                         <input class="input" type="text" placeholder="Find en ven...">
                         <span class="icon is-left">
@@ -134,12 +133,36 @@
                         </span>
                     </div>
                 </div>
-                {% if user_friends %}
-                    {% for friend in user_friends %}
-                        <div class="column">
-                            {{ friend }}
-                        </div>
-                    {% endfor %}
+                {% if friends %}
+                    <div class="container is-flex-tablet scroll-box">
+                        {% for friend in friends %}
+                            <div class="column is-6" id="friend_list">
+                                <div class="box is-flex user-list">
+                                    {% if friend.profileImage%}
+                                    <a href="{{ url_for('friends.profile', user_id=friend.userId) }}">
+                                        <img class="is-rounded" src="{{ url_for('static', filename=friend.profileImage) }}" alt="profilbillede">
+                                    </a>
+                                    {% else %}
+                                        <a href="{{ url_for('friends.profile', user_id=friend.userId) }}">
+                                            <p class="title is-3 is-rounded mb-0">
+                                                {{ friend.fName[0] }}
+                                            </p>
+                                        </a>
+                                    {% endif %}
+                                    <p class="m-1">{{ friend.fName }} {{ friend.lName }}</p>
+                                    <form hx-post="{{ url_for('friends.toggle_friendship', to_user_id=friend.userId) }}"
+                                    hx-target="#friend_list"
+                                    hx-select="#friend_list"
+                                    hx-swap="innerHTML"
+                                    >
+                                        <button class="button is-light is-primary" type="submit">
+                                            <i class="fa-solid fa-user-minus"></i>
+                                        </button>
+                                    </form>
+                                </div>
+                            </div>
+                        {% endfor %}
+                    </div>
                 {% else %}
                     <p class="subtitle is-6 px-4 py-3">Du har ikke tilføjet nogle venner</p>
                 {% endif %}

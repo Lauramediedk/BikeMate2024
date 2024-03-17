@@ -1,0 +1,131 @@
+{% extends 'base.html' %}
+
+{% block title %}Dashboard{% endblock %}
+
+{% block content %}
+
+    <section class="section">
+        <div class="container has-text-centered">
+            <div class="is-flex center">
+                {% if profile.imagePath %}
+                    <img class="profile-image" src="{{ url_for('static', filename=profile.imagePath) }}" alt="profilbillede">
+                {% else %}
+                    <p class="title profile-image is-3">
+                        {{ profile.firstName[0] }}
+                    </p>
+                {% endif %}
+            </div>
+            <h1 class="is-size-5">
+                {{profile.firstName}}
+                {{profile.lastName}}
+            </h1>
+            {% if profile.bio %}
+                    <p>{{ profile.bio }}</p>
+            {% endif %}
+            <div class="buttons is-centered">
+                {% if profile.isFriend %}
+                    <form action="{{ url_for('friends.toggle_friendship', to_user_id=profile.userId) }}" method="post">
+                        <button class="button" type="submit">
+                            <span class="icon-text">
+                                <span class="icons mr-1">
+                                    <i class="fa-solid fa-user-check"></i>
+                                </span>
+                                Venner
+                            </span>
+                        </button>
+                    </form>
+                {% elif profile.requestSent %}
+                    <button class="button is-primary" disabled>
+                        Anmodning sendt
+                    </button>
+                {% else %}
+                    <form action="{{ url_for('friends.toggle_friendship', to_user_id=profile.userId) }}" method="post">
+                        <button class="button is-primary" type="submit">
+                            Tilføj ven
+                        </button>
+                    </form>
+                {% endif %}
+            </div>
+        </div>
+    </section>
+    <section class="section pt-1 is-centered">
+        <div class="container is-max-desktop has-text-centered box">
+            <div class="columns is-flex-tablet is-centered is-multiline">
+                <div class="column is-7-tablet">
+                    {% if profile.friends %}
+                        <p class="title is-5">Venner</p>
+                        <!--Search for specific users-->
+                        <div class="control has-icons-left m-4">
+                            <input class="input" type="text" placeholder="Find en ven...">
+                            <span class="icon is-left">
+                                <i class="fa-solid fa-magnifying-glass"></i>
+                            </span>
+                        </div>
+                        <div class="scroll-box px-2">
+                            {% for friend in profile.friends %}
+
+                                {% set profile_url = url_for('dashboard.dashboard') if friend.userId == session.user_id
+                                else url_for('friends.profile', user_id=friend.userId) %} <!--Set conditional url-->
+
+                                {% if friend.userId %} <!--Avoid build error if the user has no friends-->
+                                    <div class="box mb-1 is-flex user-list">
+                                        {% if friend.imagePath%}
+                                            <a href="{{ profile_url }}">
+                                                <img class="is-rounded" src="{{ url_for('static', filename=friend.imagePath) }}" alt="profilbillede">
+                                            </a>
+                                        {% else %}
+                                            <a href="{{ profile_url }}">
+                                                <p class="title is-3 is-rounded mb-0">
+                                                    {{ friend.firstName[0] }}
+                                                </p>
+                                            </a>
+                                        {% endif %}
+                                        <p class="m-1">{{ friend.firstName }} {{ friend.lastName }}</p>
+                                        <a class="button is-light is-primary" href="{{ profile_url }}">
+                                            <i class="fa-solid fa-user"></i>
+                                        </a>
+                                    </div>
+                                {% endif %}
+                            {% endfor %}
+                        </div>
+                    {% else %}
+                        <p>Ingen venner</p>
+                    {% endif %}
+                </div>
+                <div class="column is-5-tablet scroll-box">
+                    <p class="title is-5">Events</p>
+                    {% if profile.events %}
+                        {% for event in profile.events %}
+                            <div class="box">
+                                <p class="subtitle is-size-6 has-text-weight-semibold">
+                                    {{ event.title }}
+                                </p>
+                                <span class="icon-text">
+                                    <span class="icon">
+                                        <i class="fa-solid fa-clock"></i>
+                                    </span>
+                                    {{ event.date }}
+                                </span>
+                                <span class="icon-text">
+                                    <span class="icon">
+                                        <i class="fa-solid fa-location-dot"></i>
+                                    </span>
+                                    {{ event.location }}
+                                </span>
+                                <div class="buttons is-centered pt-4">
+                                    <a href="{{ url_for('challenges.view_event', event_id=event.event_id) }}"
+                                    class="button is-primary">
+                                        Gå til event
+                                    </a>
+                                </div>
+                            </div>
+                        {% endfor %}
+                    {% else%}
+                        <p>Ingen events</p>
+                    {% endif %}
+                </div>
+            </div>
+        </div>
+    </section>
+
+{% endblock %}

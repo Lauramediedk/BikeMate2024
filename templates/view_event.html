@@ -5,7 +5,7 @@
 {% block content %}
 
 <section class="section">
-    <div class="container box" x-show="activeTab === 'all_events'">
+    <div class="container is-max-desktop box" x-show="activeTab === 'all_events'">
         <div class="columns is-block-tablet">
             <div class="column">
                 <span class="icon-text">
@@ -40,23 +40,27 @@
                                 <button class="delete" aria-label="close" @click="isModalActive = false"></button>
                             </div>
                             {% for participant in participants %}
-                                {% if participant.image_path %}
+                                {% if participant.user_id %}
                                     <div class="is-flex user-list mb-2">
-                                        <img class="is-rounded" src="{{ url_for('static', filename=participant.image_path) }}" alt="profilbillede">
-                                        <p class="m-1">{{ participant.full_name }}</p>
-                                        <a class="button is-light is-primary" href="#">
-                                            <i class="fa-solid fa-user-plus"></i>
-                                        </a>
-                                    </div>
-                                {% else %}
-                                    <div class="is-flex user-list mb-2">
-                                        <p class="title is-3 is-rounded mb-0">
-                                            {{ participant.full_name[0] }}
-                                        </p>
-                                        <p class="m-1">{{ participant.full_name }}</p>
-                                        <a class="button is-light is-primary" href="#">
-                                            <i class="fa-solid fa-user-plus"></i>
-                                        </a>
+                                        <div class="is-flex user-info">
+                                            {% if participant.image_path %}
+                                                <img class="is-rounded" src="{{ url_for('static', filename=participant.image_path) }}" alt="profilbillede">
+                                            {% else %}
+                                                <p class="title is-3 is-rounded mb-0">
+                                                    {{ participant.full_name[0] }}
+                                                </p>
+                                            {% endif %}
+                                            <p class="m-1">{{ participant.full_name }}</p>
+                                        </div>
+                                        {% if participant.user_id != session.user_id %}
+                                            <a class="button is-light is-primary">
+                                                <i class="fa-solid fa-user"></i>
+                                            </a>
+                                        {% else %}
+                                            <button class="button is-light is-primary is-invisible">
+                                                <i class="fa-solid fa-user"></i>
+                                            </button>
+                                        {% endif %}
                                     </div>
                                 {% endif %}
                             {% endfor %}
