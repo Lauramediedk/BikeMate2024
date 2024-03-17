@@ -17,12 +17,15 @@ def challenges():
 
     search_term = request.args.get('search_term', '')
     popular = request.args.get('popular', False)
+    friends = request.args.get('friends', False)
 
     form = EventForm()
     if search_term:
         all_events = Events.search_for_event(user_id, search_term)
     elif popular:
         all_events = Events.get_popular_events(user_id)
+    elif friends:
+        all_events = Events.get_friends_events(user_id)
     else:
         all_events = Events.get_all_events(user_id)
 
@@ -38,6 +41,7 @@ def challenges():
                                users_events=users_events,
                                search_term=search_term,
                                popular=popular,
+                               friends=friends,
                                active_page='challenges')
     else:
         flash('Adgang nægtet', 'error')

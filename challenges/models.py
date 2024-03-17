@@ -291,6 +291,31 @@ class Events:
         except Exception as e:
             raise RuntimeError(f"Error retrieving participants' details: {str(e)}") from e
 
+    # Get events made by the users friends
+    @classmethod
+    def get_friends_events(cls, user_id):
+        query = (
+            """
+            MATCH (u:User)-[:FRIENDS_WITH]->(friend:User),
+                (friend)-[:CREATED]->(e:Event)
+            WHERE u.user_id = $user_id
+            RETURN e
+            """
+        )
+
+        parameters = {
+            "user_id": user_id,
+        }
+
+        try:
+            result = db.run_query(query, parameters)
+            events = [cls(**record['e']) for record in result]
+
+            return events
+        except Exception as e:
+            raise RuntimeError(f"Error finding events: {str(e)}") from e
+
+
     @classmethod
     def delete_event(cls, user_id, event_id):
         query = (
