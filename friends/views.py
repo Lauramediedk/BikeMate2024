@@ -25,6 +25,7 @@ def friends():
                            recommended_friends=recommended_friends,
                            active_page='friends')
 
+
 @friends_bp.route('/profile/<string:user_id>', methods=['GET'])
 @login_required
 def profile(user_id):

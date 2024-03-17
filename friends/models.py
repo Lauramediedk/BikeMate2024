@@ -147,6 +147,7 @@ def send_friend_request(from_user_id, to_user_id):
     except Exception as e:
         raise RuntimeError(f"Kunne ikke afsende anmodning: {str(e)}") from e
 
+
 def get_friend_requests(to_user_id):
     query = (
         """
