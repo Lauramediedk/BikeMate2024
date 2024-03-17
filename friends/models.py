@@ -1,5 +1,6 @@
 from db import db
 
+
 def check_friendship(from_user_id, to_user_id):
     query = (
         """
@@ -18,6 +19,7 @@ def check_friendship(from_user_id, to_user_id):
         return result[0]['isFriend'] if result else False
     except Exception as e:
         raise RuntimeError(f"Kunne ikke tjekke venskabsstatus: {str(e)}") from e
+
 
 def get_friends(user_id):
     query = (
@@ -39,6 +41,7 @@ def get_friends(user_id):
         return [record for record in result] if result else None
     except Exception as e:
         raise RuntimeError(f"Kunne ikke hente venneliste: {str(e)}") from e
+
 
 def get_recommended_friends(user_id):
     # We make sure to not show the recommended users if there is a relation
@@ -64,6 +67,7 @@ def get_recommended_friends(user_id):
         return [record for record in result] if result else []
     except Exception as e:
         raise RuntimeError(f"Could not fetch recommended friends: {str(e)}") from e
+
 
 def view_profile(user_id, logged_in_user):
     query = (
@@ -100,6 +104,7 @@ def view_profile(user_id, logged_in_user):
     except Exception as e:
         raise RuntimeError(f"Kunne ikke gå til brugerens dashboard: {str(e)}") from e
 
+
 def delete_friendship(from_user_id, to_user_id):
     query = (
         """
@@ -120,6 +125,7 @@ def delete_friendship(from_user_id, to_user_id):
         return True
     except Exception as e:
         raise RuntimeError(f"Kunne ikke slette anmodningen: {str(e)}") from e
+
 
 def send_friend_request(from_user_id, to_user_id):
     query = (
@@ -161,6 +167,7 @@ def get_friend_requests(to_user_id):
     except Exception as e:
         raise RuntimeError(f"Kunne ikke henter anmodninger: {str(e)}") from e
 
+
 def accept_friend_request(from_user_id, to_user_id):
     query = (
         """
@@ -183,6 +190,7 @@ def accept_friend_request(from_user_id, to_user_id):
     except Exception as e:
         raise RuntimeError(f"Kunne ikke afsende anmodning: {str(e)}") from e
 
+
 def delete_friend_request(from_user_id, to_user_id):
     query = (
         """
@@ -203,6 +211,7 @@ def delete_friend_request(from_user_id, to_user_id):
         return True
     except Exception as e:
         raise RuntimeError(f"Kunne ikke slette anmodningen: {str(e)}") from e
+
 
 def search_user(search_term, user_id):
     query = (

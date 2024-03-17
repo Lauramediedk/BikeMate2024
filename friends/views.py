@@ -3,6 +3,7 @@ from . import friends_bp
 from users.views import login_required
 from .models import send_friend_request, search_user, get_friend_requests, accept_friend_request, delete_friend_request, check_friendship, get_recommended_friends, delete_friendship, view_profile
 
+
 @friends_bp.route('/')
 @login_required
 def friends():
@@ -35,6 +36,7 @@ def profile(user_id):
     else:
         flash('Brugerens dashboard kunne ikke tilgås, prøv igen', 'error')
         return redirect(url_for('friends.friends'))
+
 
 @friends_bp.route('/accept_request/<from_user_id>', methods=['POST'])
 @login_required
