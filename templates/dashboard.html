@@ -44,104 +44,73 @@
 
     {% if session.first_name %}
         <section class="section has-text-centered">
-            {% set initials = session.first_name[0] %} <!--Get the first letter-->
-            <div class="is-flex center">
-                {% if image_path %}
-                    <img class="profile-image" src="{{ url_for('static', filename=image_path) }}" alt="profilbillede">
-                {% else %}
-                    <p class="title profile-image is-3">{{ initials }}</p>
-                {% endif %}
+            <div class="container is-max-desktop">
+                {% set initials = session.first_name[0] %} <!--Get the first letter-->
+                <div class="is-flex center">
+                    {% if image_path %}
+                        <img class="profile-image" src="{{ url_for('static', filename=image_path) }}" alt="profilbillede">
+                    {% else %}
+                        <p class="title profile-image is-3">{{ initials }}</p>
+                    {% endif %}
+                </div>
+                <h1 class="is-size-5">
+                    {{session.first_name}}
+                    {{session.last_name}}
+                </h1>
+                <div x-data="{ show: false }">
+                    <span class="icon-text">
+                        <span>
+                            <p id="bio_content">
+                                {% if bio %}
+                                    {{ bio }}
+                                {% else %}
+                                    Skriv om dig selv...
+                                {% endif %}
+                            </p>
+                        </span>
+                        <span class="icon" @click="show = !show">
+                            <i class="fa-solid fa-pen icons" x-show="!show"></i>
+                        </span>
+                    </span>
+                    <form hx-post="{{ url_for('dashboard.upload_bio') }}"
+                    hx-select="#bio_content"
+                    hx-target="#bio_content"
+                    x-show="show"
+                    @click.outside="show = false"
+                    >
+                        {{ form.csrf_token }}
+                        <div class="field is-flex center searchbar py-2">
+                            {{ form.description(class="input px-4", placeholder="Tilføj en beskrivelse") }}
+                            <div class="is-flex px-1" @click="show = false">
+                                {{ form.submit(class="button is-primary mr-2") }}
+                            </div>
+                        </div>
+                    </form>
+                </div>
             </div>
-            <h1 class="is-size-5">
-                {{session.first_name}}
-                {{session.last_name}}
-            </h1>
         </section>
     {% endif %}
 
-    <div class="container is-max-desktop box">
-        <section class="section pt-0">
-            <div class="columns is-marginless is-multiline">
-                <div class="column is-12-tablet px-3">
-                    <div x-data="{ show: false }">
-                        <span class="icon-text">
-                            <span class="title is-5">Detaljer</span>
-                            <span class="icon" @click="show = !show">
-                                <i class="fa-solid fa-pen icons" x-show="!show"></i>
+    <section class="section pt-1 is-centered">
+        <div class="container is-max-desktop has-text-centered box">
+            <div class="columns is-flex-tablet is-centered is-multiline">
+                <div class="column is-7-tablet">
+                    {% if friends %}
+                        <p class="title is-5">Venner</p>
+                        <!--Search for specific users-->
+                        <div class="control has-icons-left m-4">
+                            <input class="input" type="text" placeholder="Find en ven...">
+                            <span class="icon is-left">
+                                <i class="fa-solid fa-magnifying-glass"></i>
                             </span>
-                        </span>
-                        <form hx-post="{{ url_for('dashboard.upload_bio') }}"
-                        hx-select="#bio_content"
-                        hx-target="#bio_content"
-                        x-show="show"
-                        @click.outside="show = false"
-                        >
-                            {{ form.csrf_token }}
-                            <div class="field">
-                                {{ form.description(class="input px-4", placeholder="Tilføj en beskrivelse") }}
-                                <div class="is-flex py-2" @click="show = false">
-                                    {{ form.submit(class="button is-primary mr-2") }}
-                                </div>
-                            </div>
-                        </form>
-                    </div>
-                    <div>
-                        <p id="bio_content">
-                            {% if bio %}
-                                {{ bio }}
-                            {% else %}
-                                Skriv om dig selv...
-                            {% endif %}
-                        </p>
-                    </div>
-                </div>
-
-                <div class="column is-12-tablet">
-                    <span class="icon-text">
-                        <p class="title is-5">Cykeldetaljer</p>
-                        <span class="icon">
-                            <a href="#">
-                                <i class="fa-solid fa-pen icons"></i>
-                            </a>
-                        </span>
-                    </span>
-                    <div class="is-flex">
-                        {% if bike_details %}
-                        <p class="is-narrow">
-                            {{ bike_details}}
-                        </p>
-                        {% else %}
-                        <p>Ingen cykel registreret</p>
-                        {% endif %}
-                    </div>
-                </div>
-            </div>
-        </section>
-
-        <hr class="dropdown-divider">
-
-        <section class="section pt-0 pb-2">
-            <div class="columns is-marginless border-radius is-block">
-                <div class="column">
-                    <p class="title is-5 mb-0">Venner</p>
-                </div>
-                <div class="column field is-5-tablet px-0">
-                    <div class="control has-icons-left">
-                        <input class="input" type="text" placeholder="Find en ven...">
-                        <span class="icon is-left">
-                            <i class="fa-solid fa-magnifying-glass"></i>
-                        </span>
-                    </div>
-                </div>
-                {% if friends %}
-                    <div class="container is-flex-tablet scroll-box">
-                        {% for friend in friends %}
-                            <div class="column is-6" id="friend_list">
-                                <div class="box is-flex user-list">
-                                    {% if friend.profileImage%}
-                                    <a href="{{ url_for('friends.profile', user_id=friend.userId) }}">
-                                        <img class="is-rounded" src="{{ url_for('static', filename=friend.profileImage) }}" alt="profilbillede">
-                                    </a>
+                        </div>
+                        <div class="scroll-box px-2">
+                            {% for friend in friends %}
+                                <div class="box mb-1 is-flex user-list">
+                                    {% if friend.imagePath%}
+                                        <a href="{{ url_for('friends.profile', user_id=friend.userId) }}">
+                                            <img class="is-rounded" src="{{ url_for('static', filename=friend.profileImage) }}" alt="profilbillede">
+                                        </a>
                                     {% else %}
                                         <a href="{{ url_for('friends.profile', user_id=friend.userId) }}">
                                             <p class="title is-3 is-rounded mb-0">
@@ -160,56 +129,45 @@
                                         </button>
                                     </form>
                                 </div>
+                            {% endfor %}
+                        </div>
+                    {% else %}
+                        <p class="subtitle is-6 px-4 py-3">Du har ikke tilføjet nogle venner</p>
+                    {% endif %}
+                </div>
+                <div class="column is-5-tablet scroll-box">
+                    <p class="title is-5">Events</p>
+                    {% if events %}
+                        {% for event in events %}
+                            <div class="box">
+                                <p class="subtitle is-size-6 has-text-weight-semibold">
+                                    {{ event.title }}
+                                </p>
+                                <span class="icon-text">
+                                    <span class="icon">
+                                        <i class="fa-solid fa-clock"></i>
+                                    </span>
+                                    {{ event.created_formatted }}
+                                </span>
+                                <span class="icon-text">
+                                    <span class="icon">
+                                        <i class="fa-solid fa-location-dot"></i>
+                                    </span>
+                                    {{ event.location }}
+                                </span>
+                                <div class="column">
+                                    <a href="{{ url_for('challenges.view_event', event_id=event.event_id) }}"
+                                    class="button is-primary">
+                                        Gå til event
+                                    </a>
+                                </div>
                             </div>
                         {% endfor %}
-                    </div>
-                {% else %}
-                    <p class="subtitle is-6 px-4 py-3">Du har ikke tilføjet nogle venner</p>
-                {% endif %}
-            </div>
-        </section>
-
-        <hr class="dropdown-divider">
-
-        <section class="section pt-0 scroll-box">
-            <div class="columns is-marginless border-radius is-block">
-                <div class="column">
-                    <p class="title is-5 mb-0">Aktiviteter</p>
+                    {% else%}
+                        <p>Ingen events</p>
+                    {% endif %}
                 </div>
-                {% if events %}
-                    {% for event in events %}
-                        <div class="column">
-                            <p class="subtitle is-size-6 mb-0 mr-2 has-text-weight-semibold">
-                                {{ event.title }}
-                            </p>
-                        </div>
-                        <div class="column">
-                            <span class="icon-text">
-                                <span class="icon">
-                                    <i class="fa-solid fa-clock"></i>
-                                </span>
-                                {{ event.created_formatted }}
-                            </span>
-                            <span class="icon-text">
-                                <span class="icon">
-                                    <i class="fa-solid fa-location-dot"></i>
-                                </span>
-                                {{ event.location }}
-                            </span>
-                        </div>
-                        <div class="column">
-                            <a href="{{ url_for('challenges.view_event', event_id=event.event_id) }}"
-                            class="button is-primary">
-                                Gå til event
-                            </a>
-                        </div>
-                        <hr class="dropdown-divider">
-                    {% endfor %}
-                {% else %}
-                    <p>Du har ingen aktiviteter</p>
-                {% endif %}
             </div>
-        </section>
-    </div>
-
+        </div>
+    </section>
 {% endblock %}

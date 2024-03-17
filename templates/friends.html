@@ -21,8 +21,8 @@
         </div>
         <hr class="dropdown-divider">
     {% endif %}
-    <div class="container is-max-desktop pt-4">
-        <form class="is-flex" action="{{ url_for('friends.friends') }}" method="get">
+    <div class="container pt-4">
+        <form class="is-flex searchbar" action="{{ url_for('friends.friends') }}" method="get">
             <input class="input mr-2" type="text" name="search_term" placeholder="Søg efter personer...">
             <button class="button is-primary" type="submit">Søg</button>
         </form>
