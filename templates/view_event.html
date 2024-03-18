@@ -4,8 +4,8 @@
 
 {% block content %}
 
-<section class="section">
-    <div class="container is-max-desktop box" x-show="activeTab === 'all_events'">
+<section class="section maxwidth">
+    <div class="container box" x-show="activeTab === 'all_events'">
         <div class="columns is-block-tablet">
             <div class="column">
                 <span class="icon-text">
@@ -70,11 +70,38 @@
             </div>
 
             <!--Show different options for based on role-->
-            <div class="column">
+            <div class="column is-flex">
                 {% if session.user_id == event.admin_id %}
                     <form action="{{ url_for('challenges.delete_event', event_id=event.event_id) }}" method="post">
-                        <button type="submit" class="button is-danger is-outlined">Slet event</button>
+                        <button type="submit" class="button is-danger is-outlined mr-2">Slet event</button>
                     </form>
+                    <!--Dropdown to choose from friends and invite them-->
+                    <div class="dropdown"
+                    x-data="{ open: false }"
+                    x-bind:class="{ 'is-active': open }"
+                    >
+                        <div class="dropdown-trigger">
+                            <div x-bind:class="{ 'is-active': open }"
+                            @click="open = !open"
+                            aria-haspopup="true"
+                            aria-controls="dropdown-menu"
+                            >
+                                <button class="button">Inviter venner</button>
+                            </div>
+                        </div>
+                        <div class="dropdown-menu">
+                            <div class="dropdown-content" x-show="open">
+                                {% for friend in invite %}
+                                <div class="is-flex dropdown-item user-list">
+                                {{ friend.full_name }}
+                                    <a class="button">
+                                        Inviter
+                                    </a>
+                                </div>
+                                {% endfor %}
+                            </div>
+                        </div>
+                    </div>
                 {% else %}
                     <!-- Show join/unjoin buttons for non-admin users -->
                     {% if is_joined %}

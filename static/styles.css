@@ -10416,7 +10416,7 @@ p.is-rounded {
     height: 100vh;
   }
   /* Searh bar for desktop */
-  .searchbar {
+  .maxwidth {
     max-width: 50%;
     margin: 0 auto;
   }

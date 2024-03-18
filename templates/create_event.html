@@ -5,29 +5,35 @@
 {% block content %}
 
 <section class="section">
-    <h1 class="title is-size-5 has-text-centered pb-4">
-        Opret event
-    </h1>
-    <div class="columns box is-centered is-block-tablet">
-        <div class="column">
-            <form action="{{ url_for('challenges.create_event') }}" method="post">
-                {{ form.csrf_token }}
-                <div class="field">
-                    {{ form.title(class="input is-rounded") }}
-                </div>
-                <div class="field">
-                    {{ form.description(class="input is-rounded") }}
-                </div>
-                <div class="field">
-                    {{ form.startdate(class="input is-rounded") }}
-                </div>
-                <div class="field">
-                    {{ form.location(class="input is-rounded") }}
-                </div>
-                <div class="buttons is-centered p-2">
-                    {{ form.submit(class="button is-primary is-rounded") }}
-                </div>
-            </form>
+    <div class="container is-max-desktop">
+        <h1 class="title is-size-5 has-text-centered pb-4">
+            Opret event
+        </h1>
+        <div class="columns box maxwidth is-centered is-block-tablet">
+            <div class="column">
+                <form action="{{ url_for('challenges.create_event') }}" method="post">
+                    {{ form.csrf_token }}
+                    <div class="checkbox is-flex py-3">
+                        {{ form.checkbox(class="checkbox") }}
+                        <p class="mx-1">Privat event - kun synligt for venner</p>
+                    </div>
+                    <div class="field">
+                        {{ form.title(class="input") }}
+                    </div>
+                    <div class="field">
+                        {{ form.description(class="input") }}
+                    </div>
+                    <div class="field">
+                        {{ form.startdate(class="input") }}
+                    </div>
+                    <div class="field">
+                        {{ form.location(class="input") }}
+                    </div>
+                    <div class="buttons is-centered p-2">
+                        {{ form.submit(class="button is-primary is-rounded") }}
+                    </div>
+                </form>
+            </div>
         </div>
     </div>
 </section>

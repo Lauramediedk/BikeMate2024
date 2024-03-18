@@ -12,7 +12,7 @@
     </span>
 
     <!--The options for finding events-->
-    <section class="section" x-data="{ activeTab: 'all_events' }">
+    <section class="section maxwidth" x-data="{ activeTab: 'all_events' }">
         <!--ActiveTab switches between showing all events and the users own events-->
         <div class="columns is-centered is-block-tablet">
             <div class="column is-flex center is-12">
@@ -54,12 +54,12 @@
                             <div class="dropdown-content" x-show="open">
                                 <a class="dropdown-item" href="{{ url_for('challenges.challenges') }}"
                                 >
-                                Seneste
+                                Kommende begivenheder
                                 </a>
                                 <hr class="dropdown-divider">
                                 <a class="dropdown-item" href="{{ url_for('challenges.challenges', popular=True) }}"
                                 >
-                                Deltagere
+                                Antal deltagere
                                 </a>
                                 <hr class="dropdown-divider">
                                 <a class="dropdown-item" href="{{ url_for('challenges.challenges', friends=True) }}"
@@ -81,7 +81,7 @@
         </div>
 
         <!--All public events created by other users-->
-        <div class="container is-max-desktop" x-show="activeTab === 'all_events'">
+        <div class="container" x-show="activeTab === 'all_events'">
             <div class="columns is-centered is-block-tablet">
                 {% if all_events %}
                     {% for event in all_events %}
@@ -92,6 +92,13 @@
                             </p>
                             {% include 'dropdown_event.html' %}
                         </div>
+                        {% if event.is_private %}
+                            <div class="column">
+                                <p class="tag is-info">
+                                    Privat event - kun for venner
+                                </p>
+                            </div>
+                        {% endif %}
                         <div class="column">
                             <span class="icon-text">
                                 <span class="icon">
@@ -134,7 +141,7 @@
         </div>
 
         <!--Users own events-->
-        <div class="container is-max-desktop" x-show="activeTab === 'users_events'">
+        <div class="container" x-show="activeTab === 'users_events'">
             <div class="columns is-block-tablet">
                 {% if users_events %}
                     {% for event in users_events %}

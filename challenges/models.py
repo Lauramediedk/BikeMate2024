@@ -4,13 +4,14 @@ from db import db
 
 class Events:
     """Events model"""
-    def __init__(self, title, description, date, location, admin, participants=None, **kwargs):
+    def __init__(self, title, description, date, location, admin, is_private=False, participants=None, **kwargs):
         self.event_id = None
         self.title = title
         self.description = description
         self.date = date
         self.location = location
         self.admin = admin
+        self.is_private = is_private
         self.participants = participants
 
         for key, value in kwargs.items():
@@ -21,7 +22,8 @@ class Events:
 
         query = (
             """
-            CREATE (event:Event {event_id: $event_id, title: $title, description: $description, date: $date, location: $location, admin: $admin, participants: $participants})
+            CREATE (event:Event {event_id: $event_id, title: $title, description: $description,
+            date: $date, location: $location, admin: $admin, is_private: $is_private, participants: $participants})
             WITH event
             MATCH (u:User {user_id: $user_id})
             MERGE (u)-[:CREATED]->(event)
@@ -34,6 +36,7 @@ class Events:
             "date": self.date,
             "location": self.location,
             "admin": user_id,
+            "is_private": self.is_private,
             "participants": self.participants,
             "user_id": user_id,
         }
@@ -71,9 +74,13 @@ class Events:
         query = (
             """
             MATCH (e:Event)
-            WHERE NOT (:User {user_id: $user_id})-[:CREATED]->(e)
+            WHERE (e.is_private IS NULL OR e.is_private = false OR (e.is_private = true AND EXISTS {
+                MATCH (user:User)-[:FRIENDS_WITH]->(creator:User)-[:CREATED]->(e)
+                WHERE user.user_id = $user_id
+            })) AND NOT (:User {user_id: $user_id})-[:CREATED]->(e)
+            WITH e
+            ORDER BY e.date ASC
             RETURN e
-            ORDER BY e.date DESC
             """
         )
 
@@ -83,8 +90,9 @@ class Events:
 
         try:
             result = db.run_query(query, parameters)
-
-            events = [cls(**record['e']) for record in result]
+            events = []
+            if result:
+                events = [cls(**record['e']) for record in result]
 
             return events
         except Exception as e:
@@ -96,7 +104,10 @@ class Events:
             """
             CALL db.index.fulltext.queryNodes('eventid_and_description', $search_term)
             YIELD node as e
-            WHERE NOT (:User {user_id: $user_id})-[:CREATED]-(e)
+            WHERE (e.is_private = false OR (e.is_private = true AND EXISTS {
+                MATCH (user:User)-[:FRIENDS_WITH]->(creator:User)-[:CREATED]->(e)
+                WHERE user.user_id = $user_id
+            })) AND NOT (:User {user_id: $user_id})-[:CREATED]->(e)
             RETURN e
             """
         )
@@ -119,10 +130,13 @@ class Events:
         query = (
             """
             MATCH (e:Event)
-            WHERE NOT (:User {user_id: $user_id})-[:CREATED]->(e)
+            WHERE (e.is_private IS NULL OR e.is_private = false OR (e.is_private = true AND EXISTS {
+                MATCH (user:User)-[:FRIENDS_WITH]->(creator:User)-[:CREATED]->(e)
+                WHERE user.user_id = $user_id
+            })) AND NOT (:User {user_id: $user_id})-[:CREATED]->(e)
+            WITH e, COALESCE(e.participants, 0) AS participantsCount
+            ORDER BY participantsCount DESC
             RETURN e
-            ORDER BY e.participants DESC
-            LIMIT 10
             """
         )
 
@@ -315,6 +329,35 @@ class Events:
         except Exception as e:
             raise RuntimeError(f"Error finding events: {str(e)}") from e
 
+    @classmethod
+    def invite_friends(cls, user_id):
+        query = (
+            """
+            MATCH (admin:User {user_id: $user_id})-[:FRIENDS_WITH]-(friend:User)
+            RETURN friend.user_id AS friend_id, friend.first_name AS first_name,
+            friend.last_name AS last_name, friend.image_path AS image_path
+            """
+        )
+
+        parameters = {
+            "user_id": user_id,
+        }
+
+        try:
+            result = db.run_query(query, parameters)
+            friends = []
+            for record in result:
+                if 'first_name' in record and 'last_name' in record:
+                    full_name = f"{record['first_name']} {record['last_name']}"
+                    image_path = record.get('image_path')
+                    friends.append({
+                        'friend_id': record['friend_id'],
+                        'full_name': full_name,
+                        'image_path': image_path
+                    })
+            return friends
+        except Exception as e:
+            raise RuntimeError(f"Error retrieving participants' details: {str(e)}") from e
 
     @classmethod
     def delete_event(cls, user_id, event_id):

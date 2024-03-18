@@ -67,7 +67,8 @@ def create_event():
             description=form.description.data,
             date=form.startdate.data,
             location=form.location.data,
-            admin=user_id
+            admin=user_id,
+            is_private=form.checkbox.data
         )
         event.create_event(user_id=user_id)
         flash('Event oprettet', 'success')
@@ -107,12 +108,14 @@ def view_event(event_id):
     event = Events.get_event_by_id(event_id)
     is_joined = Events.is_user_joined(user_id, event_id)
     participants = Events.get_participants(event_id)
+    invite = Events.invite_friends(user_id)
 
     if event:
         return render_template('view_event.html',
                                is_joined=is_joined,
                                event=event,
                                participants=participants,
+                               invite=invite,
                                active_page='challenges')
     else:
         flash('Event ikke fundet', 'error')

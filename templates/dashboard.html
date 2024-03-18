@@ -79,7 +79,7 @@
                     @click.outside="show = false"
                     >
                         {{ form.csrf_token }}
-                        <div class="field is-flex center searchbar py-2">
+                        <div class="field is-flex center maxwidth py-2">
                             {{ form.description(class="input px-4", placeholder="Tilføj en beskrivelse") }}
                             <div class="is-flex px-1" @click="show = false">
                                 {{ form.submit(class="button is-primary mr-2") }}
