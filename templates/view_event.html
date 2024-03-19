@@ -92,12 +92,20 @@
                         <div class="dropdown-menu">
                             <div class="dropdown-content" x-show="open">
                                 {% for friend in invite %}
-                                <div class="is-flex dropdown-item user-list">
-                                {{ friend.full_name }}
-                                    <a class="button">
-                                        Inviter
-                                    </a>
-                                </div>
+                                    <div class="is-flex dropdown-item user-list">
+                                        {{ friend.full_name }}
+                                        <!--check if the friend is already invited-->
+                                        <!-- TODO: Dette er nyt. Fiks kode så de kan sende invite.-->
+                                        {% if friend.invite_sent %}
+                                            <button class="button" disabled>
+                                                Inviteret
+                                            </button>
+                                        {% else %}
+                                            <form action="{{ url_for('challenges.send_invite', event_id=event.event_id, friend_id=friend.user_id) }}" method="post">
+                                                <button type="submit" class="button is-primary">Inviter</button>
+                                            </form>
+                                        {% endif %}
+                                    </div>
                                 {% endfor %}
                             </div>
                         </div>

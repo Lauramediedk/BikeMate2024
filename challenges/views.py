@@ -108,7 +108,7 @@ def view_event(event_id):
     event = Events.get_event_by_id(event_id)
     is_joined = Events.is_user_joined(user_id, event_id)
     participants = Events.get_participants(event_id)
-    invite = Events.invite_friends(user_id)
+    invite = Events.invite_friends(user_id, event_id)
 
     if event:
         return render_template('view_event.html',
@@ -120,6 +120,22 @@ def view_event(event_id):
     else:
         flash('Event ikke fundet', 'error')
         return redirect(url_for('challenges.challenges'))
+
+# TODO: Denne er ny. Fiks kode så de kan sende invite.
+@challenges_bp.route('/event/<event_id>/send_invite/<friend_id>', methods=['POST'])
+@login_required
+def send_invite(event_id, friend_id):
+    print(f"Sending invite for event ID: {event_id} to friend ID: {friend_id}")  # Debug print
+    user_id = session.get('user_id')
+    print(f"User ID from session: {user_id}")  # Debug print
+
+    invite_sent = Events.send_invite(user_id, event_id, friend_id)
+    if invite_sent:
+        flash('Invitation sendt', 'success')
+    else:
+        flash('Kunne ikke sende invitation, prøv igen', 'error')
+
+    return redirect(url_for('challenges.view_event', event_id=event_id))
 
 
 @challenges_bp.route('/join/<event_id>', methods=['POST'])

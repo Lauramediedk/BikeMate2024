@@ -330,17 +330,21 @@ class Events:
             raise RuntimeError(f"Error finding events: {str(e)}") from e
 
     @classmethod
-    def invite_friends(cls, user_id):
+    def invite_friends(cls, user_id, event_id):
         query = (
             """
-            MATCH (admin:User {user_id: $user_id})-[:FRIENDS_WITH]-(friend:User)
+            MATCH (admin:User {user_id: $admin_id})-[:FRIENDS_WITH]-(friend:User),
+                (event:Event {event_id: $event_id})
+            OPTIONAL MATCH (friend)-[r:PENDING_INVITE]->(event)
             RETURN friend.user_id AS friend_id, friend.first_name AS first_name,
-            friend.last_name AS last_name, friend.image_path AS image_path
+                friend.last_name AS last_name, friend.image_path AS image_path,
+                EXISTS((friend)-[:PENDING_INVITE]->(event)) AS invite_sent
             """
         )
 
         parameters = {
-            "user_id": user_id,
+            "admin_id": user_id,
+            "event_id": event_id,
         }
 
         try:
@@ -350,14 +354,45 @@ class Events:
                 if 'first_name' in record and 'last_name' in record:
                     full_name = f"{record['first_name']} {record['last_name']}"
                     image_path = record.get('image_path')
+                    invite_sent = record.get('invite_sent', False)
                     friends.append({
-                        'friend_id': record['friend_id'],
+                        'user_id': record['friend_id'],
                         'full_name': full_name,
-                        'image_path': image_path
+                        'image_path': image_path,
+                        'invite_sent': invite_sent
                     })
             return friends
         except Exception as e:
             raise RuntimeError(f"Error retrieving participants' details: {str(e)}") from e
+
+    @classmethod
+    def send_invite(cls, user_id, event_id, friend_id):
+        query = (
+            """
+        MATCH (admin:User {user_id: $admin_id})-[:CREATED]->(e:Event {event_id: $event_id}),
+            (friend:User {user_id: $friend_id})
+        OPTIONAL MATCH (admin)-[r:SENT_INVITE]->(e)
+        WHERE r IS NULL
+        MERGE (admin)-[:SENT_INVITE]->(e)<-[:PENDING_INVITE]-(friend)
+        RETURN EXISTS((admin)-[:SENT_INVITE]->(e)) AS invite_sent
+        """
+        )
+
+        parameters = {
+            "admin_id": user_id,
+            "event_id": event_id,
+            "friend_id": friend_id,
+        }
+
+        try:
+            result = db.run_query(query, parameters)
+            if result and 'invite_sent' in result[0]:
+                invite_sent = result[0]['invite_sent']
+                return invite_sent
+            else:
+                return False
+        except Exception as e:
+            raise RuntimeError(f"Error sending invite: {str(e)}") from e
 
     @classmethod
     def delete_event(cls, user_id, event_id):
