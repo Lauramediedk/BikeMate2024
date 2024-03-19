@@ -121,7 +121,7 @@ def view_event(event_id):
         flash('Event ikke fundet', 'error')
         return redirect(url_for('challenges.challenges'))
 
-# TODO: Denne er ny. Fiks kode så de kan sende invite.
+
 @challenges_bp.route('/event/<event_id>/send_invite/<friend_id>', methods=['POST'])
 @login_required
 def send_invite(event_id, friend_id):

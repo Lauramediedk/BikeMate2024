@@ -76,40 +76,41 @@
                         <button type="submit" class="button is-danger is-outlined mr-2">Slet event</button>
                     </form>
                     <!--Dropdown to choose from friends and invite them-->
-                    <div class="dropdown"
-                    x-data="{ open: false }"
-                    x-bind:class="{ 'is-active': open }"
-                    >
-                        <div class="dropdown-trigger">
-                            <div x-bind:class="{ 'is-active': open }"
-                            @click="open = !open"
-                            aria-haspopup="true"
-                            aria-controls="dropdown-menu"
-                            >
-                                <button class="button">Inviter venner</button>
+                    {% if invite %}
+                        <div class="dropdown"
+                        x-data="{ open: false }"
+                        x-bind:class="{ 'is-active': open }"
+                        >
+                            <div class="dropdown-trigger">
+                                <div x-bind:class="{ 'is-active': open }"
+                                @click="open = !open"
+                                aria-haspopup="true"
+                                aria-controls="dropdown-menu"
+                                >
+                                    <button class="button">Inviter venner</button>
+                                </div>
+                            </div>
+                            <div class="dropdown-menu">
+                                <div class="dropdown-content" x-show="open">
+                                    {% for friend in invite %}
+                                        <div class="is-flex dropdown-item user-list">
+                                            {{ friend.full_name }}
+                                            <!--check if the friend is already invited-->
+                                            {% if friend.invite_sent %}
+                                                <button class="button mx-1" disabled>
+                                                    Inviteret
+                                                </button>
+                                            {% else %}
+                                                <form action="{{ url_for('challenges.send_invite', event_id=event.event_id, friend_id=friend.user_id) }}" method="post">
+                                                    <button type="submit" class="button is-primary">Inviter</button>
+                                                </form>
+                                            {% endif %}
+                                        </div>
+                                    {% endfor %}
+                                </div>
                             </div>
                         </div>
-                        <div class="dropdown-menu">
-                            <div class="dropdown-content" x-show="open">
-                                {% for friend in invite %}
-                                    <div class="is-flex dropdown-item user-list">
-                                        {{ friend.full_name }}
-                                        <!--check if the friend is already invited-->
-                                        <!-- TODO: Dette er nyt. Fiks kode så de kan sende invite.-->
-                                        {% if friend.invite_sent %}
-                                            <button class="button" disabled>
-                                                Inviteret
-                                            </button>
-                                        {% else %}
-                                            <form action="{{ url_for('challenges.send_invite', event_id=event.event_id, friend_id=friend.user_id) }}" method="post">
-                                                <button type="submit" class="button is-primary">Inviter</button>
-                                            </form>
-                                        {% endif %}
-                                    </div>
-                                {% endfor %}
-                            </div>
-                        </div>
-                    </div>
+                    {% endif %}
                 {% else %}
                     <!-- Show join/unjoin buttons for non-admin users -->
                     {% if is_joined %}
