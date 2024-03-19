@@ -1,6 +1,8 @@
 @charset "UTF-8";
 /* We make custom color variables and override some bulma classes */
 /* Use variables to override specific classes in bulma */
+@import url("https://fonts.googleapis.com/css2?family=Oswald:wght@200..700&display=swap");
+@import url("https://fonts.googleapis.com/css2?family=Montserrat:ital,wght@0,100..900;1,100..900&family=Oswald:wght@200..700&display=swap");
 /*! bulma.io v0.9.4 | MIT License | github.com/jgthms/bulma */
 /* Bulma Utilities */
 .pagination-previous,
@@ -10287,6 +10289,15 @@ a.has-text-danger-dark:hover, a.has-text-danger-dark:focus {
 /* We import bulma's own sass source file*/
 body {
   padding-bottom: 4rem;
+}
+
+/* Override Bulma's primary title fonts */
+h1.title {
+  font-family: "Oswald", sans-serif;
+}
+
+p.subtitle {
+  font-family: "Montserrat", sans-serif;
 }
 
 /* Set hover color for buttons using the primary color */

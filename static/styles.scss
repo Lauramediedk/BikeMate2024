@@ -10,11 +10,23 @@ $nav_icons: #f2e8e8;
 
 /* Use variables to override specific classes in bulma */
 $info: $details;
+$is-family-primary: 'Oswald', sans-serif;
+$is-family-secondary:'Montserrat', sans-serif;
 
+@import url('https://fonts.googleapis.com/css2?family=Oswald:wght@200..700&display=swap');
+@import url('https://fonts.googleapis.com/css2?family=Montserrat:ital,wght@0,100..900;1,100..900&family=Oswald:wght@200..700&display=swap');
 @import 'node_modules/bulma/bulma'; /* We import bulma's own sass source file*/
 
 body{
     padding-bottom: 4rem;
+}
+
+/* Override Bulma's primary title fonts */
+h1.title{
+    font-family: $is-family-primary;
+}
+p.subtitle{
+    font-family: $is-family-secondary;
 }
 
 /* Set hover color for buttons using the primary color */
