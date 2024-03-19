@@ -79,7 +79,7 @@
                     @click.outside="show = false"
                     >
                         {{ form.csrf_token }}
-                        <div class="field is-flex center searchbar py-2">
+                        <div class="field is-flex center maxwidth py-2">
                             {{ form.description(class="input px-4", placeholder="Tilføj en beskrivelse") }}
                             <div class="is-flex px-1" @click="show = false">
                                 {{ form.submit(class="button is-primary mr-2") }}
@@ -95,8 +95,8 @@
         <div class="container is-max-desktop has-text-centered box">
             <div class="columns is-flex-tablet is-centered is-multiline">
                 <div class="column is-7-tablet">
+                    <p class="title is-5">Venner</p>
                     {% if friends %}
-                        <p class="title is-5">Venner</p>
                         <!--Search for specific users-->
                         <div class="control has-icons-left m-4">
                             <input class="input" type="text" placeholder="Find en ven...">

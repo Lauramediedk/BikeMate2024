@@ -1,9 +1,10 @@
 from flask_wtf import FlaskForm
-from wtforms import StringField, TextAreaField, SubmitField, DateField
+from wtforms import StringField, TextAreaField, SubmitField, DateField, BooleanField
 from wtforms.validators import InputRequired, Length
 
 
 class EventForm(FlaskForm):
+    checkbox = BooleanField('Privat event', default=False, render_kw={"placeholder": "Privat event"})
     title = StringField('Titel', validators=[InputRequired(), Length(
         min=2, max=40)], render_kw={"placeholder": "Titel"})
     description = TextAreaField('Beskrivelse', validators=[InputRequired()],
