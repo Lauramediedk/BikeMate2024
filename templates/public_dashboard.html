@@ -63,11 +63,10 @@
                         </div>
                         <div class="scroll-box px-2">
                             {% for friend in profile.friends %}
+                                {% if friend.userId%}
+                                    {% set profile_url = url_for('dashboard.dashboard') if friend.userId == session.user_id
+                                    else url_for('friends.profile', user_id=friend.userId) %} <!--Set conditional url-->
 
-                                {% set profile_url = url_for('dashboard.dashboard') if friend.userId == session.user_id
-                                else url_for('friends.profile', user_id=friend.userId) %} <!--Set conditional url-->
-
-                                {% if friend.userId %} <!--Avoid build error if the user has no friends-->
                                     <div class="box mb-1 is-flex user-list">
                                         {% if friend.imagePath%}
                                             <a href="{{ profile_url }}">
