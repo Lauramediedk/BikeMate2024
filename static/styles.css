@@ -10294,15 +10294,36 @@ body {
 /* Override Bulma's primary title fonts */
 h1.title {
   font-family: "Oswald", sans-serif;
+  font-weight: 400;
 }
 
 p.subtitle {
   font-family: "Montserrat", sans-serif;
+  font-weight: 600;
+}
+
+/* Background image for homepage */
+.has-bg-img {
+  background-image: url(./images/bikingtogether.jpg);
+  background-size: cover;
+  background-position: center center;
+  background-repeat: no-repeat;
+  min-height: 100vh;
+}
+
+.vcenter {
+  position: absolute;
+  top: 50%;
+  transform: translate(0, -50%);
 }
 
 /* Set hover color for buttons using the primary color */
+.button.is-primary {
+  font-family: "Oswald", sans-serif;
+}
 .button.is-primary:hover {
   background: #3B8EA5;
+  color: #F5EE9E;
 }
 
 /* Icons used in navbar */

@@ -12,6 +12,7 @@ $nav_icons: #f2e8e8;
 $info: $details;
 $is-family-primary: 'Oswald', sans-serif;
 $is-family-secondary:'Montserrat', sans-serif;
+$has-text-light: $grey;
 
 @import url('https://fonts.googleapis.com/css2?family=Oswald:wght@200..700&display=swap');
 @import url('https://fonts.googleapis.com/css2?family=Montserrat:ital,wght@0,100..900;1,100..900&family=Oswald:wght@200..700&display=swap');
@@ -24,15 +25,36 @@ body{
 /* Override Bulma's primary title fonts */
 h1.title{
     font-family: $is-family-primary;
+    font-weight: 400;
 }
 p.subtitle{
     font-family: $is-family-secondary;
+    font-weight: 600;
 }
+
+
+/* Background image for homepage */
+.has-bg-img{
+    background-image: url(./images/bikingtogether.jpg);
+    background-size: cover;
+    background-position: center center;
+    background-repeat: no-repeat;
+    min-height: 100vh;
+}
+
+.vcenter {
+    position: absolute;
+    top: 50%;
+    transform: translate(0, -50%);
+  }
+
 
 /* Set hover color for buttons using the primary color */
 .button.is-primary{
+    font-family: $is-family-primary;
     &:hover {
         background: $secondary;
+        color: $yellow;
     }
 }
 

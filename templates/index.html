@@ -5,6 +5,16 @@
 
 {% block content %}
 
+<section class="hero is-large has-bg-img">
+    <div class="hero-body vcenter has-text-centered-mobile">
+        <h1 class="title is-3 py-1 has-text-light text-shadow">Mere end bare en cykeltur</h1>
+        <p class="subtitle is-4 has-text-primary text-shadow">Sammen skaber vi vejen frem</p>
+        <a href="{{ url_for('users.signup') }}" class="button is-medium is-rounded is-primary">
+            Kom i gang!
+        </a>
+    </div>
+  </section>
+
 <section class="section">
     <div class="container">
         <div class="columns is-multiline is-centered is-vcentered">
@@ -12,24 +22,24 @@
                 <img src="../static/images/login_bikemate.jpg" alt="Bikemate">
             </div>
             <div class="column is-5-tablet is-12-mobile">
-                <h1 class="title is-4">BikeMate</h1>
                 <p class="subtitle is-5 has-text-primary">Motivation og fællesskab</p>
                 <p>
                     Bikemate er dit digitale værktøj til motivering og fællesskab.
+                    Vi tror på at cykling ikke blot er en motionsform, men en livsstil
+                    som kan resultere i en række positive resultater såsom sundhed, glæde
+                    og overskud.
                     Med BikeMate kan du holde dig opdateret omkring dine venners aktivitet
                     og samtidig holde øje med din egen. Opret events, inviter og deltag.
-                    Begynd at brug BikeMate med det samme ved at oprette en bruger
-                    eller log ind med en eksisterende hvis du allerede har en bruger.
+                    Prøv BikeMate med det samme ved at oprette en bruger!
                 </p>
             </div>
             <div class="column is-5-tablet is-12-mobile">
-                <h1 class="title is-4 logo">En digital løsning</h1>
+                <p class="subtitle is-5 has-text-primary">Cykling for alle</h1>
                 <p>
-                    Bikemate er dit digitale værktøj til motivering og fællesskab.
-                    Med BikeMate kan du holde dig opdateret omkring dine venners aktivitet
-                    og samtidig holde øje med din egen. Opret events, inviter og deltag.
-                    Begynd at brug BikeMate med det samme ved at oprette en bruger
-                    eller log ind med en eksisterende hvis du allerede har en bruger.
+                    Uanset om du er interesseret i weekendsture, dagsture eller seriøs holdsport,
+                    så har BikeMate noget for dig. BikeMate sigter efter at være en platform, hvor cyklister
+                    på alle niveauer kan være med, og finde andre ligesindende gennem events.
+                    <br><br>Hos BikeMate er der noget for alle.
                 </p>
             </div>
             <div class="column is-5-tablet is-12-mobile">
