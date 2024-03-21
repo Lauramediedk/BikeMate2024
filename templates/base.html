@@ -16,6 +16,7 @@
 <!--First nav is a bottom navbar, the second one is a top navbar-->
 {% block navbar %}
     {% if session.user_id %}
+    <div x-data="{ notifications: false }">
         <nav class="navbar is-fixed-bottom is-primary bottom-nav py-4 mt-5 is-flex center">
             <div class="navbar-brand">
                 <a href="{{ url_for('dashboard.dashboard') }}" class="navbar-item mx-3
@@ -36,13 +37,26 @@
                         <i class="fa-solid fa-fire-flame-curved fa-2xl nav-icons"></i>
                     </span>
                 </a>
-                <a href="#" class="navbar-item mx-3">
-                    <span class="icon">
+                <a class="navbar-item mx-3" @click="notifications = true">
+                    <span class="icon {% if session.new_notifications %}has-text-warning{% endif %}">
                         <i class="fa-solid fa-bell fa-2xl nav-icons"></i>
                     </span>
                 </a>
             </div>
         </nav>
+        <div class="modal p-2" x-bind:class="{ 'is-active': notifications}"">
+            <div class="modal-background" @click="notifications = false"></div>
+            <div class="modal-content box">
+                <div class="buttons is-right">
+                    <button class="delete" aria-label="close" @click="notifications = false"></button>
+                </div>
+                <div id="notification-list" class="scroll-box" hx-get="{{ url_for('notifications.update_notifications')}}" hx-trigger="load, revealed">
+                    <!-- Notifications will be updated here -->
+                    {% include 'notif_list.html' %}
+                </div>
+            </div>
+        </div>
+    </div>
     {% else %}
         <nav class="navbar is-fixed-top" x-data="{ isOpen: false }">
             <div class="navbar-brand">
@@ -70,5 +84,6 @@
     <div class="content">
         {% block content %} {% endblock %}
     </div>
+
 </body>
 </html>

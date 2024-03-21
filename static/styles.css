@@ -10407,6 +10407,7 @@ p.is-rounded {
 .scroll-box {
   overflow-y: scroll;
   max-height: 300px;
+  overflow-x: hidden;
 }
 .scroll-box::-webkit-scrollbar {
   height: 5px;
