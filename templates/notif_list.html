@@ -1,0 +1,41 @@
+{% if friend_requests|length == 0 and invitations|length == 0 %}
+    <div>
+        <p>Du har ingen notifikationer</p>
+    </div>
+{% else %}
+    {% for request in friend_requests %}
+        <div class="columns has-text-centered is-multiline is-block box">
+            <div class="column">
+                <p>{{ request.firstName }} {{ request.lastName }} har sendt dig en venneanmodning</p>
+            </div>
+            <div class="column is-flex center">
+                <form action="{{ url_for('notifications.handle_friend_request',
+                action='accept', from_user_id=request.fromUserId) }}" method="post">
+                    <button type="submit" class="button mr-1 is-primary">Accepter</button>
+                </form>
+                <form action="{{ url_for('notifications.handle_friend_request',
+                action='delete', from_user_id=request.fromUserId) }}" method="post">
+                    <button type="submit" class="button is-danger is-light">Afvis</button>
+                </form>
+            </div>
+        </div>
+    {% endfor %}
+
+    {% for invite in invitations %}
+        <div class="columns has-text-centered is-multiline is-block box">
+            <div class="column">
+                <p>{{ invite.full_name }} har inviteret dig til at deltage i et event: </p>
+            </div>
+            <div class="column">
+                {{ invite.event_name }}
+            </div>
+            <div class="column">
+                <div class="buttons is-centered">
+                    <a class="button is-primary" href="{{ url_for('challenges.view_event', event_id=invite.event_id)}}">
+                        Gå til event
+                    </a>
+                </div>
+            </div>
+        </div>
+    {% endfor %}
+{% endif %}
