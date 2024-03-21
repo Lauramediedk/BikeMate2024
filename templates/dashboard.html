@@ -106,7 +106,7 @@
                         </div>
                         <div class="scroll-box px-2">
                             {% for friend in friends %}
-                                <div class="box mb-1 is-flex user-list">
+                                <div id="friend_list_{{ friend.userId }}" class="box mb-1 is-flex user-list">
                                     {% if friend.imagePath%}
                                         <a href="{{ url_for('friends.profile', user_id=friend.userId) }}">
                                             <img class="is-rounded" src="{{ url_for('static', filename=friend.profileImage) }}" alt="profilbillede">
@@ -120,9 +120,9 @@
                                     {% endif %}
                                     <p class="m-1">{{ friend.fName }} {{ friend.lName }}</p>
                                     <form hx-post="{{ url_for('friends.toggle_friendship', to_user_id=friend.userId) }}"
-                                    hx-target="#friend_list"
-                                    hx-select="#friend_list"
-                                    hx-swap="innerHTML"
+                                    hx-target="#friend_list_{{ friend.userId }}"
+                                    hx-select="#friend_list_{{ friend.userId }}"
+                                    hx-swap="outerHTML"
                                     >
                                         <button class="button is-light is-primary" type="submit">
                                             <i class="fa-solid fa-user-minus"></i>
