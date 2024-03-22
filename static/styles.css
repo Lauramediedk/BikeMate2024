@@ -10297,8 +10297,11 @@ h1.title {
   font-weight: 400;
 }
 
-p.subtitle {
+p {
   font-family: "Montserrat", sans-serif;
+}
+
+p.subtitle {
   font-weight: 600;
 }
 
@@ -10318,12 +10321,13 @@ p.subtitle {
 }
 
 /* Set hover color for buttons using the primary color */
-.button.is-primary {
-  font-family: "Oswald", sans-serif;
-}
 .button.is-primary:hover {
   background: #3B8EA5;
   color: #F5EE9E;
+}
+
+.button {
+  font-family: "Oswald", sans-serif;
 }
 
 /* Icons used in navbar */
@@ -10401,6 +10405,15 @@ p.is-rounded {
 .navbar-burger.is-active {
   background: none;
   color: #2D728F;
+}
+
+/* Navbar icons and text */
+.icon-text-vertical, span.icon-text-vertical {
+  font-family: "Oswald", sans-serif;
+  display: flex;
+  flex-direction: column;
+  justify-content: center;
+  align-items: center;
 }
 
 /* Custom scroll effect when there is much content */

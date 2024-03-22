@@ -27,10 +27,15 @@ h1.title{
     font-family: $is-family-primary;
     font-weight: 400;
 }
-p.subtitle{
+
+p{
     font-family: $is-family-secondary;
+}
+
+p.subtitle{
     font-weight: 600;
 }
+
 
 
 /* Background image for homepage */
@@ -51,11 +56,14 @@ p.subtitle{
 
 /* Set hover color for buttons using the primary color */
 .button.is-primary{
-    font-family: $is-family-primary;
     &:hover {
         background: $secondary;
         color: $yellow;
     }
+}
+
+.button{
+    font-family: $is-family-primary;
 }
 
 
@@ -139,6 +147,14 @@ p.is-rounded {
     color: $primary;
 }
 
+/* Navbar icons and text */
+.icon-text-vertical, span.icon-text-vertical{
+    font-family: $is-family-primary;
+    display: flex;
+    flex-direction: column;
+    justify-content: center;
+    align-items: center;
+}
 
 /* Custom scroll effect when there is much content */
 .scroll-box{

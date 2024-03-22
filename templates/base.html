@@ -19,27 +19,39 @@
     <div x-data="{ notifications: false }">
         <nav class="navbar is-fixed-bottom is-primary bottom-nav py-4 mt-5 is-flex center">
             <div class="navbar-brand">
-                <a href="{{ url_for('dashboard.dashboard') }}" class="navbar-item mx-3
+                <a href="{{ url_for('dashboard.dashboard') }}" class="navbar-item mx-1
                 {{ 'active-link' if active_page == 'dashboard'}}">
-                    <span class="icon">
-                        <i class="fa-solid fa-circle-user fa-2xl nav-icons"></i>
+                    <span class="icon-text-vertical">
+                        <span class="icon mb-1">
+                            <i class="fa-solid fa-circle-user fa-2xl nav-icons"></i>
+                        </span>
+                        <span>Profil</span>
                     </span>
                 </a>
-                <a href="{{ url_for('friends.friends') }}" class="navbar-item mx-3
+                <a href="{{ url_for('friends.friends') }}" class="navbar-item mx-1
                 {{ 'active-link' if active_page == 'friends'}}">
-                    <span class="icon">
-                        <i class="fa-solid fa-users fa-2xl nav-icons"></i>
+                    <span class="icon-text-vertical">
+                        <span class="icon mb-1">
+                            <i class="fa-solid fa-users fa-2xl nav-icons"></i>
+                        </span>
+                        <span>Venner</span>
                     </span>
                 </a>
-                <a href="{{ url_for('challenges.challenges') }}" class="navbar-item mx-3
+                <a href="{{ url_for('challenges.challenges') }}" class="navbar-item mx-1
                 {{ 'active-link' if active_page == 'challenges'}}">
-                    <span class="icon">
-                        <i class="fa-solid fa-fire-flame-curved fa-2xl nav-icons"></i>
+                    <span class="icon-text-vertical">
+                        <span class="icon mb-1">
+                            <i class="fa-solid fa-fire-flame-curved fa-2xl nav-icons"></i>
+                        </span>
+                        <span>Events</span>
                     </span>
                 </a>
-                <a class="navbar-item mx-3" @click="notifications = true">
-                    <span class="icon {% if session.new_notifications %}has-text-warning{% endif %}">
-                        <i class="fa-solid fa-bell fa-2xl nav-icons"></i>
+                <a class="navbar-item" @click="notifications = true">
+                    <span class="icon-text-vertical">
+                        <span class="icon mb-1 {% if session.new_notifications %}has-text-warning{% endif %}">
+                            <i class="fa-solid fa-bell fa-2xl nav-icons"></i>
+                        </span>
+                        <span>Notifikationer</span>
                     </span>
                 </a>
             </div>
