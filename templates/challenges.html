@@ -114,7 +114,7 @@
                             </span>
                         </div>
                         <div class="column">
-                            {{ event.description | truncate(100) }}
+                            <p>{{ event.description | truncate(100) }}</p>
                         </div>
                         <div class="column">
                             {% if event.participants%}
@@ -166,7 +166,7 @@
                             </span>
                         </div>
                         <div class="column">
-                            {{ event.description }}
+                            <p>{{ event.description }}</p>
                         </div>
                         <div class="column">
                             {% if event.participants%}
