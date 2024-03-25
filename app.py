@@ -1,4 +1,4 @@
-from flask import Flask, render_template, session
+from flask import Flask, render_template
 from config import SECRET_KEY, UPLOAD_FOLDER, ALLOWED_EXTENSIONS
 from users import users_bp
 from dashboard import dashboard_bp

@@ -56,13 +56,16 @@
                 </a>
             </div>
         </nav>
-        <div class="modal p-2" x-bind:class="{ 'is-active': notifications}"">
+        <div class="modal p-2" x-bind:class="{ 'is-active': notifications}">
             <div class="modal-background" @click="notifications = false"></div>
             <div class="modal-content box">
                 <div class="buttons is-right">
-                    <button class="delete" aria-label="close" @click="notifications = false"></button>
+                    <button class="delete" aria-label="close"
+                    @click="notifications = false"></button>
                 </div>
-                <div id="notification-list" class="scroll-box" hx-get="{{ url_for('notifications.update_notifications')}}" hx-trigger="load, revealed">
+                <div id="notification-list" class="scroll-box"
+                hx-get="{{ url_for('notifications.update_notifications')}}"
+                hx-trigger="load, revealed">
                     <!-- Notifications will be updated here -->
                     {% include 'notif_list.html' %}
                 </div>
